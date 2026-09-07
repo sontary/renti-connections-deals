@@ -3362,7 +3362,40 @@ function quoteMetrics(card){
   const hasPower=service==='power';
   const hasBB=service==='broadband'||packageActive;
   const hasMobile=service==='mobile';
-  return {card,name,providerId,keyInfo,hasPower,hasBB,hasMobile,power:hasPower?quotePowerTotal(card):null,broadband:hasBB?quoteBroadbandMonthly(card):null,packageTotal:packageActive?quotePackageTotal(card):null};
+  const hasLpg=card.dataset.hasLpg==='true'||service==='lpg';
+  const lpgBottle=hasLpg?numberValue(card,'.q-lpg-bottle'):null;
+  const lpgRental=hasLpg?numberValue(card,'.q-lpg-rental'):null;
+  return {card,name,providerId,keyInfo,hasPower,hasBB,hasMobile,hasLpg,power:hasPower?quotePowerTotal(card):null,broadband:hasBB?quoteBroadbandMonthly(card):null,packageTotal:packageActive?quotePackageTotal(card):null,lpgBottle,lpgRental};
+}
+function priceComparisonHtml(){
+  const metrics=[...quoteStack.children].map(quoteMetrics);
+  if(metrics.length<2) return '';
+  const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);
+  const recurring=metrics.map(m=>{
+    let monthly=0,parts=[];
+    if(m.hasPower && m.power!==null){ monthly += m.power*(30/days); parts.push('power'); }
+    if(m.hasBB && m.broadband!==null){ monthly += m.broadband; parts.push('broadband'); }
+    if(m.hasMobile){ const mp=numberValue(m.card,'.q-mobile-price'); if(mp){monthly+=mp;parts.push('mobile');} }
+    if(m.hasLpg && m.lpgRental){ monthly += m.lpgRental; parts.push('LPG bottle rental'); }
+    return {...m,monthly,parts};
+  }).filter(m=>m.monthly>0);
+  let recurringHtml='';
+  if(recurring.length>=2){
+    const sorted=[...recurring].sort((a,b)=>a.monthly-b.monthly);
+    const low=sorted[0], high=sorted[sorted.length-1], diff=high.monthly-low.monthly;
+    const rows=sorted.map(m=>`<div style="display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid #eee8dc;"><span style="color:#35443a;">${m.name}</span><strong style="color:#35152f;white-space:nowrap;">$${m.monthly.toFixed(2)}/month</strong></div>`).join('');
+    recurringHtml=`<div style="font-size:12px;font-weight:800;color:#35152f;margin-bottom:5px;">Estimated ongoing monthly cost</div>${rows}${diff>0.005?`<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#f7f4ed;color:#35443a;line-height:1.5;"><strong>${low.name}</strong> is approximately <strong>$${diff.toFixed(2)} lower per month</strong>, or <strong>$${(diff*12).toFixed(2)} lower per year</strong>, based on the recurring costs entered.</div>`:''}`;
+  }
+  const lpg=metrics.filter(m=>m.hasLpg && m.lpgBottle>0);
+  let lpgHtml='';
+  if(lpg.length>=2){
+    const sorted=[...lpg].sort((a,b)=>a.lpgBottle-b.lpgBottle);
+    const low=sorted[0], high=sorted[sorted.length-1], diff=high.lpgBottle-low.lpgBottle;
+    const rows=sorted.map(m=>`<div style="display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid #eee8dc;"><span style="color:#35443a;">${m.name}</span><strong style="color:#35152f;white-space:nowrap;">$${m.lpgBottle.toFixed(2)}/bottle</strong></div>`).join('');
+    lpgHtml=`${recurringHtml?'<div style="height:12px;"></div>':''}<div style="font-size:12px;font-weight:800;color:#35152f;margin-bottom:5px;">LPG price comparison</div>${rows}${diff>0.005?`<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#f7f4ed;color:#35443a;line-height:1.5;"><strong>${low.name}</strong> is <strong>$${diff.toFixed(2)} lower per bottle</strong>.</div>`:''}<div style="margin-top:8px;font-size:11px;color:#68746b;line-height:1.5;">LPG usage varies by household, so the per-bottle difference is not converted into a monthly or annual saving. Bottle rental is included in the recurring monthly comparison above where applicable.</div>`;
+  }
+  if(!recurringHtml && !lpgHtml) return '';
+  return `<div style="margin:14px 0;padding:14px;border:1px solid #ddd5c4;border-radius:12px;background:#ffffff;"><strong style="display:block;color:#35152f;font-size:15px;margin-bottom:8px;">Price comparison</strong>${recurringHtml}${lpgHtml}<div style="margin-top:9px;font-size:10.5px;color:#7a857b;line-height:1.45;">Estimates use the figures entered above. One-off credits, joining benefits and one-off equipment costs are not treated as ongoing monthly savings.</div></div>`;
 }
 function providerStrength(metric,priority){
   const text=metric.keyInfo;
@@ -3385,21 +3418,21 @@ function generateRecommendation(){
   else if(pricedBB.length>=2){ cheapest=[...pricedBB].sort((a,b)=>a.broadband-b.broadband)[0]; priceType='monthly broadband price'; }
   const strengthCandidate=metrics.find(m=>providerStrength(m,priority));
   if(priority==='cost' && cheapest){
-    return `Based on the figures entered, ${cheapest.name} is currently the lowest-cost option on ${priceType}. That makes it the strongest price option in this comparison, although price is only one part of the decision. Have a look through the features and let me know which option stands out to you.`;
+    return `Based on the figures entered, ${cheapest.name} has the lower estimated ongoing cost for ${priceType}. Price is only one part of the comparison, so the plan features and benefits above may also be relevant depending on what matters most to you.`;
   }
   if(priority!=='overall' && strengthCandidate){
     const strength=providerStrength(strengthCandidate,priority);
     const priceContext=cheapest && cheapest.name!==strengthCandidate.name ? ` ${cheapest.name} is lower on ${priceType}, but ` : ' ';
-    return `Based on what matters most to you, ${strengthCandidate.name} is worth a closer look for its ${strength}.${priceContext}${strengthCandidate.name} may still offer better overall value if those features are important to you. Let me know what you think and we can narrow it down together.`;
+    return `The options above differ in areas such as ${strength}. ${priceContext.trim()}The details are shown side by side so you can weigh the pricing, features and flexibility that matter most to you.`;
   }
   if(cheapest){
     const other=metrics.find(m=>m.name!==cheapest.name && (m.keyInfo||'').trim());
     if(other){
-      return `Based on the figures entered, ${cheapest.name} is currently the better-priced option on ${priceType}. ${other.name} may still be worth considering for the additional plan features shown above, so the best choice depends on what matters most to you. Let me know which one you prefer and we can talk through the next step.`;
+      return `Based on the figures entered, ${cheapest.name} has the lower estimated ongoing cost for ${priceType}. ${other.name} includes different plan features or benefits shown above. The comparison is intended to show the differences clearly so you can decide which option suits you best.`;
     }
-    return `Based on the figures entered, ${cheapest.name} is currently the better-priced option on ${priceType}. The other options may still suit you for different plan features or flexibility, so let me know what matters most and which one you are leaning towards.`;
+    return `Based on the figures entered, ${cheapest.name} has the lower estimated ongoing cost for ${priceType}. The other options may differ in features, benefits or flexibility, so the information above is provided to help you compare them side by side.`;
   }
-  return 'There is not a clear price winner from the information entered, so I would compare the plan features, flexibility and benefits alongside the monthly cost. Let me know which option stands out to you and we can talk through it together.';
+  return 'There is not a directly comparable ongoing price difference from the information entered. The plan features, flexibility, benefits and applicable charges are shown above so you can compare the options side by side.';
 }
 
 const signatureState = {};
@@ -3507,7 +3540,7 @@ function refreshAgentPreview(){
   if(recommendationAuto){ document.getElementById('agRecommendation').value=generateRecommendation(); }
   const recommendation=document.getElementById('agRecommendation').value.trim();
   if(!previewManualEdit){
-    document.getElementById('previewBody').innerHTML=`<div class="renti-email" style="max-width:680px;margin:0 auto;font-family:Arial,'Helvetica Neue',sans-serif;color:#243128;font-size:13px;line-height:1.6;"><p style="margin:0 0 12px;">${intro}</p>${address?`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for <strong style="color:#35152f;">${address}</strong>${moveDate?` for your move on <strong style="color:#35152f;">${moveDate}</strong>`:''}.</p>`:`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for you.</p>`}<p style="margin:0 0 16px;color:#4b5a4e;">${emailType==='full'?'The estimated costs below use the rates and consumption discussed with you. Actual bills may vary depending on your usage and final provider pricing.':'Here are the product options we discussed.'}</p><div style="font-size:18px;font-weight:800;color:#35152f;margin:0 0 8px;">Your options</div>${options}${recommendation?`<div class="recommend-box" style="margin:14px 0;padding:12px 14px;border:1px solid #ddd5c4;border-left:3px solid #ff6537;border-radius:10px;background:#fffaf5;color:#35443a;"><strong style="display:block;color:#35152f;margin-bottom:4px;">Our take</strong>${recommendation}</div>`:''}<p style="margin:16px 0 10px;">Want to explore more plans? <a href="https://renti-connections-deals.netlify.app/" target="_blank" rel="noopener" style="color:#4a1942;font-weight:700;">View the latest Renti Connections deals</a>.</p><p style="margin:0 0 12px;">If you'd like to go ahead with one of these options, or want us to compare something else, just reply to this email.</p>${signatureHtml(true)}</div>`;
+    document.getElementById('previewBody').innerHTML=`<div class="renti-email" style="max-width:680px;margin:0 auto;font-family:Arial,'Helvetica Neue',sans-serif;color:#243128;font-size:13px;line-height:1.6;"><p style="margin:0 0 12px;">${intro}</p>${address?`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for <strong style="color:#35152f;">${address}</strong>${moveDate?` for your move on <strong style="color:#35152f;">${moveDate}</strong>`:''}.</p>`:`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for you.</p>`}<p style="margin:0 0 16px;color:#4b5a4e;">${emailType==='full'?'The estimated costs below use the rates and consumption discussed with you. Actual bills may vary depending on your usage and final provider pricing.':'Here are the product options we discussed.'}</p><div style="font-size:18px;font-weight:800;color:#35152f;margin:0 0 8px;">Your options</div>${options}${priceComparisonHtml()}${recommendation?`<div class="recommend-box" style="margin:14px 0;padding:12px 14px;border:1px solid #ddd5c4;border-left:3px solid #ff6537;border-radius:10px;background:#fffaf5;color:#35443a;"><strong style="display:block;color:#35152f;margin-bottom:4px;">Our take</strong>${recommendation}</div>`:''}<p style="margin:16px 0 10px;">Want to explore more plans? <a href="https://renti-connections-deals.netlify.app/" target="_blank" rel="noopener" style="color:#4a1942;font-weight:700;">View the latest Renti Connections deals</a>.</p><p style="margin:0 0 12px;">If you'd like to go ahead with one of these options, or want us to compare something else, just reply to this email.</p>${signatureHtml(true)}</div>`;
   }
 }
 
