@@ -213,6 +213,11 @@
     font-family:'Poppins',sans-serif;font-size:19px;font-weight:600;color:var(--forest-dark);
     margin-bottom:4px;
   }
+  .promo-tag{
+    display:inline-block;background:#D93A1F;color:#fff;font-size:10.5px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.03em;padding:3px 8px;border-radius:999px;
+    vertical-align:middle;margin-right:8px;
+  }
   .validity{font-size:12px;color:var(--ink-soft);margin-bottom:14px;}
 
   .details{
@@ -444,12 +449,13 @@
   .enquiry-field textarea{resize:vertical;min-height:60px;}
   .compare-choice{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:6px;width:100%;}
   .compare-choice label{
-    display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:48px;width:100%;
-    padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--white);
-    font-size:12.5px;line-height:1.25;font-weight:600;color:var(--ink-soft);text-align:center;
-    white-space:normal;overflow-wrap:normal;word-break:normal;cursor:pointer;margin:0;
+    display:grid;grid-template-columns:18px minmax(0,auto);align-items:center;justify-content:center;column-gap:9px;
+    min-width:0;min-height:48px;width:100%;box-sizing:border-box;overflow:hidden;
+    padding:10px 14px;border:1px solid var(--line);border-radius:9px;background:var(--white);
+    font-size:12.5px;line-height:1.25;font-weight:600;color:var(--ink-soft);text-align:left;
+    white-space:normal;overflow-wrap:anywhere;word-break:normal;cursor:pointer;margin:0;
   }
-  .compare-choice input{accent-color:var(--renti-orange);flex:0 0 auto;margin:0;}
+  .compare-choice input{accent-color:var(--renti-orange);width:16px!important;height:16px!important;min-width:16px;margin:0!important;padding:0!important;}
   .bill-upload-wrap{
     display:none;margin-top:10px;padding:16px;background:linear-gradient(180deg,#fff 0%,var(--paper-2) 100%);
     border:1px solid var(--line);border-radius:12px;
@@ -632,7 +638,7 @@
   .prototype-chip{display:inline-block;background:rgba(255,101,55,.1);color:#b8431f;border-radius:999px;padding:4px 8px;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;}
   @media(max-width:900px){.agent-grid{grid-template-columns:1fr}.rate-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
   @media(max-width:640px){.agent-shell{padding:20px 16px 60px}.agent-form-grid,.agent-form-grid.three{grid-template-columns:1fr}.rate-grid{grid-template-columns:1fr 1fr}.agent-hero{padding:24px 20px}.agent-hero h1{font-size:25px}.agent-panel{padding:16px}}
-  @media(max-width:480px){.enquiry-modal{padding:18px 14px 22px}.compare-choice{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.compare-choice label{padding:9px 7px;font-size:11.5px;min-height:46px}.enquiry-field>label{line-height:1.4}}
+  @media(max-width:480px){.enquiry-modal{padding:18px 14px 22px}.compare-choice{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.compare-choice label{padding:9px 10px;font-size:11.5px;min-height:46px;grid-template-columns:16px minmax(0,auto);column-gap:7px}.enquiry-field>label{line-height:1.4}}
 
 
   /* ---------- agent package broadband ---------- */
@@ -672,12 +678,38 @@
 
 .required-mark{color:#c84b2f;font-weight:700}.field-invalid label{color:#c62828!important;font-weight:700}.field-invalid input,.field-invalid select,.field-invalid textarea{border-color:#c62828!important;box-shadow:0 0 0 2px rgba(198,40,40,.10);background:#fffafa}.validation-box{margin:0 0 14px;padding:12px 14px;border:1px solid #e4b8aa;border-radius:10px;background:#fff6f2;font-size:12px;line-height:1.55}.validation-box strong{display:block;margin-bottom:4px;color:#c62828}.validation-box ul{margin:4px 0 0;padding-left:18px;color:#c62828}.validation-box.ok strong{color:inherit}.validation-box.ok{border-color:#b9d3c2;background:#f4faf6}.power-period-field{margin:0}
 
-  .daily-sales-message{margin-top:18px;padding:13px 16px;border:1px solid rgba(255,255,255,.18);border-radius:14px;background:rgba(255,255,255,.09);font-weight:700;line-height:1.45;max-width:820px;color:#fff7e8;}
-  .daily-sales-message .daily-label{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.72;margin-bottom:4px;font-weight:700;}
+  .daily-sales-message{margin-top:18px;padding:15px 18px;border:1px solid rgba(255,236,220,.56);border-radius:14px;background:rgba(255,236,220,.90);font-weight:700;line-height:1.45;max-width:980px;color:var(--forest-dark);display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:18px;box-shadow:0 8px 24px rgba(53,21,47,.08);}
+  .daily-sales-message .daily-label{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b6c66;margin-bottom:4px;font-weight:800;}
+  .daily-sales-message .daily-copy{min-width:0;}
+  .daily-sales-message .daily-flourish{font-size:14px;font-weight:700;color:var(--renti-orange);white-space:nowrap;font-style:italic;}
+  @media(max-width:640px){.daily-sales-message{grid-template-columns:1fr;gap:8px}.daily-sales-message .daily-flourish{white-space:normal;text-align:right;font-size:12.5px;}}
 
   .auth-error{color:#b8431f!important;font-weight:600;}
   .auth-ok{color:#3f7d2c!important;font-weight:600;}
   .admin-roster{margin-top:14px;}
+  .me-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;}
+  .me-coffee-note{display:flex;align-items:center;gap:9px;color:var(--forest);font-size:12px;font-weight:700;white-space:nowrap;transform:rotate(-1deg);}
+  .me-coffee-cup{font-size:34px;line-height:1;filter:drop-shadow(0 3px 3px rgba(53,21,47,.10));}
+  @media(max-width:640px){.me-title-row{align-items:center}.me-coffee-note{font-size:10.5px;white-space:normal;text-align:right}.me-coffee-cup{font-size:28px;}}
+  .admin-roster-table{margin-top:14px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;}
+  .admin-roster-row{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(90px,.6fr) minmax(92px,.65fr) auto;gap:10px;align-items:center;padding:10px 12px;border-top:1px solid var(--line);font-size:11px;}
+  .admin-roster-row:first-child{border-top:0}.admin-roster-head{background:var(--paper-2);font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:800;color:var(--ink-soft);}
+  .access-badge,.status-badge{display:inline-block;border-radius:999px;padding:4px 8px;font-size:9.5px;font-weight:800;width:max-content}.access-badge.admin{background:rgba(255,101,55,.12);color:#a53b1d}.access-badge.user{background:#f0ede5;color:#4b5a4e}.status-badge.active{background:#e6f4e2;color:#37722c}.status-badge.invited{background:#fff3df;color:#946416}.status-badge.pending{background:#fff3df;color:#946416}.status-badge.reviewing{background:#e8f0fe;color:#2451a3}.status-badge.resolved{background:#e6f4e2;color:#37722c}.status-badge.declined{background:#f0ede5;color:#4b5a4e}.roster-actions{display:flex;gap:6px;justify-content:flex-end}.roster-actions button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font:600 9.5px 'Poppins',sans-serif;color:var(--forest-dark);cursor:pointer}.roster-actions button.danger{color:#a53b1d}.roster-actions button:disabled{opacity:.45;cursor:not-allowed}
+  .suggestion-item{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fff;}
+  .suggestion-item-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--ink-soft);margin-bottom:6px;}
+  .suggestion-item-body{font-size:13px;color:var(--ink);line-height:1.5;margin-bottom:8px;}
+  .suggestion-item-actions{display:flex;gap:6px;flex-wrap:wrap;}
+  .suggestion-item-actions button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 10px;font:600 10.5px 'Poppins',sans-serif;color:var(--forest-dark);cursor:pointer;}
+  .suggestion-item-actions button:disabled{opacity:.4;cursor:default;}
+  .suggestion-heading-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .suggestion-count-badge{
+    display:none;min-width:20px;height:20px;padding:0 6px;border-radius:999px;
+    align-items:center;justify-content:center;background:#d93025;color:#fff;
+    font-size:10.5px;font-weight:800;line-height:20px;box-shadow:0 0 0 2px rgba(217,48,37,.10);
+  }
+  .suggestion-count-badge.show{display:inline-flex;}
+  @media(max-width:700px){.admin-roster-head{display:none}.admin-roster-row{grid-template-columns:1fr auto;gap:6px 10px}.admin-roster-email{grid-column:1/-1;font-weight:700}.roster-actions{grid-column:1/-1;justify-content:flex-start}}
+
 </style>
 </head>
 <body>
@@ -741,7 +773,7 @@
   <section class="agent-hero" id="agentComparisonHero">
     <h1>Build a clear utility comparison.</h1>
     <p>Use the same Renti provider panel, add the customer's address and rates, calculate an estimated power cost, then preview the comparison before it is sent from your Gmail account.</p>
-    <div class="daily-sales-message" id="dailySalesMessage"><span class="daily-label">Today's little nudge</span><span id="dailySalesMessageText"></span></div>
+    <div class="daily-sales-message" id="dailySalesMessage"><div class="daily-copy"><span class="daily-label">Today's little nudge</span><span id="dailySalesMessageText"></span></div><span class="daily-flourish">You've got this! ♡</span></div>
   </section>
 
   <div class="agent-grid" id="agentComparisonGrid">
@@ -775,13 +807,26 @@
       </section>
 
       <section class="agent-panel" id="meProfilePanel" style="display:none;">
-        <h2>Me</h2>
-        <p class="panel-sub">Your agent profile and personal email settings.</p>
+        <div class="me-title-row"><div><h2>Me</h2><p class="panel-sub">Your agent profile and personal email settings.</p></div></div>
         <div class="agent-form-grid">
           <div class="agent-field"><label>Name</label><input id="meAgentName" readonly></div>
           <div class="agent-field"><label>Renti email</label><input id="meAgentEmail" type="email" readonly></div>
           <div class="agent-field"><label>Access</label><input id="meAgentAccess" readonly value="User"></div>
         </div>
+      </section>
+
+      <section class="agent-panel" id="suggestionSubmitPanel" style="display:none;">
+        <h2>Got something to flag?</h2>
+        <p class="panel-sub">Spotted a rate that's changed, a feature worth adding, anything else worth a look — send it straight through.</p>
+        <div class="agent-field"><label>What do you want the admin to look at?</label><textarea id="suggestionMessage" style="min-height:90px;" placeholder="e.g. Powershop's credit might have changed — a customer mentioned $180 not $150. Worth double checking?"></textarea></div>
+        <div class="preview-tools"><button type="button" class="agent-btn primary" id="sendSuggestionBtn">Send suggestion</button><span class="preview-edit-note" id="suggestionSendNote"></span></div>
+        <div class="prototype-note" style="margin-top:9px;">Shows your name and when you sent it — Sent directly to Sontary for review.</div>
+      </section>
+
+      <section class="agent-panel" id="suggestionAdminPanel" style="display:none;">
+        <div class="suggestion-heading-row"><h2 style="margin:0;">Suggestions</h2><span class="suggestion-count-badge" id="suggestionPendingBadge" aria-label="Pending suggestions"></span></div>
+        <p class="panel-sub">What agents have flagged, newest first. Only Sontary, as Primary Admin, can view and manage these.</p>
+        <div class="admin-roster" id="suggestionList"></div>
       </section>
 
       <section class="agent-panel" id="gmailPanel" style="display:none;">
@@ -1345,15 +1390,16 @@ const PROVIDERS = [
     categories:["broadband"], recommended:true, exclusive:false,
     term:"Open term (30 days' notice)", termType:"open",
     plans:[
-      {id:"w-basic", label:"Wireless Basic — $50/mo", category:"broadband", bullets:["50GB, 56/18Mbps","Landline included"]},
-      {id:"w-lite", label:"Wireless Lite — $60/mo", category:"broadband", bullets:["300GB, 56/18Mbps"]},
-      {id:"w-everyday", label:"Wireless Everyday — $65/mo", category:"broadband", bullets:["Unlimited, 56/18Mbps"]},
-      {id:"w-max", label:"Wireless Max — $68/mo", category:"broadband", bullets:["Unlimited, 342/54Mbps"]},
+      {id:"w-basic", label:"Wireless Basic — $50/mo → $35/mo for 12mo", category:"broadband", bullets:["50GB, 56/18Mbps","Landline included"]},
+      {id:"w-lite", label:"Wireless Lite — $60/mo → $45/mo for 12mo", category:"broadband", bullets:["300GB, 56/18Mbps"]},
+      {id:"w-everyday", label:"Wireless Everyday — $65/mo → $50/mo for 12mo", category:"broadband", bullets:["Unlimited, 56/18Mbps"]},
+      {id:"w-max", label:"Wireless Max — $68/mo → $53/mo for 12mo", category:"broadband", bullets:["Unlimited, 342/54Mbps"]},
       {id:"f-lite", label:"Fibre Lite 105/26 — $70/mo", category:"broadband", bullets:["105/26Mbps"]},
       {id:"f-essential", label:"Fibre Essential 521/108 — $106/mo", category:"broadband", bullets:["521/108Mbps","Renti offer: $10 off"]},
       {id:"f-max", label:"Fibre Max 883/508 — $121/mo", category:"broadband", bullets:["883/508Mbps","Renti offer: $10 off"]}
     ],
     modemAxis:{label:"Modem", appliesTo:()=>true, options:[
+      {id:"free", label:"Free modem (current promo)"},
       {id:"buy", label:"Buy outright — $199 one-off"},
       {id:"inst12", label:"Pay over 12 months — $16.58/mo"},
       {id:"inst18", label:"Pay over 18 months — $11.06/mo"},
@@ -1362,15 +1408,17 @@ const PROVIDERS = [
       {id:"byo", label:"Bring your own"}
     ]},
     validity:"Wireless & Fibre — open term, ongoing",
-    headline:"Wireless from $50/mo, Fibre from $70/mo",
+    headline:`<span class="promo-tag">New promo</span>Wireless from $50/mo, Fibre from $70/mo`,
     details:`
       <h4>Wireless (subject to availability)</h4>
       <ul>
-        <li>Basic (landline incl.), 50GB, 56/18Mbps — $50/mo</li>
-        <li>Lite, 300GB, 56/18Mbps — $60/mo</li>
-        <li>Everyday, unlimited, 56/18Mbps — $65/mo</li>
-        <li>Max, unlimited, 342/54Mbps — $68/mo</li>
-        <li>BYO modem, or buy the Spark Smart Modem for $199 (interest-free over 12–36 months); $14.95 delivery; 30 days' notice to cancel</li>
+        <li><strong>Basic</strong> (landline incl.), 50GB, 56/18Mbps — $50/mo</li>
+        <li><strong>Lite</strong>, 300GB, 56/18Mbps — $60/mo</li>
+        <li><strong>Everyday</strong>, unlimited, 56/18Mbps — $65/mo</li>
+        <li><strong>Max</strong>, unlimited, 342/54Mbps — $68/mo</li>
+        <li style="color:#D93A1F;font-weight:700;">Get $15/month for 12 months, plus a free modem for all wireless plans. Total saving $379.</li>
+        <li>Modem delivery one-off $14.95</li>
+        <li>30 days' notice required to end the plan</li>
       </ul>
       <h4>Fibre</h4>
       <ul>
@@ -1599,10 +1647,11 @@ function render(){
       if(p.modemAxis){
         const curFlat = existFlat || p.plans[0].id;
         const applies = p.modemAxis.appliesTo(curFlat);
+        const defaultC = existC || (p.id === 'spark' ? (curFlat.startsWith('w-') ? 'free' : 'buy') : null);
         modemSelectHtml = `
           <div class="card-foot-row modem-row" data-provider-id="${p.id}" style="display:${applies?'flex':'none'};">
             <select class="plan-select-c" data-provider-id="${p.id}">
-              ${p.modemAxis.options.map(o => `<option value="${o.id}" ${existC===o.id ? 'selected' : ''}>${o.label}</option>`).join('')}
+              ${p.modemAxis.options.map(o => `<option value="${o.id}" ${defaultC===o.id ? 'selected' : ''}>${o.label}</option>`).join('')}
             </select>
           </div>`;
       }
@@ -1704,6 +1753,18 @@ function render(){
         if(selectA && selectB) applies = provider.modemAxis.appliesTo(selectA.value, selectB.value);
         else if(singleSelect) applies = provider.modemAxis.appliesTo(singleSelect.value);
         if(modemRow) modemRow.style.display = applies ? 'flex' : 'none';
+
+        // Spark's free-modem promo only applies to wireless tiers right now —
+        // default the modem dropdown to it automatically so the saving shows
+        // up without the customer needing to go find it, and fall back to
+        // the standard "buy outright" default on fibre where the promo
+        // doesn't apply.
+        if(provider.id === 'spark' && singleSelect && e.target === singleSelect){
+          const modemSelectC = foot.querySelector('.plan-select-c');
+          if(modemSelectC){
+            modemSelectC.value = singleSelect.value.startsWith('w-') ? 'free' : 'buy';
+          }
+        }
       }
 
       const checkbox = foot.querySelector('[data-compare-provider]');
@@ -2010,6 +2071,20 @@ function resolveFlatPlanWithModem(provider, plan, modemId){
     const priceMatch = plan.label.match(/\$([\d.]+)/);
     const basePrice = priceMatch ? parseFloat(priceMatch[1]) : 0;
     const planName = plan.label.split(' — ')[0];
+    if(modemId === 'free'){
+      const discountedPrice = (basePrice - 15).toFixed(2);
+      return {
+        label:`${planName} — $${discountedPrice}/mo for 12 months, then $${basePrice}/mo (free modem)`,
+        category:plan.category,
+        sections:[{label:plan.label, bullets:[
+          ...plan.bullets,
+          "Free modem — no cost, no installments",
+          "$15/month credit for the first 12 months",
+          "Total saving over 12 months: $379 (credit + free modem, current promo)",
+          "$14.95 one-off delivery fee still applies"
+        ]}]
+      };
+    }
     if(modemId === 'byo'){
       return {label:plan.label, category:plan.category, sections:[{label:plan.label, bullets:[...plan.bullets, "Bring your own modem"]}]};
     }
@@ -2743,6 +2818,7 @@ document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==
 
 function isRentiEmail(email){ return String(email||'').trim().toLowerCase().endsWith(RENTI_EMAIL_DOMAIN); }
 function isCurrentAdmin(){ return currentAgentEmail.toLowerCase()===SONTARY_ADMIN_EMAIL || currentAgentRoles.includes('admin'); }
+function isPrimaryAdmin(){ return currentAgentEmail.toLowerCase()===SONTARY_ADMIN_EMAIL; }
 function agentInitials(name){ return String(name||'R').split(/\s+/).filter(Boolean).map(x=>x[0]).join('').slice(0,2).toUpperCase(); }
 function friendlyAgentName(user){
   const raw=(user && (user.name || user.userMetadata?.full_name || user.userMetadata?.name)) || (user?.email||'').split('@')[0] || 'Agent';
@@ -2786,6 +2862,7 @@ function broadbandProviderOptions(selectedId){
   return eligible.map(p=>`<option value="${p.id}" ${p.id===selectedId?'selected':''}>${p.name}</option>`).join('') + `<option value="custom" ${selectedId==='custom'?'selected':''}>Other broadband provider</option>`;
 }
 function planOptions(provider){
+  if(provider.id==='contact') return ['Good Night Plan','Good Weekend Plan','Broadband Bundle Plan','Basic Plan'].map(label=>`<option>${label}</option>`).join('');
   if(provider.plans) return provider.plans.map(pl=>`<option>${pl.label}</option>`).join('');
   if(provider.planA) return provider.planA.options.map(pl=>`<option>${pl.label}</option>`).join('');
   return `<option>${provider.headline.replace(/<[^>]+>/g,'')}</option>`;
@@ -2795,7 +2872,7 @@ function planOptions(provider){
 // Agent-portal service rules. These are intentionally separate from the public
 // product cards because some suppliers only allow particular combinations.
 const AGENT_SERVICE_RULES={
-  contact:{power:true,broadband:false,powerBroadband:true,forceBroadbandWithPower:true},
+  contact:{power:true,broadband:false,powerBroadband:true},
   electrickiwi:{power:true,broadband:true,powerBroadband:true},
   pulse:{power:true,broadband:false,powerBroadband:true},
   '2degrees':{power:false,broadband:true,powerBroadband:true,forceBroadbandWithPower:true},
@@ -2833,7 +2910,10 @@ const AGENT_BROADBAND_PLANS={
     {label:'Fibre 900/500',price:116,benefit:'$120 one-off credit'}
   ],
   spark:[
-    {label:'Wireless Basic',price:50},{label:'Wireless Lite',price:60},{label:'Wireless Everyday',price:65},{label:'Wireless Max',price:68},
+    {label:'Wireless Basic',price:50,benefit:'$15/month credit for 12 months + free modem (normally $199) — total saving $379'},
+    {label:'Wireless Lite',price:60,benefit:'$15/month credit for 12 months + free modem (normally $199) — total saving $379'},
+    {label:'Wireless Everyday',price:65,benefit:'$15/month credit for 12 months + free modem (normally $199) — total saving $379'},
+    {label:'Wireless Max',price:68,benefit:'$15/month credit for 12 months + free modem (normally $199) — total saving $379'},
     {label:'Fibre Lite 105/26',price:70},{label:'Fibre Essential 521/108',price:106},{label:'Fibre Max 883/508',price:121}
   ],
   sky:[
@@ -2861,7 +2941,7 @@ function broadbandAgentPlans(providerId){
 function serviceOptionsHtml(providerId,current='power'){
   const r=AGENT_SERVICE_RULES[providerId]||{power:true,broadband:true,powerBroadband:true};
   const opts=[];
-  if(r.power || r.powerBroadband) opts.push({v:'power',t:(r.forceLpgWithPower?'Power + LPG':(r.forceBroadbandWithPower?'Power + Broadband':'Power'))});
+  if(r.power || r.powerBroadband) opts.push({v:'power',t:(providerId==='contact'?'Power only':(r.forceLpgWithPower?'Power + LPG':(r.forceBroadbandWithPower?'Power + Broadband':'Power')))});
   if(r.broadband) opts.push({v:'broadband',t:'Broadband only'});
   if(r.lpg) opts.push({v:'lpg',t:'LPG only'});
   if(r.mobile) opts.push({v:'mobile',t:'Mobile'});
@@ -2900,7 +2980,10 @@ function setDefaultBroadbandModem(card,providerId,planLabel){
     if(/Fibre/i.test(planLabel)){type.value='rental';monthly.value='5.00';} else type.value='included';
   } else if(providerId==='2degrees'){
     if(/Fibre/i.test(planLabel)||/Starter/i.test(planLabel)){type.value='rental';monthly.value='5.00';} else type.value='included';
-  } else if(providerId==='spark'){type.value='purchase';oneoff.value='199.00';}
+  } else if(providerId==='spark'){
+    if(/Wireless/i.test(planLabel)){type.value='included';}
+    else{type.value='purchase';oneoff.value='199.00';}
+  }
   else if(providerId==='sky'){type.value='included';}
   else if(providerId==='pulse'){type.value='included';}
   else if(providerId==='electrickiwi'){type.value='none';}
@@ -2956,7 +3039,7 @@ function providerKeyInfo(provider, planLabel=''){
     ],
     contact:[
       'Open term plan',
-      'Power must be bundled with broadband; gas is optional where available',
+      'Power can be compared on its own in this tool, or paired with Contact broadband',
       'Track usage and pay bills through the Contact app'
     ],
     electrickiwi:[
@@ -2985,21 +3068,26 @@ function keyInfoHtml(text){
 
 function powerBreakdownHtml(card){
   const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);
-  const factor=gstMode==='exclusive'?1.15:1;
   const daily=numberValue(card,'.q-daily');
   const rows=[
-    {label:'Daily charge',rate:daily,rateUnit:'/ day',usage:`${days} days`,cost:daily*days*factor,show:true},
+    {label:'Daily charge',rate:daily,rateUnit:'/ day',usage:`${days} days`,cost:daily*days,show:true},
     {label:'Anytime / Peak',rate:numberValue(card,'.q-anyrate'),rateUnit:'/ kWh',usageValue:numberValue(card,'.q-anykwh')},
     {label:'Controlled / Off-peak',rate:numberValue(card,'.q-offrate'),rateUnit:'/ kWh',usageValue:numberValue(card,'.q-offkwh')},
     {label:'Night',rate:numberValue(card,'.q-nightrate'),rateUnit:'/ kWh',usageValue:numberValue(card,'.q-nightkwh')}
   ].map(r=>{
-    if(r.usageValue!==undefined){r.usage=`${r.usageValue.toFixed(r.usageValue%1?2:0)} kWh`;r.cost=r.rate*r.usageValue*factor;r.show=r.rate>0||r.usageValue>0;}
+    if(r.usageValue!==undefined){r.usage=`${r.usageValue.toFixed(r.usageValue%1?2:0)} kWh`;r.cost=r.rate*r.usageValue;r.show=r.rate>0||r.usageValue>0;}
     return r;
   }).filter(r=>r.show);
   const rateLabel=gstMode==='exclusive'?'Rate (excl. GST)':'Rate (incl. GST)';
-  const costLabel=gstMode==='exclusive'?'Est. cost (incl. GST)':'Estimated cost';
+  const costLabel=gstMode==='exclusive'?'Cost (excl. GST)':'Estimated cost';
+  const subtotal=rows.reduce((sum,r)=>sum+r.cost,0);
+  const gst=subtotal*0.15;
+  const finalTotal=gstMode==='exclusive'?subtotal+gst:subtotal;
   const rowHtml=rows.map((r,i)=>`<tr><td style="padding:7px 8px;border-top:${i?'1px solid #e5dfd2':'0'};color:#243128;font-size:11px;line-height:1.3;">${r.label}</td><td style="padding:7px 8px;border-top:${i?'1px solid #e5dfd2':'0'};color:#243128;font-size:11px;line-height:1.3;overflow-wrap:anywhere;">$${r.rate.toFixed(4)} ${r.rateUnit}</td><td style="padding:7px 8px;border-top:${i?'1px solid #e5dfd2':'0'};color:#243128;font-size:11px;line-height:1.3;">${r.usage}</td><td style="padding:7px 8px;border-top:${i?'1px solid #e5dfd2':'0'};color:#243128;font-size:11px;line-height:1.3;text-align:right;white-space:nowrap;">$${r.cost.toFixed(2)}</td></tr>`).join('');
-  return `<div style="margin-top:10px;"><div style="font-size:12px;font-weight:700;color:#35152f;margin-bottom:6px;">Power estimate breakdown</div><div style="width:100%;"><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;border:1px solid #e5dfd2;border-radius:9px;overflow:hidden;background:#ffffff;"><thead><tr style="background:#f2efe8;"><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">Charge type</th><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">${rateLabel}</th><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">Estimated usage</th><th style="padding:7px 8px;text-align:right;color:#4b5a4e;font-size:10px;line-height:1.25;">${costLabel}</th></tr></thead><tbody>${rowHtml}<tr style="background:#fff3e9;"><td colspan="3" style="padding:8px;font-size:11px;font-weight:700;color:#35152f;border-top:1px solid #ead7c5;">Estimated power total</td><td style="padding:8px;text-align:right;font-size:12px;font-weight:800;color:#35152f;border-top:1px solid #ead7c5;white-space:nowrap;">$${quotePowerTotal(card).toFixed(2)}</td></tr></tbody></table></div><div style="font-size:10.5px;color:#657267;margin-top:5px;">${gstMode==='exclusive'?'Rates entered excluding GST; 15% GST is included in the estimated costs above.':'Rates entered as GST inclusive.'}</div></div>`;
+  const totals=gstMode==='exclusive'
+    ? `<tr style="background:#faf8f3;"><td colspan="3" style="padding:7px 8px;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;">Subtotal excl. GST</td><td style="padding:7px 8px;text-align:right;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;white-space:nowrap;">$${subtotal.toFixed(2)}</td></tr><tr style="background:#faf8f3;"><td colspan="3" style="padding:7px 8px;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;">GST 15%</td><td style="padding:7px 8px;text-align:right;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;white-space:nowrap;">$${gst.toFixed(2)}</td></tr><tr style="background:#fff3e9;"><td colspan="3" style="padding:8px;font-size:11px;font-weight:800;color:#35152f;border-top:1px solid #ead7c5;">Estimated total incl. GST</td><td style="padding:8px;text-align:right;font-size:12px;font-weight:800;color:#35152f;border-top:1px solid #ead7c5;white-space:nowrap;">$${finalTotal.toFixed(2)}</td></tr>`
+    : `<tr style="background:#fff3e9;"><td colspan="3" style="padding:8px;font-size:11px;font-weight:700;color:#35152f;border-top:1px solid #ead7c5;">Estimated power total</td><td style="padding:8px;text-align:right;font-size:12px;font-weight:800;color:#35152f;border-top:1px solid #ead7c5;white-space:nowrap;">$${finalTotal.toFixed(2)}</td></tr>`;
+  return `<div style="margin-top:10px;"><div style="font-size:12px;font-weight:700;color:#35152f;margin-bottom:6px;">Power estimate breakdown</div><div style="width:100%;"><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;border:1px solid #e5dfd2;border-radius:9px;overflow:hidden;background:#ffffff;"><thead><tr style="background:#f2efe8;"><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">Charge type</th><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">${rateLabel}</th><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">Estimated usage</th><th style="padding:7px 8px;text-align:right;color:#4b5a4e;font-size:10px;line-height:1.25;">${costLabel}</th></tr></thead><tbody>${rowHtml}${totals}</tbody></table></div><div style="font-size:10.5px;color:#657267;margin-top:5px;">${gstMode==='exclusive'?'Rates entered are GST exclusive. GST is added after the usage and daily-charge subtotal, matching the way the estimate is calculated.':'Rates entered as GST inclusive.'}</div></div>`;
 }
 
 function addAgentQuote(providerId='powershop'){
@@ -3063,6 +3151,42 @@ function addAgentQuote(providerId='powershop'){
         <div style="font-size:10.5px;color:var(--ink-soft);margin-top:7px;">Genesis Power + Genesis LPG uses $155 per bottle. LPG by itself or with another power provider uses $175 per bottle. Rental remains $11.50/month for two bottles.</div>
         <div class="calc-result q-lpg-result" style="display:flex;margin-top:10px;"><div><span>Estimated LPG cost</span><strong>$0.00</strong></div><div class="calc-breakdown">Bottle quantity + prorated monthly rental</div></div>
       </div>
+      <div class="agent-form-grid">
+        <div class="agent-field"><label>Promotion type</label><select class="q-promo-type">
+          <option value="none">No promotional offer</option>
+          <option value="credit">Account credit</option>
+          <option value="percent">Percentage discount</option>
+          <option value="free">Free broadband / service period</option>
+          <option value="appliance">Appliance / device</option>
+          <option value="other">Other offer</option>
+        </select></div>
+      </div>
+      <div class="agent-form-grid q-promo-fields q-promo-credit" style="display:none;">
+        <div class="agent-field"><label>Total credit ($)</label><input class="q-promo-credit-amount" type="number" step="0.01" min="0" placeholder="120.00"></div>
+        <div class="agent-field"><label>Credit shape</label><select class="q-promo-credit-shape"><option value="spread">Spread over months (e.g. $10/mo)</option><option value="upfront">One-off upfront credit</option></select></div>
+        <div class="agent-field q-promo-credit-months-wrap"><label>Spread over how many months?</label><input class="q-promo-credit-months" type="number" step="1" min="1" placeholder="12"></div>
+        <div class="agent-field full"><label>What makes up this credit? (optional)</label><textarea class="q-promo-credit-breakdown" placeholder="e.g. Meridian: $120 credit&#10;One NZ: $120 credit" rows="2"></textarea><div style="font-size:10.5px;color:var(--ink-soft);margin-top:4px;">One item per line — shown to the customer as a breakdown under the total. Leave blank for a single-provider credit.</div></div>
+        <div class="agent-field full" style="font-size:10.5px;color:var(--ink-soft);">Enter the total benefit — e.g. Powershop's $150 over 12 months (25/10.../25) is still $150 total. The exact month-by-month shape doesn't change the first-year value shown to the customer.</div>
+      </div>
+      <div class="agent-form-grid q-promo-fields q-promo-percent" style="display:none;">
+        <div class="agent-field"><label>Discount (%)</label><input class="q-promo-percent" type="number" step="0.1" min="0" max="100" placeholder="10"></div>
+        <div class="agent-field full" style="font-size:10.5px;color:var(--ink-soft);">Applies to this option's power charges. Shown to the customer as before → discount → after, never a silently-reduced number.</div>
+      </div>
+      <div class="agent-form-grid q-promo-fields q-promo-free" style="display:none;">
+        <div class="agent-field"><label>Free period (months)</label><input class="q-promo-free-months" type="number" step="1" min="1" placeholder="2"></div>
+        <div class="agent-field full" style="font-size:10.5px;color:var(--ink-soft);">Applies to broadband. Counted as first-year value, not a permanent reduction.</div>
+      </div>
+      <div class="agent-form-grid q-promo-fields q-promo-appliance" style="display:none;">
+        <div class="agent-field"><label>Appliance / device name</label><input class="q-promo-appliance-name" placeholder="e.g. Samsung fridge"></div>
+        <div class="agent-field"><label>Provider-stated retail value ($)</label><input class="q-promo-appliance-provider-value" type="number" step="0.01" min="0" placeholder="1000.00"></div>
+        <div class="agent-field"><label>Comparable retail price entered ($)</label><input class="q-promo-appliance-comparable-price" type="number" step="0.01" min="0" placeholder="500.00"></div>
+        <div class="agent-field"><label>Retailer name</label><input class="q-promo-appliance-retailer" placeholder="e.g. PB Tech"></div>
+        <div class="agent-field"><label>Retailer URL (optional)</label><input class="q-promo-appliance-url" type="url" placeholder="https://..."></div>
+        <div class="agent-field"><label>Required contract term (months)</label><input class="q-promo-appliance-term" type="number" step="1" min="1" placeholder="24"></div>
+      </div>
+      <div class="agent-form-grid q-promo-fields q-promo-other" style="display:none;">
+        <div class="agent-field full"><label>Describe the offer</label><input class="q-promo-other" placeholder="e.g. Free installation, valued at $99"></div>
+      </div>
       <div class="agent-form-grid" style="margin-top:12px;">
         <div class="agent-field q-broadband-field" style="display:none;"><label>Broadband monthly price ($)</label><input class="q-bbprice-legacy" type="number" step="0.01" min="0" placeholder="85.00"></div>
         <div class="agent-field q-broadband-field" style="display:none;"><label>Modem option</label><select class="q-legacy-modem-type"><option value="included">Included / free</option><option value="rental">Monthly rental</option><option value="instalment">Monthly instalment</option><option value="purchase">Buy outright (one-off)</option><option value="byo">Bring your own</option><option value="none">Not applicable</option></select></div>
@@ -3071,7 +3195,6 @@ function addAgentQuote(providerId='powershop'){
         <div class="agent-field q-mobile-field" style="display:none;"><label>Mobile monthly price ($)</label><input class="q-mobile-price" type="number" step="0.01" min="0" placeholder="50.00"></div>
         <div class="agent-field q-mobile-field" style="display:none;"><label>Mobile benefit / offer</label><input class="q-mobile-benefit" placeholder="e.g. $10 exclusive discount"></div>
         <div class="agent-field full q-mobile-field" style="display:none;"><label>Mobile product information</label><textarea class="q-mobile-info" placeholder="Data, calls/texts, companion plans or other useful details"></textarea></div>
-        <div class="agent-field"><label>Benefits / offer</label><input class="q-benefit" placeholder="e.g. $120 one-off credit on 12-month term"></div>
         <div class="agent-field full"><label>Key product information</label><textarea class="q-keyinfo" placeholder="Useful product details for the customer — one point per line">${providerKeyInfo(p, (p.plans&&p.plans[0]?p.plans[0].label:(p.planA&&p.planA.options[0]?p.planA.options[0].label:'')))}</textarea><div style="font-size:10.5px;color:var(--ink-soft);margin-top:5px;">Pre-filled from the provider details. Edit or remove anything that isn't relevant to this customer.</div></div>
         <div class="agent-field full"><label>Agent note / product detail</label><textarea class="q-note" placeholder="Optional extra note to include in the customer comparison"></textarea></div>
       </div>
@@ -3119,6 +3242,156 @@ function quotePackageTotal(card){
   const lpg=(card.dataset.hasLpg==='true'||service==='lpg')?quoteLpgTotal(card):0;
   return power+quoteBroadbandPeriod(card)+lpg;
 }
+
+// Reads the selected promotion type and its fields into one plain object.
+// Returns null when no promotion is selected. This is the single source of
+// truth every other promo-aware calculation below reads from.
+function quotePromo(card){
+  const type=card.querySelector('.q-promo-type')?.value||'none';
+  if(type==='none') return null;
+  if(type==='credit'){
+    const amount=numberValue(card,'.q-promo-credit-amount');
+    if(!amount) return null;
+    return {type, amount, shape:card.querySelector('.q-promo-credit-shape')?.value||'spread', months:numberValue(card,'.q-promo-credit-months')||12, breakdown:card.querySelector('.q-promo-credit-breakdown')?.value.trim()||''};
+  }
+  if(type==='percent'){
+    const percent=numberValue(card,'.q-promo-percent');
+    if(!percent) return null;
+    return {type, percent};
+  }
+  if(type==='free'){
+    const freeMonths=numberValue(card,'.q-promo-free-months');
+    if(!freeMonths) return null;
+    return {type, freeMonths};
+  }
+  if(type==='appliance'){
+    const name=card.querySelector('.q-promo-appliance-name')?.value.trim()||'';
+    if(!name) return null;
+    return {
+      type, name,
+      providerValue:numberValue(card,'.q-promo-appliance-provider-value'),
+      comparablePrice:numberValue(card,'.q-promo-appliance-comparable-price'),
+      retailer:card.querySelector('.q-promo-appliance-retailer')?.value.trim()||'',
+      url:card.querySelector('.q-promo-appliance-url')?.value.trim()||'',
+      term:numberValue(card,'.q-promo-appliance-term')||24
+    };
+  }
+  if(type==='other'){
+    const description=card.querySelector('.q-promo-other')?.value.trim()||'';
+    if(!description) return null;
+    return {type, description};
+  }
+  return null;
+}
+
+// A percentage discount is a genuine ongoing reduction (unlike a temporary
+// credit), so it changes the true recurring power cost — everything downstream
+// that needs "the real monthly power figure" should use .after, not the raw
+// quotePowerTotal(), which stays as the pre-discount base rate for display.
+function quotePowerAfterPromo(card){
+  const before=quotePowerTotal(card);
+  const promo=quotePromo(card);
+  if(promo && promo.type==='percent' && promo.percent>0){
+    const discount=before*(promo.percent/100);
+    return {before, discount, after:Math.max(0,before-discount)};
+  }
+  return {before, discount:0, after:before};
+}
+
+// The recurring monthly figure used for cross-option comparison — reflects a
+// percentage discount (ongoing) but never a temporary credit or free-service
+// period (first-year-only effects, handled separately in quoteFirstYearInfo).
+function quoteOngoingMonthly(card){
+  const service=card.querySelector('.q-service').value;
+  const hasPower=service==='power';
+  const hasBB=service==='broadband'||(card.dataset.hasBroadbandPackage==='true'&&hasPower);
+  const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);
+  let monthly=0;
+  if(hasPower) monthly += quotePowerAfterPromo(card).after*(30/days);
+  if(hasBB) monthly += quoteBroadbandMonthly(card);
+  if(service==='mobile') monthly += numberValue(card,'.q-mobile-price');
+  if(card.dataset.hasLpg==='true'||service==='lpg') monthly += numberValue(card,'.q-lpg-rental');
+  return monthly;
+}
+
+// First-year value: the ongoing monthly rate ×12, minus whatever credit or
+// free-service value actually lands within that same 12 months. A credit
+// spread over more than 12 months only counts its first-12-month share here —
+// this is what keeps "ongoing cost" and "first-year cost" honestly separate
+// rather than one confusing blended number.
+function quoteFirstYearInfo(card){
+  const ongoing=quoteOngoingMonthly(card);
+  const promo=quotePromo(card);
+  let creditValue=0, creditNote='';
+  if(promo && promo.type==='credit'){
+    if(promo.shape==='upfront'){
+      creditValue=promo.amount;
+      creditNote=`$${promo.amount.toFixed(2)} one-off account credit`;
+    } else {
+      const monthsInFirstYear=Math.min(promo.months,12);
+      creditValue=promo.amount*(monthsInFirstYear/promo.months);
+      creditNote=`$${promo.amount.toFixed(2)} credit over ${promo.months} month${promo.months===1?'':'s'}`;
+    }
+  } else if(promo && promo.type==='free'){
+    const bbMonthly=quoteBroadbandMonthly(card);
+    const monthsInFirstYear=Math.min(promo.freeMonths,12);
+    creditValue=bbMonthly*monthsInFirstYear;
+    creditNote=`${promo.freeMonths} month${promo.freeMonths===1?'':'s'} free broadband`;
+  }
+  const firstYearCost=Math.max(0,ongoing*12-creditValue);
+  return {ongoing, creditValue, firstYearCost, creditNote};
+}
+
+// Simple monthly/12-month/24-month projection of an ongoing cost difference —
+// just the same monthly gap multiplied out at the two standard contract
+// checkpoints, always shown together, never picked one-at-a-time.
+function savingsProjection(monthlyDiff){
+  return {monthly:monthlyDiff, twelveMonth:monthlyDiff*12, twentyFourMonth:monthlyDiff*24};
+}
+
+function updatePromoFieldVisibility(card){
+  const type=card.querySelector('.q-promo-type')?.value||'none';
+  ['credit','percent','free','appliance','other'].forEach(t=>{
+    const el=card.querySelector('.q-promo-'+t);
+    if(el) el.style.display=(t===type)?'grid':'none';
+  });
+  if(type==='credit'){
+    const shape=card.querySelector('.q-promo-credit-shape')?.value||'spread';
+    const monthsWrap=card.querySelector('.q-promo-credit-months-wrap');
+    if(monthsWrap) monthsWrap.style.display=shape==='spread'?'block':'none';
+  }
+}
+
+// Renders the customer-facing "Promotional offer" block for whichever type is
+// selected. Each type gets its own honest framing — an appliance's comparable
+// price is never called the definitive value, a percentage discount always
+// shows the before/after, a credit never reads as a permanent price drop.
+function promoDisplayHtml(card){
+  const promo=quotePromo(card);
+  if(!promo) return '';
+  const wrap=(title,inner)=>`<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#f2edff;color:#3c2a8a;font-size:11.5px;"><strong style="display:block;margin-bottom:4px;">${title}</strong>${inner}</div>`;
+  if(promo.type==='credit'){
+    const label=promo.shape==='upfront' ? `$${promo.amount.toFixed(2)} one-off account credit` : `$${promo.amount.toFixed(2)} credit over ${promo.months} month${promo.months===1?'':'s'}`;
+    const breakdownLines=promo.breakdown?promo.breakdown.split('\n').map(l=>l.trim()).filter(Boolean):[];
+    const breakdownHtml=breakdownLines.length?`<ul style="margin:6px 0 0;padding-left:16px;">${breakdownLines.map(l=>`<li>${l}</li>`).join('')}</ul>`:'';
+    return wrap('Promotional offer — Account credit', label+breakdownHtml);
+  }
+  if(promo.type==='percent'){
+    return wrap('Promotional offer — Percentage discount', `${promo.percent}% off eligible power charges — see the breakdown above.`);
+  }
+  if(promo.type==='free'){
+    return wrap('Promotional offer — Free broadband', `${promo.freeMonths} month${promo.freeMonths===1?'':'s'} free, then the standard monthly rate applies.`);
+  }
+  if(promo.type==='appliance'){
+    const link=promo.url?` — <a href="${promo.url}" target="_blank" rel="noopener" style="color:#3c2a8a;font-weight:700;text-decoration:underline;">View retailer listing</a>`:'';
+    return wrap('Promotional offer — Appliance / device', `${promo.name}<br>Provider-stated value: $${promo.providerValue.toFixed(2)}<br>Comparable retail price entered: $${promo.comparablePrice.toFixed(2)}${promo.retailer?` (${promo.retailer})`:''}${link}<br>Required contract term: ${promo.term} months`);
+  }
+  if(promo.type==='other'){
+    return wrap('Promotional offer', promo.description);
+  }
+  return '';
+}
+
 function broadbandProviderName(card){
   const id=card.querySelector('.q-bb-provider')?.value;
   if(!id) return '';
@@ -3163,6 +3436,10 @@ function wireQuoteCard(card){
   card.querySelector('.quote-remove').addEventListener('click',()=>{ card.remove(); if(!quoteStack.children.length) addAgentQuote(); renumberQuoteCards(); refreshAgentPreview(); });
   card.dataset.hasBroadbandPackage='false';
   card.dataset.hasLpg='false';
+  updatePromoFieldVisibility(card);
+  card.querySelector('.q-promo-type').addEventListener('change',()=>{ updatePromoFieldVisibility(card); markRecommendationAuto(); refreshAgentPreview(); });
+  card.querySelector('.q-promo-credit-shape')?.addEventListener('change',()=>{ updatePromoFieldVisibility(card); refreshAgentPreview(); });
+  card.querySelectorAll('.q-promo-fields input').forEach(el=>el.addEventListener('input',()=>{ markRecommendationAuto(); refreshAgentPreview(); }));
   const bbPackage=card.querySelector('.q-bb-package');
   const addBB=card.querySelector('.q-add-broadband');
   const removeBB=card.querySelector('.q-remove-broadband');
@@ -3186,7 +3463,7 @@ function wireQuoteCard(card){
       const chosen=plans.find(x=>x.label===bbPlan.value)||plans[0];
       const mainPlanId=agentProviderPlanId(card);
       let price=chosen?.price;
-      if(chosen?.prices) price=chosen.prices[mainPlanId] ?? Object.values(chosen.prices)[0];
+      if(chosen?.prices) price=(bbProvider.value==='contact' && mainPlanId==='') ? null : (chosen.prices[mainPlanId] ?? Object.values(chosen.prices)[0]);
       if(price!=null) card.querySelector('.q-bbprice').value=Number(price).toFixed(2);
       if(chosen?.benefit) card.querySelector('.q-bb-benefit').value=chosen.benefit;
       if(chosen?.modem) card.querySelector('.q-bb-keyinfo').value=[card.querySelector('.q-bb-keyinfo').value,chosen.modem].filter(Boolean).join('\n');
@@ -3238,8 +3515,8 @@ function wireQuoteCard(card){
     } else if(mainId==='2degrees' && service==='broadband'){
       const p=PROVIDERS.find(x=>x.id==='2degrees'); if(p) card.querySelector('.q-plan').innerHTML=planOptions(p);
     }
-    if(mainId==='contact' && service==='power'){
-      card.dataset.hasBroadbandPackage='true'; bbProvider.value='contact'; fillBBProvider();
+    if(mainId==='contact' && service==='power' && card.dataset.hasBroadbandPackage==='true'){
+      bbProvider.value='contact'; fillBBProvider();
     }
     recalcQuote(card);
   }
@@ -3253,7 +3530,7 @@ function wireQuoteCard(card){
   removeLpg.addEventListener('click',()=>{ if(card.querySelector('.q-service').value==='lpg') return; card.dataset.hasLpg='false'; lpgBox.classList.remove('show'); addLpg.classList.remove('active'); addLpg.textContent='+ Add LPG'; recalcQuote(card); markRecommendationAuto(); refreshAgentPreview(); });
   removeBB.addEventListener('click',()=>{ const mid=card.querySelector('.q-provider').value; if(AGENT_SERVICE_RULES[mid]?.forceBroadbandWithPower && card.querySelector('.q-service').value==='power') return; card.dataset.hasBroadbandPackage='false'; bbPackage.classList.remove('show'); addBB.classList.remove('active'); addBB.textContent='+ Add broadband'; recalcQuote(card); markRecommendationAuto(); refreshAgentPreview(); });
   bbProvider.addEventListener('change',()=>{ fillBBProvider(); markRecommendationAuto(); refreshAgentPreview(); });
-  bbPlan.addEventListener('change',()=>{ const p=PROVIDERS.find(x=>x.id===bbProvider.value); if(p){ card.querySelector('.q-bb-keyinfo').value=providerKeyInfo(p,bbPlan.value); const plans=broadbandAgentPlans(bbProvider.value); const chosen=plans.find(x=>x.label===bbPlan.value); let price=chosen?.price; if(chosen?.prices) price=chosen.prices[agentProviderPlanId(card)] ?? Object.values(chosen.prices)[0]; if(price!=null) card.querySelector('.q-bbprice').value=Number(price).toFixed(2); if(chosen?.benefit) card.querySelector('.q-bb-benefit').value=chosen.benefit; setDefaultBroadbandModem(card,bbProvider.value,bbPlan.value); updateModemFieldVisibility(true); } markRecommendationAuto(); recalcQuote(card); refreshAgentPreview(); });
+  bbPlan.addEventListener('change',()=>{ const p=PROVIDERS.find(x=>x.id===bbProvider.value); if(p){ card.querySelector('.q-bb-keyinfo').value=providerKeyInfo(p,bbPlan.value); const plans=broadbandAgentPlans(bbProvider.value); const chosen=plans.find(x=>x.label===bbPlan.value); let price=chosen?.price; if(chosen?.prices){ const mainPlanId=agentProviderPlanId(card); price=(bbProvider.value==='contact' && mainPlanId==='') ? null : (chosen.prices[mainPlanId] ?? Object.values(chosen.prices)[0]); } if(price!=null) card.querySelector('.q-bbprice').value=Number(price).toFixed(2); if(chosen?.benefit) card.querySelector('.q-bb-benefit').value=chosen.benefit; setDefaultBroadbandModem(card,bbProvider.value,bbPlan.value); updateModemFieldVisibility(true); } markRecommendationAuto(); recalcQuote(card); refreshAgentPreview(); });
   card.querySelector('.q-provider').addEventListener('change',e=>{
     const isCustom=e.target.value==='custom';
     const p=PROVIDERS.find(x=>x.id===e.target.value);
@@ -3269,7 +3546,8 @@ function wireQuoteCard(card){
       card.querySelector('.q-keyinfo').value='';
       customPlan.value='';
     }
-    card.querySelector('.q-benefit').value='';
+    card.querySelector('.q-promo-type').value='none';
+    updatePromoFieldVisibility(card);
     enforceProviderRules();
     markRecommendationAuto();
     refreshAgentPreview();
@@ -3298,13 +3576,32 @@ function refreshThreadStatus(){
   }
 }
 
-function quotePreviewHtml(card,index,emailType){
+function quoteHeading(card,index,totalOptions,titleName){
+  const service=card.querySelector('.q-service').value;
+  const hasBB=card.dataset.hasBroadbandPackage==='true' && service==='power';
+  const hasLpg=card.dataset.hasLpg==='true'||service==='lpg';
+  const mainId=card.querySelector('.q-provider').value;
+  const mainName=mainId==='custom'?(card.querySelector('.q-custom-provider').value.trim()||'Other provider'):(PROVIDERS.find(x=>x.id===mainId)?.name||'');
+  const bbSame=hasBB && broadbandProviderName(card)===mainName;
+  let descriptor='option';
+  if(service==='lpg') descriptor='LPG option';
+  else if(service==='mobile') descriptor='mobile option';
+  else if(service==='broadband') descriptor='broadband option';
+  else if(service==='product') descriptor='product option';
+  else if(service==='power' && hasBB && hasLpg) descriptor='home services combo';
+  else if(service==='power' && hasLpg) descriptor='power + LPG combo';
+  else if(service==='power' && hasBB) descriptor=bbSame?'power + broadband bundle':'power + broadband combo';
+  else if(service==='power') descriptor='power option';
+  const prefix=totalOptions===1?`Your ${descriptor}`:`Option ${index+1} — ${descriptor.charAt(0).toUpperCase()+descriptor.slice(1)}`;
+  return `${prefix}: ${titleName}`;
+}
+
+function quotePreviewHtml(card,index,emailType,totalOptions=1){
   const providerId=card.querySelector('.q-provider').value;
   const provider=PROVIDERS.find(x=>x.id===providerId);
   const providerName=providerId==='custom' ? (card.querySelector('.q-custom-provider').value.trim() || 'Other provider') : provider.name;
   const plan=providerId==='custom' ? (card.querySelector('.q-custom-plan').value.trim() || 'Plan details') : card.querySelector('.q-plan').value;
   const service=card.querySelector('.q-service').value;
-  const benefit=card.querySelector('.q-benefit').value.trim();
   const note=card.querySelector('.q-note').value.trim();
   const keyInfo=card.querySelector('.q-keyinfo')?.value.trim()||'';
   const hasPower=service==='power';
@@ -3323,7 +3620,9 @@ function quotePreviewHtml(card,index,emailType){
   }
   let body='';
   if(emailType==='full' && hasPower){
-    body += `<div style="margin-top:12px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">Power — estimated cost: <span style="font-size:18px;color:#ff6537;">$${quotePowerTotal(card).toFixed(2)}</span></div>${powerBreakdownHtml(card)}</div>`;
+    const powerInfo=quotePowerAfterPromo(card);
+    const percentLine=(powerInfo.discount>0)?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:6px;line-height:1.6;">Power before discount: $${powerInfo.before.toFixed(2)}<br>Promotional discount: −$${powerInfo.discount.toFixed(2)}<br><strong style="color:#35152f;">Estimated power after discount: $${powerInfo.after.toFixed(2)}</strong></div>`:'';
+    body += `<div style="margin-top:12px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">Power — estimated cost: <span style="font-size:18px;color:#35152f;">$${powerInfo.after.toFixed(2)}</span></div>${percentLine}${powerBreakdownHtml(card)}</div>`;
   }
   if(card.dataset.hasLpg==='true'||service==='lpg'){ body += lpgBreakdownHtml(card); const combined=(hasPower?quotePowerTotal(card):0)+quoteLpgTotal(card); body += `<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:#fff1e7;border:1px solid #ffd6c7;"><div style="font-size:12px;font-weight:700;color:#ff6537;">${hasPower?'Estimated power + LPG total':'Estimated LPG total'}</div><div style="font-size:24px;line-height:1.2;font-weight:800;color:#ff6537;margin-top:2px;">$${combined.toFixed(2)}</div></div>`; }
   if(service==='mobile'){
@@ -3341,10 +3640,10 @@ function quotePreviewHtml(card,index,emailType){
   if(emailType==='full' && packageActive){
     body += `<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:#fff1e7;border:1px solid #ffd6c7;"><div style="font-size:12px;font-weight:700;color:#ff6537;">Estimated package total</div><div style="font-size:24px;line-height:1.2;font-weight:800;color:#ff6537;margin-top:2px;">$${quotePackageTotal(card).toFixed(2)}</div><div style="font-size:10.5px;color:#5c675e;margin-top:4px;">Power + broadband for ${document.getElementById('agDays').value||30} days. Broadband is prorated from the monthly price.</div></div>`;
   }
-  const mainBenefit=benefit?`<div style="margin-top:10px;padding:8px 10px;border-radius:8px;background:#fff7df;color:#5b4318;font-size:11.5px;"><strong>Benefit:</strong> ${benefit}</div>`:'';
+  const mainBenefit=promoDisplayHtml(card);
   const mainInfo=keyInfoHtml(keyInfo);
   const noteHtml=note?`<div style="margin-top:10px;color:#4b5a4e;font-size:12px;line-height:1.5;">${note}</div>`:'';
-  return `<div class="email-option" style="margin:14px 0;border:1px solid #ddd5c4;border-radius:14px;background:#f8f5ee;overflow:hidden;"><div style="padding:14px 14px 12px;"><div style="font-size:15px;font-weight:800;color:#35152f;line-height:1.35;">Option ${index+1}: ${titleName}</div>${planLine}</div><div style="padding:0 12px 12px;">${body}${mainBenefit}${mainInfo}${noteHtml}</div></div>`;
+  return `<div class="email-option" style="margin:14px 0;border:1px solid #ddd5c4;border-radius:14px;background:#f8f5ee;overflow:hidden;"><div style="padding:14px 14px 12px;"><div style="font-size:15px;font-weight:800;color:#35152f;line-height:1.35;">${quoteHeading(card,index,totalOptions,titleName)}</div>${planLine}</div><div style="padding:0 12px 12px;">${body}${mainBenefit}${mainInfo}${noteHtml}</div></div>`;
 }
 
 let recommendationAuto=true;
@@ -3362,7 +3661,62 @@ function quoteMetrics(card){
   const hasPower=service==='power';
   const hasBB=service==='broadband'||packageActive;
   const hasMobile=service==='mobile';
-  return {card,name,providerId,keyInfo,hasPower,hasBB,hasMobile,power:hasPower?quotePowerTotal(card):null,broadband:hasBB?quoteBroadbandMonthly(card):null,packageTotal:packageActive?quotePackageTotal(card):null};
+  const hasLpg=card.dataset.hasLpg==='true'||service==='lpg';
+  const lpgBottle=hasLpg?numberValue(card,'.q-lpg-bottle'):null;
+  const lpgRental=hasLpg?numberValue(card,'.q-lpg-rental'):null;
+  const promo=quotePromo(card);
+  const firstYearInfo=quoteFirstYearInfo(card);
+  return {card,name,providerId,keyInfo,hasPower,hasBB,hasMobile,hasLpg,power:hasPower?quotePowerTotal(card):null,broadband:hasBB?quoteBroadbandMonthly(card):null,packageTotal:packageActive?quotePackageTotal(card):null,lpgBottle,lpgRental,promo,ongoingMonthly:firstYearInfo.ongoing,firstYearCost:firstYearInfo.firstYearCost,creditValue:firstYearInfo.creditValue,creditNote:firstYearInfo.creditNote,contractTerm:promo&&promo.type==='appliance'?promo.term:null};
+}
+function priceComparisonHtml(){
+  const metrics=[...quoteStack.children].map(quoteMetrics);
+  if(metrics.length<2) return '';
+  const recurring=metrics.filter(m=>(m.hasPower||m.hasBB||m.hasMobile||(m.hasLpg&&m.lpgRental)) && m.ongoingMonthly>0);
+  let recurringHtml='';
+  let extraRowsHtml='';
+  if(recurring.length>=2){
+    const sorted=[...recurring].sort((a,b)=>a.ongoingMonthly-b.ongoingMonthly);
+    const low=sorted[0], high=sorted[sorted.length-1], diff=high.ongoingMonthly-low.ongoingMonthly;
+    const rows=sorted.map(m=>`<div style="display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid #eee8dc;"><span style="color:#35443a;">${m.name}</span><strong style="color:#35152f;white-space:nowrap;">$${m.ongoingMonthly.toFixed(2)}/month</strong></div>`).join('');
+    recurringHtml=`<div style="font-size:12px;font-weight:800;color:#35152f;margin-bottom:5px;">Estimated ongoing monthly cost</div>${rows}`;
+
+    // Monthly / 12-month / 24-month projection — always shown together, always
+    // just the existing ongoing difference multiplied out at the two standard
+    // contract checkpoints. Not a separate "pick one period" calculation.
+    if(diff>0.005){
+      const proj=savingsProjection(diff);
+      recurringHtml += `<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#ffffff;color:#35443a;line-height:1.55;border:1px solid #f1d8c8;"><strong>${low.name}</strong> has an estimated ongoing cost approximately <strong>$${proj.monthly.toFixed(2)} lower per month</strong>.<div style="margin-top:6px;font-size:11px;color:#5c675e;">Over 12 months: <strong style="color:#35152f;">$${proj.twelveMonth.toFixed(2)}</strong> &nbsp;·&nbsp; Over 24 months: <strong style="color:#35152f;">$${proj.twentyFourMonth.toFixed(2)}</strong></div></div>`;
+    }
+
+    // First-year cost / credit / contract term / promotional benefit — only
+    // shown when at least one option actually has something to say here, so a
+    // plain no-promo comparison doesn't get cluttered with empty rows.
+    const anyCredit=recurring.some(m=>m.creditValue>0);
+    const anyTerm=recurring.some(m=>m.contractTerm);
+    const anyPromo=recurring.some(m=>m.promo);
+    if(anyCredit||anyTerm||anyPromo){
+      const promoLabel=(m)=>{
+        if(!m.promo) return '—';
+        if(m.promo.type==='credit') return 'Account credit';
+        if(m.promo.type==='percent') return 'Percentage discount';
+        if(m.promo.type==='free') return 'Free broadband';
+        if(m.promo.type==='appliance') return 'Appliance / device';
+        return 'Other offer';
+      };
+      const rowsMore=(label,fn)=>`<div style="display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid #eee8dc;"><span style="color:#35443a;">${label}</span><div style="display:flex;gap:18px;">${sorted.map(m=>`<strong style="color:#35152f;white-space:nowrap;min-width:90px;text-align:right;">${fn(m)}</strong>`).join('')}</div></div>`;
+      extraRowsHtml=`<div style="margin-top:12px;">${anyCredit?rowsMore('First-year estimated cost',m=>`$${m.firstYearCost.toFixed(2)}`):''}${anyCredit?rowsMore('Account credits',m=>m.creditValue>0?`$${m.creditValue.toFixed(2)}`:'—'):''}${anyTerm?rowsMore('Contract period',m=>m.contractTerm?`${m.contractTerm} months`:'Open/12 months'):''}${anyPromo?rowsMore('Promotional benefit',m=>promoLabel(m)):''}</div>`;
+    }
+  }
+  const lpg=metrics.filter(m=>m.hasLpg && m.lpgBottle>0);
+  let lpgHtml='';
+  if(lpg.length>=2){
+    const sorted=[...lpg].sort((a,b)=>a.lpgBottle-b.lpgBottle);
+    const low=sorted[0], high=sorted[sorted.length-1], diff=high.lpgBottle-low.lpgBottle;
+    const rows=sorted.map(m=>`<div style="display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid #eee8dc;"><span style="color:#35443a;">${m.name}</span><strong style="color:#35152f;white-space:nowrap;">$${m.lpgBottle.toFixed(2)}/bottle</strong></div>`).join('');
+    lpgHtml=`${recurringHtml?'<div style="height:12px;"></div>':''}<div style="font-size:12px;font-weight:800;color:#35152f;margin-bottom:5px;">LPG price comparison</div>${rows}${diff>0.005?`<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#f7f4ed;color:#35443a;line-height:1.5;"><strong>${low.name}</strong> is <strong>$${diff.toFixed(2)} lower per bottle</strong>.</div>`:''}<div style="margin-top:8px;font-size:11px;color:#68746b;line-height:1.5;">LPG usage varies by household, so the per-bottle difference is not converted into a monthly or annual saving. Bottle rental is included in the recurring monthly comparison above where applicable.</div>`;
+  }
+  if(!recurringHtml && !lpgHtml) return '';
+  return `<div style="margin:16px 0;padding:16px;border:1px solid #efc7b7;border-left:4px solid #ff6537;border-radius:14px;background:#fff4ec;box-shadow:0 6px 18px rgba(53,21,47,.06);"><div style="font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#a05a45;margin-bottom:3px;">At a glance</div><strong style="display:block;color:#35152f;font-size:17px;margin-bottom:10px;">Price comparison</strong>${recurringHtml}${extraRowsHtml}${lpgHtml}<div style="margin-top:10px;padding-top:9px;border-top:1px solid #efd8ca;font-size:10.5px;color:#7a857b;line-height:1.45;">Estimates use the figures entered above. Account credits and appliance/device values are shown separately above, not folded into the ongoing monthly cost.</div></div>`;
 }
 function providerStrength(metric,priority){
   const text=metric.keyInfo;
@@ -3374,33 +3728,86 @@ function providerStrength(metric,priority){
 }
 function generateRecommendation(){
   const metrics=[...quoteStack.children].map(quoteMetrics);
-  if(metrics.length<2) return 'This option looks worth considering based on the plan details above. Let me know what matters most to you and we can talk through whether it is the right fit.';
+  if(metrics.length<2) return 'This option is shown based on the figures and plan details entered. If you want, we can talk through anything that matters most to you before you decide what works best for your home.';
   const priority=document.getElementById('agPriority').value;
-  const pricedPackages=metrics.filter(m=>m.packageTotal!==null && m.packageTotal>0);
-  const pricedPower=metrics.filter(m=>m.power!==null && m.power>0);
-  const pricedBB=metrics.filter(m=>m.broadband!==null && m.broadband>0);
-  let cheapest=null, priceType='';
-  if(pricedPackages.length>=2){ cheapest=[...pricedPackages].sort((a,b)=>a.packageTotal-b.packageTotal)[0]; priceType='estimated power + broadband package cost'; }
-  else if(pricedPower.length>=2){ cheapest=[...pricedPower].sort((a,b)=>a.power-b.power)[0]; priceType='estimated power cost'; }
-  else if(pricedBB.length>=2){ cheapest=[...pricedBB].sort((a,b)=>a.broadband-b.broadband)[0]; priceType='monthly broadband price'; }
+  const priorityLabel=document.getElementById('agPriority').selectedOptions[0].textContent.toLowerCase();
+  const recurring=metrics.filter(m=>m.ongoingMonthly>0).sort((a,b)=>a.ongoingMonthly-b.ongoingMonthly);
+  const cheapest=recurring.length>=2?recurring[0]:null;
+  const next=recurring.length>=2?recurring[1]:null;
+  const diff=cheapest&&next?next.ongoingMonthly-cheapest.ongoingMonthly:0;
+  // A price gap under $5/month (or under 3% of the cheaper option, whichever is
+  // larger) reads as noise, not a real difference — say so honestly rather than
+  // mechanically crowning a winner over a couple of dollars.
+  const closeThreshold=cheapest?Math.max(5,cheapest.ongoingMonthly*0.03):5;
+  const isClose=cheapest&&diff>0&&diff<closeThreshold;
   const strengthCandidate=metrics.find(m=>providerStrength(m,priority));
-  if(priority==='cost' && cheapest){
-    return `Based on the figures entered, ${cheapest.name} is currently the lowest-cost option on ${priceType}. That makes it the strongest price option in this comparison, although price is only one part of the decision. Have a look through the features and let me know which option stands out to you.`;
+
+  // Appliance vs. alternative — weighs the real ongoing cost difference plus
+  // any credits over the appliance's own required term, against its comparable
+  // retail price. Purely calculated from the entered figures; can genuinely
+  // land either way, never hard-coded to favour the appliance or the cash option.
+  const applianceOption=metrics.find(m=>m.promo && m.promo.type==='appliance' && m.promo.comparablePrice>0);
+  if(applianceOption && recurring.length>=2){
+    const alt=recurring.find(m=>m.name!==applianceOption.name);
+    if(alt){
+      const term=applianceOption.promo.term||24;
+      const applianceOngoing=recurring.find(m=>m.name===applianceOption.name)?.ongoingMonthly ?? applianceOption.ongoingMonthly;
+      const costAdvantage=(applianceOngoing-alt.ongoingMonthly)*term; // positive = alt saves money over the term
+      const altTotalAdvantage=costAdvantage+alt.creditValue;
+      const applianceValue=applianceOption.promo.comparablePrice;
+      const netDiff=altTotalAdvantage-applianceValue; // positive = alt ahead, negative = appliance ahead
+      const creditPhrase=alt.creditValue>0?`, plus $${alt.creditValue.toFixed(2)} in account credits`:'';
+      const costPhrase=costAdvantage>=0?`estimated to save approximately $${costAdvantage.toFixed(2)} in ongoing utility costs`:`estimated to cost approximately $${Math.abs(costAdvantage).toFixed(2)} more in ongoing utility costs`;
+      const verdict=Math.abs(netDiff)<Math.max(20,applianceValue*0.05)
+        ? `These come out close enough that it's really a question of whether having the appliance now matters more to you than the equivalent value spread out over time.`
+        : (netDiff<0
+          ? `Using that comparable price, ${applianceOption.name}'s appliance offer is approximately $${Math.abs(netDiff).toFixed(2)} ahead over the ${term}-month period in this comparison.`
+          : `Using that comparable price, ${alt.name} is approximately $${Math.abs(netDiff).toFixed(2)} ahead over the ${term}-month period in this comparison.`);
+      return `Over the ${term}-month term ${applianceOption.name}'s appliance offer requires, ${alt.name} is ${costPhrase}${creditPhrase}. ${applianceOption.name} includes ${applianceOption.promo.name}, which has a $${applianceOption.promo.providerValue.toFixed(2)} provider-stated retail value — a comparable retail price of approximately $${applianceValue.toFixed(2)} was entered for this comparison. ${verdict}`;
+    }
   }
+
+  if(priority==='cost' && cheapest){
+    if(isClose){
+      return `You said keeping the cost down matters most, but ${cheapest.name} and ${next.name} land within about $${diff.toFixed(2)} a month of each other — close enough that it's not really a price question. Worth deciding on whichever plan's terms or features actually suit better, since the cost difference alone won't move the needle much.`;
+    }
+    const saving=diff>0.005?` That works out to roughly $${diff.toFixed(2)} less per month, or $${(diff*12).toFixed(2)} a year, than the next lowest option here.`:'';
+    return `Since price is what matters most, ${cheapest.name} comes out lowest on the figures entered.${saving} That's a genuine gap, so this is the one that best fits what you're after.`;
+  }
+
+  if(priority==='overall' && cheapest){
+    const creditNote=cheapest.creditValue>0?` It also comes with ${cheapest.creditNote}, adding to the first-year value.`:'';
+    if(isClose){
+      return `You said overall value matters most, and ${cheapest.name} and ${next.name} are close enough on price (about $${diff.toFixed(2)}/month apart) that it's worth weighing the promotional benefits and features above rather than the cost alone.`;
+    }
+    const saving=diff>0.005?` roughly $${diff.toFixed(2)} less per month`:'';
+    return `Weighing price and promotional benefits together, ${cheapest.name} comes out ahead on ongoing cost${saving?` (${saving.trim()})`:''}.${creditNote} Worth checking the other options' benefits above too in case one suits your priorities better.`;
+  }
+
   if(priority!=='overall' && strengthCandidate){
     const strength=providerStrength(strengthCandidate,priority);
-    const priceContext=cheapest && cheapest.name!==strengthCandidate.name ? ` ${cheapest.name} is lower on ${priceType}, but ` : ' ';
-    return `Based on what matters most to you, ${strengthCandidate.name} is worth a closer look for its ${strength}.${priceContext}${strengthCandidate.name} may still offer better overall value if those features are important to you. Let me know what you think and we can narrow it down together.`;
-  }
-  if(cheapest){
-    const other=metrics.find(m=>m.name!==cheapest.name && (m.keyInfo||'').trim());
-    if(other){
-      return `Based on the figures entered, ${cheapest.name} is currently the better-priced option on ${priceType}. ${other.name} may still be worth considering for the additional plan features shown above, so the best choice depends on what matters most to you. Let me know which one you prefer and we can talk through the next step.`;
+    let costContext;
+    if(cheapest && cheapest.name!==strengthCandidate.name){
+      costContext = isClose
+        ? ` On price, ${cheapest.name} and ${strengthCandidate.name} are close enough (about $${diff.toFixed(2)}/month apart) that it likely comes down to ${strength} either way.`
+        : ` Worth knowing: ${cheapest.name} is cheaper month to month, while ${strengthCandidate.name} is the one that actually delivers on ${strength}.`;
+    } else {
+      costContext = ` It also holds up well on price, so there's no real trade-off to weigh here.`;
     }
-    return `Based on the figures entered, ${cheapest.name} is currently the better-priced option on ${priceType}. The other options may still suit you for different plan features or flexibility, so let me know what matters most and which one you are leaning towards.`;
+    return `Since ${priorityLabel} is what you said matters most, ${strengthCandidate.name} is the one built around that.${costContext} Happy to talk through anything else that's on your mind before you decide.`;
   }
-  return 'There is not a clear price winner from the information entered, so I would compare the plan features, flexibility and benefits alongside the monthly cost. Let me know which option stands out to you and we can talk through it together.';
+
+  if(cheapest){
+    if(isClose){
+      return `${cheapest.name} and ${next.name} are within about $${diff.toFixed(2)} a month of each other on the figures entered — close enough that price probably shouldn't be the deciding factor here. Worth weighing up the other features and terms above instead.`;
+    }
+    const saving=diff>0.005?` That's roughly $${diff.toFixed(2)} less per month, or $${(diff*12).toFixed(2)} a year, than the next lowest option shown.`:'';
+    return `${cheapest.name} comes out lowest on ongoing cost from what's entered.${saving} The options do differ elsewhere too — features, terms, benefits — so it's worth weighing those against the price gap. Happy to talk through whatever matters most to you before you decide.`;
+  }
+
+  return `There isn't a directly comparable ongoing price difference from what's entered here. The details above should still help you weigh the options on their features, terms and benefits — let us know what matters most and we can talk it through.`;
 }
+
 
 const signatureState = {};
 function signatureStorageKey(){ return 'rentiSignature::'+currentAgent; }
@@ -3493,6 +3900,7 @@ function renderComparisonValidation(){
 function refreshAgentPreview(){
   refreshThreadStatus();
   renderComparisonValidation();
+  updateGmailUi();
   const name=document.getElementById('agCustomerName').value.trim();
   const email=document.getElementById('agCustomerEmail').value.trim();
   const address=document.getElementById('agAddress').value.trim();
@@ -3503,11 +3911,14 @@ function refreshAgentPreview(){
   const cards=[...quoteStack.children];
   const intro = name ? `Hi ${name},` : 'Hi there,';
   const addressLine = address ? `<p>As discussed, below are the utility options we've put together for <strong>${address}</strong>${moveDate?` for your move on <strong>${moveDate}</strong>`:''}.</p>` : `<p>As discussed, below are the utility options we've put together for you.</p>`;
-  const options = cards.map((card,i)=>quotePreviewHtml(card,i,emailType)).join('');
+  const options = cards.map((card,i)=>quotePreviewHtml(card,i,emailType,cards.length)).join('');
   if(recommendationAuto){ document.getElementById('agRecommendation').value=generateRecommendation(); }
   const recommendation=document.getElementById('agRecommendation').value.trim();
+  const anyPower=cards.some(c=>c.querySelector('.q-service')?.value==='power');
   if(!previewManualEdit){
-    document.getElementById('previewBody').innerHTML=`<div class="renti-email" style="max-width:680px;margin:0 auto;font-family:Arial,'Helvetica Neue',sans-serif;color:#243128;font-size:13px;line-height:1.6;"><p style="margin:0 0 12px;">${intro}</p>${address?`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for <strong style="color:#35152f;">${address}</strong>${moveDate?` for your move on <strong style="color:#35152f;">${moveDate}</strong>`:''}.</p>`:`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for you.</p>`}<p style="margin:0 0 16px;color:#4b5a4e;">${emailType==='full'?'The estimated costs below use the rates and consumption discussed with you. Actual bills may vary depending on your usage and final provider pricing.':'Here are the product options we discussed.'}</p><div style="font-size:18px;font-weight:800;color:#35152f;margin:0 0 8px;">Your options</div>${options}${recommendation?`<div class="recommend-box" style="margin:14px 0;padding:12px 14px;border:1px solid #ddd5c4;border-left:3px solid #ff6537;border-radius:10px;background:#fffaf5;color:#35443a;"><strong style="display:block;color:#35152f;margin-bottom:4px;">Our take</strong>${recommendation}</div>`:''}<p style="margin:16px 0 10px;">Want to explore more plans? <a href="https://renti-connections-deals.netlify.app/" target="_blank" rel="noopener" style="color:#4a1942;font-weight:700;">View the latest Renti Connections deals</a>.</p><p style="margin:0 0 12px;">If you'd like to go ahead with one of these options, or want us to compare something else, just reply to this email.</p>${signatureHtml(true)}</div>`;
+    const preparedWhen=new Date().toLocaleString('en-NZ',{timeZone:'Pacific/Auckland',dateStyle:'long',timeStyle:'short'});
+    const powerDisclaimer=anyPower?' Power estimates are based on the rates and usage entered above — actual bills will vary depending on usage.':'';
+    document.getElementById('previewBody').innerHTML=`<div class="renti-email" style="max-width:680px;margin:0 auto;font-family:Arial,'Helvetica Neue',sans-serif;color:#243128;font-size:13px;line-height:1.6;"><div style="font-size:11px;color:#8b8478;margin:0 0 14px;">Comparison prepared: ${preparedWhen}</div><p style="margin:0 0 12px;">${intro}</p>${address?`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for <strong style="color:#35152f;">${address}</strong>${moveDate?` for your move on <strong style="color:#35152f;">${moveDate}</strong>`:''}.</p>`:`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for you.</p>`}<p style="margin:0 0 16px;color:#4b5a4e;">${emailType==='full'?'The estimated costs below use the rates and consumption discussed with you. Actual bills may vary depending on your usage and final provider pricing.':'Here are the product options we discussed.'}</p><div style="font-size:18px;font-weight:800;color:#35152f;margin:0 0 8px;">Your options</div>${options}${priceComparisonHtml()}${recommendation?`<div class="recommend-box" style="margin:14px 0;padding:12px 14px;border:1px solid #ddd5c4;border-left:3px solid #ff6537;border-radius:10px;background:#fffaf5;color:#35443a;"><strong style="display:block;color:#35152f;margin-bottom:4px;">Our take</strong>${recommendation}</div>`:''}<p style="margin:16px 0 10px;">Want to explore more plans? <a href="https://renti-connections-deals.netlify.app/" target="_blank" rel="noopener" style="color:#4a1942;font-weight:700;">View the latest Renti Connections deals</a>.</p><p style="margin:0 0 12px;">If you'd like to go ahead with one of these options, or want us to compare something else, just reply to this email.</p><p style="margin:16px 0 0;font-size:10.5px;color:#8b8478;line-height:1.5;">Rates, offers and third-party retail prices shown are based on information available and entered when this comparison was prepared. Prices, promotions and availability may change.${powerDisclaimer}</p>${signatureHtml(true)}</div>`;
   }
 }
 
@@ -3517,7 +3928,7 @@ const agentMeContent=document.createElement('div');
 agentMeContent.id='agentMeContent';
 agentMeContent.className='agent-me-content';
 agentShell.appendChild(agentMeContent);
-['meProfilePanel','gmailPanel','signaturePanel','adminPanel'].forEach(id=>{
+['meProfilePanel','gmailPanel','signaturePanel','suggestionSubmitPanel','suggestionAdminPanel','adminPanel'].forEach(id=>{
   const panel=document.getElementById(id);
   if(panel) agentMeContent.appendChild(panel);
 });
@@ -3535,7 +3946,10 @@ function showAgentTab(tab){
   const gmail=document.getElementById('gmailPanel');
   const profile=document.getElementById('meProfilePanel');
   const admin=document.getElementById('adminPanel');
+  const suggestionSubmit=document.getElementById('suggestionSubmitPanel');
+  const suggestionAdmin=document.getElementById('suggestionAdminPanel');
   const isAdmin=isCurrentAdmin();
+  const isPrimary=isPrimaryAdmin();
   document.body.classList.toggle('agent-products-open',tab==='products');
   agentShell.classList.toggle('products-mode',tab==='products');
   comparisonHero.style.display=tab==='comparison'?'':'none';
@@ -3545,6 +3959,10 @@ function showAgentTab(tab){
   gmail.style.display=tab==='me'?'block':'none';
   signature.style.display=tab==='me'?'block':'none';
   admin.style.display=(tab==='me'&&isAdmin)?'block':'none';
+  // Every signed-in agent can submit suggestions.
+  // Only the Primary Admin can view and manage the tracked list.
+  suggestionSubmit.style.display=tab==='me'?'block':'none';
+  suggestionAdmin.style.display=(tab==='me'&&isPrimary)?'block':'none';
   if(tab==='products') customerShell.classList.remove('agent-hidden');
   else customerShell.classList.add('agent-hidden');
   if(tab==='me'){
@@ -3554,6 +3972,7 @@ function showAgentTab(tab){
     loadSignature();
     checkGmailStatus();
     if(isAdmin) renderAdminRoster();
+    if(isPrimary) renderSuggestionList();
   }
   [['agentComparisonTab','comparison'],['agentProductsTab','products'],['agentMeTab','me']].forEach(([id,key])=>{
     const b=document.getElementById(id); b.classList.toggle('primary',tab===key);
@@ -3600,7 +4019,13 @@ async function renderAdminRoster(){
     const res=await fetch('/.netlify/functions/list-agents',{credentials:'include'});
     const data=await readFunctionJson(res,'Agent access service');
     if(!res.ok) throw new Error(data.error||'Could not load agents');
-    roster.innerHTML=(data.users||[]).map(u=>{const role=(u.roles||[]).includes('admin')?'Admin':'User';return `<span class="agent-pill ${role==='Admin'?'admin':''}">${u.name||u.email.split('@')[0]} · ${u.email} · ${role}${u.email.toLowerCase()!==SONTARY_ADMIN_EMAIL?` <button type="button" data-remove-agent="${u.id}" data-remove-email="${u.email}" title="Remove access">×</button>`:''}</span>`;}).join('') || '<span class="prototype-note">No invited agents yet.</span>';
+    const users=data.users||[];
+    if(!users.length){roster.innerHTML='<span class="prototype-note">No invited agents yet.</span>';return;}
+    roster.innerHTML=`<div class="admin-roster-table"><div class="admin-roster-row admin-roster-head"><span>Agent</span><span>Access</span><span>Status</span><span>Actions</span></div>${users.map(u=>{const role=(u.roles||[]).includes('admin')?'Admin':'User';const status=u.status==='invited'?'Invited':'Active';const primary=u.email.toLowerCase()===SONTARY_ADMIN_EMAIL;return `<div class="admin-roster-row"><div class="admin-roster-email"><strong>${u.name||u.email.split('@')[0]}</strong><br><span style="color:var(--ink-soft);">${u.email}</span></div><span class="access-badge ${role==='Admin'?'admin':'user'}">${primary?'Primary Admin':role}</span><span class="status-badge ${status.toLowerCase()}">${status}</span><div class="roster-actions">${status==='Invited'&&!primary?`<button type="button" data-resend-agent="${u.email}" data-resend-role="${role==='Admin'?'admin':'agent'}">Resend</button>`:''}${!primary?`<button class="danger" type="button" data-remove-agent="${u.id}" data-remove-email="${u.email}">Remove</button>`:'<button type="button" disabled>Protected</button>'}</div></div>`;}).join('')}</div>`;
+    roster.querySelectorAll('[data-resend-agent]').forEach(btn=>btn.addEventListener('click',async()=>{
+      btn.disabled=true; const original=btn.textContent; btn.textContent='Sending…';
+      try{const resp=await fetch('/.netlify/functions/invite-agent',{method:'POST',credentials:'include',headers:{'content-type':'application/json'},body:JSON.stringify({email:btn.dataset.resendAgent,role:btn.dataset.resendRole,resend:true})});const result=await readFunctionJson(resp,'Invite service');if(!resp.ok)throw new Error(result.error||'Could not resend invite');document.getElementById('inviteAgentStatus').style.color='#3f7d2c';document.getElementById('inviteAgentStatus').textContent=`Invite resent to ${btn.dataset.resendAgent}.`;await renderAdminRoster();}catch(err){alert(err.message);}finally{btn.disabled=false;btn.textContent=original;}
+    }));
     roster.querySelectorAll('[data-remove-agent]').forEach(btn=>btn.addEventListener('click',async()=>{
       if(!confirm(`Remove portal access for ${btn.dataset.removeEmail}?`)) return;
       const resp=await fetch('/.netlify/functions/remove-agent',{method:'POST',credentials:'include',headers:{'content-type':'application/json'},body:JSON.stringify({id:btn.dataset.removeAgent})});
@@ -3610,6 +4035,78 @@ async function renderAdminRoster(){
     }));
   }catch(err){ roster.innerHTML=`<span class="prototype-note" style="color:#b8431f;">${err.message}</span>`; }
 }
+
+const SUGGESTION_STATUS_LABEL={pending:'Pending',reviewing:'Reviewing',resolved:'Resolved',declined:'Declined'};
+
+function updateSuggestionPendingBadge(suggestions=[]){
+  const badge=document.getElementById('suggestionPendingBadge');
+  if(!badge) return;
+  const pending=suggestions.filter(s=>(s.status||'pending')==='pending').length;
+  badge.textContent=String(pending);
+  badge.classList.toggle('show',pending>0);
+  badge.setAttribute('aria-label',`${pending} pending suggestion${pending===1?'':'s'}`);
+}
+
+async function renderSuggestionList(){
+  const list=document.getElementById('suggestionList');
+  if(!list || !isPrimaryAdmin()) return;
+  list.innerHTML='<span class="prototype-note">Loading suggestions…</span>';
+  try{
+    const res=await fetch('/.netlify/functions/list-suggestions',{credentials:'include'});
+    const data=await readFunctionJson(res,'Suggestions service');
+    if(!res.ok) throw new Error(data.error||'Could not load suggestions');
+    const suggestions=data.suggestions||[];
+    updateSuggestionPendingBadge(suggestions);
+    if(!suggestions.length){ list.innerHTML='<span class="prototype-note">No suggestions yet.</span>'; return; }
+
+    list.innerHTML=suggestions.map(s=>{
+      const when=new Date(s.createdAt).toLocaleString('en-NZ',{dateStyle:'medium',timeStyle:'short'});
+      const status=s.status||'pending';
+      const actions=[];
+      if(status==='pending') actions.push(['reviewing','Mark reviewing']);
+      if(status==='reviewing'){ actions.push(['resolved','Mark resolved']); actions.push(['declined','Decline']); }
+      if(status==='resolved'||status==='declined') actions.push(['pending','Reopen']);
+      const actionHtml=actions.map(([next,label])=>`<button type="button" data-suggestion-id="${s.id}" data-suggestion-status="${next}">${label}</button>`).join('');
+      return `<div class="suggestion-item">
+        <div class="suggestion-item-meta"><span><strong style="color:var(--forest-dark);">${s.agentName||s.agentEmail}</strong> · ${when}</span><span class="status-badge ${status}">${SUGGESTION_STATUS_LABEL[status]||status}</span></div>
+        <div class="suggestion-item-body">${(s.message||'').replace(/</g,'&lt;')}</div>
+        <div class="suggestion-item-actions">${actionHtml}</div>
+      </div>`;
+    }).join('');
+
+    list.querySelectorAll('[data-suggestion-id]').forEach(btn=>btn.addEventListener('click',async()=>{
+        btn.disabled=true;
+        try{
+          const resp=await fetch('/.netlify/functions/update-suggestion',{method:'POST',credentials:'include',headers:{'content-type':'application/json'},body:JSON.stringify({id:btn.dataset.suggestionId,status:btn.dataset.suggestionStatus})});
+          const result=await readFunctionJson(resp,'Suggestions service');
+          if(!resp.ok) throw new Error(result.error||'Could not update suggestion');
+          await renderSuggestionList();
+        }catch(err){ alert(err.message); btn.disabled=false; }
+      }));
+  }catch(err){
+    updateSuggestionPendingBadge([]);
+    list.innerHTML=`<span class="prototype-note" style="color:#b8431f;">${err.message}</span>`;
+  }
+}
+
+async function sendSuggestion(){
+  const textarea=document.getElementById('suggestionMessage');
+  const note=document.getElementById('suggestionSendNote');
+  const button=document.getElementById('sendSuggestionBtn');
+  const message=textarea.value.trim();
+  note.textContent='';
+  if(!message){ note.style.color='#b8431f'; note.textContent='Write something before sending.'; return; }
+  button.disabled=true; button.textContent='Sending…';
+  try{
+    const res=await fetch('/.netlify/functions/submit-suggestion',{method:'POST',credentials:'include',headers:{'content-type':'application/json'},body:JSON.stringify({message})});
+    const data=await readFunctionJson(res,'Suggestions service');
+    if(!res.ok) throw new Error(data.error||'Could not send suggestion');
+    note.style.color='#3f7d2c'; note.textContent='Sent — Sontary will see this.';
+    textarea.value='';
+  }catch(err){ note.style.color='#b8431f'; note.textContent=err.message; }
+  finally{ button.disabled=false; button.textContent='Send suggestion'; }
+}
+
 
 async function sendAgentInvite(){
   const emailInput=document.getElementById('newAgentEmail');
@@ -3713,6 +4210,7 @@ document.getElementById('signatureImageInput').addEventListener('change',e=>{con
 document.getElementById('saveSignatureBtn').addEventListener('click',saveSignature);
 document.getElementById('clearSignatureBtn').addEventListener('click',()=>{signatureState[currentAgent]=defaultSignature();try{localStorage.removeItem(signatureStorageKey());}catch(e){}loadSignature();document.getElementById('signatureSaveNote').textContent='Signature cleared.';refreshAgentPreview();});
 document.getElementById('addAgentBtn').addEventListener('click',sendAgentInvite);
+document.getElementById('sendSuggestionBtn').addEventListener('click',sendSuggestion);
 
 document.getElementById('gstToggle').addEventListener('click',e=>{const b=e.target.closest('button[data-gst]');if(!b)return;gstMode=b.dataset.gst;document.querySelectorAll('#gstToggle button').forEach(x=>x.classList.toggle('on',x===b));[...quoteStack.children].forEach(recalcQuote);refreshAgentPreview();});
 ['agCustomerName','agCustomerEmail','agAddress','agMoveDate','agDays','agSubject','agEmailType'].forEach(id=>{const el=document.getElementById(id);el.addEventListener('input',()=>{if(id==='agDays'){[...quoteStack.children].forEach(recalcQuote);markRecommendationAuto();}refreshAgentPreview();});el.addEventListener('change',()=>{if(id==='agDays'){[...quoteStack.children].forEach(recalcQuote);markRecommendationAuto();}refreshAgentPreview();});});
