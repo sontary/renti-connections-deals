@@ -112,3 +112,11 @@ V15 2degrees offer update (16 Sep 2026):
 - Removed the former $100 joining credit from standalone Fibre 500/100 and Fibre 900/500.
 - Both plans now show $10/month off broadband, with no offer end date.
 - Power bundle benefits remain plan-dependent: eligible bundles can include an extra $10/month off, a $150 joining credit and 10% off power; Wireless Starter does not receive the $150 credit.
+
+V16 suggestions workspace and customer confirmation (16 Sep 2026):
+- Added a dedicated Suggestions tab for every signed-in agent.
+- Primary Admin can save private notes to herself and manage the full suggestion inbox with status filters.
+- Private notes are server-validated and visible only through the Primary Admin inbox.
+- Replaced the two customer-email follow-up sentences with a prominent "Yes, count me in" confirmation box.
+- The confirmation button opens a prepared email to the agent who sent the comparison.
+- Login, Gmail authentication/sending, provider calculations, agent access rules and deployment configuration were not changed.
