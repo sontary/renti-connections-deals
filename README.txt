@@ -68,7 +68,7 @@ UPDATE 2026-09-07
 V4 updates (7 Sep 2026)
 - Provider cards no longer stretch to the height of an expanded neighbouring card; only the selected provider grows.
 - 2degrees expired extra $50 manual credit removed.
-- 2degrees fibre pricing now: 100/20 $70; 500/100 $101 + $100 joining credit; 900/500 $116 + $100 joining credit; optional modem $5/mo; $15 one-off delivery fee.
+- 2degrees fibre pricing at that release: 100/20 $70; 500/100 $101; 900/500 $116; optional modem $5/mo; $15 one-off delivery fee. See V15 below for the current promotion.
 - 2degrees deal validity copy now says: Deals valid until further notice.
 
 V5 provider/service rules update:
@@ -86,3 +86,29 @@ V10 audited/hardening update:
 - Gmail OAuth start keeps signed-state validation and returns JSON errors.
 - Static syntax validation completed for all Netlify Functions and both inline browser scripts.
 - Verified all frontend function routes have matching deployed function files.
+
+V11 deployment-ready integration (16 Sep 2026):
+- Integrated the latest comparison and recommendation build into the deployable project.
+- Synchronized the root index.html and the actual Netlify publish file at public/index.html.
+- Kept real Netlify Identity / Google authentication; the local test-login bypass is not included.
+- Primary Admin sees and manages suggestions; all other agents, including other admins, see the suggestion submission form.
+
+V12 Renti visual refresh (16 Sep 2026):
+- Updated the app interface to Geologica using the supplied Renti design tokens.
+- Applied the clean whiteish canvas, neutral text, Renti orange, light borders and deep official purple palette.
+- Preserved provider brand colours and the existing customer email styling.
+- No changes were made to authentication logic, Gmail logic, Netlify Functions, calculations, access permissions or deployment configuration.
+
+V13 comparison hierarchy refinement (16 Sep 2026):
+- Power estimate figures now use the same black text treatment as broadband figures.
+- Combined estimated package totals remain orange so the final total has the strongest visual emphasis.
+
+V14 internal-first customer contact update (16 Sep 2026):
+- Replaced customer-facing "Get in touch" prompts with connectionsinfo@renti.co.
+- Deal buttons now open a direct email draft instead of the customer enquiry form.
+- Removed Netlify form registration attributes so the enquiry form is not exposed as an active Netlify submission route.
+
+V15 2degrees offer update (16 Sep 2026):
+- Removed the former $100 joining credit from standalone Fibre 500/100 and Fibre 900/500.
+- Both plans now show $10/month off broadband, with no offer end date.
+- Power bundle benefits remain plan-dependent: eligible bundles can include an extra $10/month off, a $150 joining credit and 10% off power; Wireless Starter does not receive the $150 credit.

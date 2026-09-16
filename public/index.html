@@ -5,37 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Renti Connections — Utility Deals</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F6F3EC;
-    --paper-2:#EEE9DC;
-    --ink:#1F2E22;
-    --ink-soft:#4B5A4E;
-    --forest:#4A1942;
-    --forest-dark:#3A1433;
-    --moss:#8FA88C;
-    --clay:#FFF2A7;
-    --renti-orange:#FF6537;
-    --line:#DCD5C4;
-    --white:#FFFFFF;
-    --radius:14px;
+    --paper:#FFFFFB;
+    --paper-2:#FFFEF1;
+    --ink:#10141B;
+    --ink-soft:#344660;
+    --forest:#4A154E;
+    --forest-dark:#4A154E;
+    --moss:#D2F287;
+    --clay:#FAF59F;
+    --renti-orange:#F94E1A;
+    --line:#E2E8F0;
+    --white:#FFFFFB;
+    --radius:16px;
+    --success-bg:#EBFEBF;
+    --success-text:#159A3F;
+    --info-bg:#F0E9F4;
+    --info-text:#0C5BB6;
+    --danger:#AE0712;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
     background:var(--paper);
     color:var(--ink);
-    font-family:'Poppins',sans-serif;
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
     -webkit-font-smoothing:antialiased;
   }
   h1,h2,h3,.display{
-    font-family:'Poppins',sans-serif;
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
     font-weight:700;
     letter-spacing:-0.01em;
   }
   .mono{
-    font-family:'Poppins',sans-serif;
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   }
   a{color:var(--forest-dark);}
 
@@ -51,15 +56,15 @@
   .brandmark .dot{
     width:11px;height:11px;border-radius:50%;
     background:var(--renti-orange);
-    box-shadow:0 0 0 3px rgba(255,101,55,0.22);
+    box-shadow:0 0 0 3px rgba(249,78,26,0.22);
     animation:dot-pulse 1.8s ease-in-out infinite;
   }
   @keyframes dot-pulse{
-    0%,100%{opacity:1;box-shadow:0 0 0 3px rgba(255,101,55,0.22);}
-    50%{opacity:0.45;box-shadow:0 0 0 6px rgba(255,101,55,0.05);}
+    0%,100%{opacity:1;box-shadow:0 0 0 3px rgba(249,78,26,0.22);}
+    50%{opacity:0.45;box-shadow:0 0 0 6px rgba(249,78,26,0.05);}
   }
   .brandmark span{
-    font-family:'Poppins',sans-serif;
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
     font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
     color:var(--ink-soft);
   }
@@ -133,7 +138,7 @@
   }
   .breaker:not(.on):hover{
     transform:translateY(-1px);
-    border-color:rgba(255,101,55,0.4);
+    border-color:rgba(249,78,26,0.4);
     background:var(--white);
   }
   .breaker::before{
@@ -144,10 +149,10 @@
   .breaker.on{
     background:var(--forest);color:var(--white);border-color:var(--forest);
   }
-  .breaker.on::before{background:var(--renti-orange);box-shadow:0 0 0 3px rgba(255,101,55,0.4);animation:dot-pulse-clay 1.8s ease-in-out infinite;}
+  .breaker.on::before{background:var(--renti-orange);box-shadow:0 0 0 3px rgba(249,78,26,0.4);animation:dot-pulse-clay 1.8s ease-in-out infinite;}
   @keyframes dot-pulse-clay{
-    0%,100%{opacity:1;box-shadow:0 0 0 3px rgba(255,101,55,0.4);}
-    50%{opacity:0.45;box-shadow:0 0 0 6px rgba(255,101,55,0.1);}
+    0%,100%{opacity:1;box-shadow:0 0 0 3px rgba(249,78,26,0.4);}
+    50%{opacity:0.45;box-shadow:0 0 0 6px rgba(249,78,26,0.1);}
   }
 
   /* ---------- grid ---------- */
@@ -166,7 +171,7 @@
   .card:hover{
     box-shadow:0 12px 28px rgba(31,46,34,0.12);
     transform:translateY(-4px) scale(1.012);
-    border-color:rgba(255,101,55,0.35);
+    border-color:rgba(249,78,26,0.35);
   }
   .card:hover .badge{transform:scale(1.08) rotate(-3deg);}
   .card.hidden{display:none;}
@@ -179,7 +184,7 @@
   .badge{
     width:42px;height:42px;border-radius:10px;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
-    font-family:'Poppins',sans-serif;font-weight:600;font-size:13px;color:var(--white);
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:600;font-size:13px;color:var(--white);
     transition:transform .2s cubic-bezier(.34,1.56,.64,1);
   }
   .card-heading{flex:1;min-width:0;}
@@ -191,9 +196,9 @@
   }
   .tag.ribbon-rec{background:rgba(58,20,51,0.1);color:var(--forest-dark);}
   .tag.ribbon-excl{background:rgba(255,242,167,0.45);color:#8a5f26;}
-  .tag.term-open{background:rgba(89,169,70,0.15);color:#3f7d2c;}
-  .tag.term-fixed{background:rgba(74,25,66,0.12);color:var(--forest-dark);}
-  .tag.term-mixed{background:rgba(255,101,55,0.14);color:#b8431f;}
+  .tag.term-open{background:var(--success-bg);color:var(--success-text);}
+  .tag.term-fixed{background:rgba(74,21,78,0.12);color:var(--forest-dark);}
+  .tag.term-mixed{background:#FFF1E0;color:var(--danger);}
   .countdown-badge{
     display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;
     background:var(--renti-orange);color:#fff;font-size:10px;font-weight:700;
@@ -210,8 +215,13 @@
 
   .card-body{padding:16px 20px 8px;flex:1;}
   .headline-stat{
-    font-family:'Poppins',sans-serif;font-size:19px;font-weight:600;color:var(--forest-dark);
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:19px;font-weight:600;color:var(--forest-dark);
     margin-bottom:4px;
+  }
+  .promo-tag{
+    display:inline-block;background:var(--danger);color:#fff;font-size:10.5px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.03em;padding:3px 8px;border-radius:999px;
+    vertical-align:middle;margin-right:8px;
   }
   .validity{font-size:12px;color:var(--ink-soft);margin-bottom:14px;}
 
@@ -222,7 +232,7 @@
   .details.open{display:block;}
   .details h4{
     font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--forest-dark);
-    margin:14px 0 6px;font-family:'Poppins',sans-serif;font-weight:700;
+    margin:14px 0 6px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:700;
   }
   .details h4:first-child{margin-top:0;}
   .details ul{margin:0 0 4px;padding-left:18px;}
@@ -234,20 +244,20 @@
   .card-foot-row{display:flex;gap:8px;align-items:center;}
   .expand-btn{
     flex:1;background:var(--paper-2);border:1px solid var(--line);
-    border-radius:8px;padding:9px;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600;
+    border-radius:8px;padding:9px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12.5px;font-weight:600;
     color:var(--ink);cursor:pointer;transition:background .15s ease, transform .1s ease;
   }
   .expand-btn:hover{background:var(--line);}
   .expand-btn:active{transform:scale(0.97);}
   .plan-select, .plan-select-a, .plan-select-b, .plan-select-c{
     flex:1;min-width:0;padding:10px 30px 10px 12px;border:1.5px solid var(--line);border-radius:9px;
-    font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:500;color:var(--ink);background-color:var(--white);
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12.5px;font-weight:500;color:var(--ink);background-color:var(--white);
     cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234B5A4E' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 8px center;background-size:14px;
     transition:border-color .15s ease;
   }
-  .plan-select:hover, .plan-select-a:hover, .plan-select-b:hover, .plan-select-c:hover{border-color:rgba(255,101,55,0.5);}
+  .plan-select:hover, .plan-select-a:hover, .plan-select-b:hover, .plan-select-c:hover{border-color:rgba(249,78,26,0.5);}
   .plan-select:focus, .plan-select-a:focus, .plan-select-b:focus, .plan-select-c:focus{outline:none;border-color:var(--renti-orange);}
   .compare-check{
     display:flex;align-items:center;gap:6px;padding:9px 12px;border-radius:8px;
@@ -255,10 +265,10 @@
     font-size:12.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;flex-shrink:0;
     transition:all .15s ease;
   }
-  .compare-check:hover{border-color:rgba(255,101,55,0.5);}
+  .compare-check:hover{border-color:rgba(249,78,26,0.5);}
   .compare-check input{accent-color:var(--renti-orange);width:14px;height:14px;cursor:pointer;}
   .compare-check.picked{
-    background:rgba(255,101,55,0.1);border-color:var(--renti-orange);color:var(--forest-dark);
+    background:rgba(249,78,26,0.1);border-color:var(--renti-orange);color:var(--forest-dark);
     animation:pop-check .35s cubic-bezier(.34,1.56,.64,1);
   }
   @keyframes pop-check{
@@ -267,7 +277,7 @@
     100%{transform:scale(1);}
   }
   .select-plan-hint{
-    display:none;font-size:11.5px;font-weight:600;color:#D93A1F;
+    display:none;font-size:11.5px;font-weight:600;color:var(--danger);
     margin-top:2px;animation:hint-pop .25s ease;
   }
   .select-plan-hint.show{display:block;}
@@ -298,7 +308,7 @@
   .compare-actions{display:flex;gap:10px;align-items:center;}
   .compare-go{
     background:var(--renti-orange);color:#fff;border:none;border-radius:8px;
-    padding:9px 18px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;
+    padding:9px 18px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13px;font-weight:700;
     cursor:pointer;white-space:nowrap;
     transition:transform .12s cubic-bezier(.34,1.56,.64,1), background .15s ease;
   }
@@ -362,14 +372,14 @@
   .badge-mini{
     width:22px;height:22px;border-radius:6px;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
-    font-family:'Poppins',sans-serif;font-weight:700;font-size:8px;color:#fff;
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:700;font-size:8px;color:#fff;
   }
   .package-item-head strong{font-size:12.5px;flex:1;line-height:1.3;}
   .package-item-remove{
     background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;
     flex-shrink:0;padding:2px;
   }
-  .package-item-remove:hover{color:#D93A1F;}
+  .package-item-remove:hover{color:var(--danger);}
   .package-item ul{margin:0;padding-left:16px;font-size:12.5px;line-height:1.5;color:var(--ink-soft);}
   .section-label{
     font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;
@@ -398,7 +408,7 @@
   .enquiry-cta{
     display:inline-flex;align-items:center;gap:8px;margin-top:18px;
     background:var(--renti-orange);color:#fff;border:none;border-radius:10px;
-    padding:12px 22px;font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;
+    padding:12px 22px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:14px;font-weight:700;
     cursor:pointer;transition:transform .12s cubic-bezier(.34,1.56,.64,1), background .15s ease;
   }
   .enquiry-cta:hover{background:#e0501f;transform:translateY(-1px);}
@@ -406,17 +416,17 @@
 
   .compare-inline-cta{
     margin-top:16px;width:100%;background:var(--forest);color:#fff;border:none;border-radius:8px;
-    padding:11px;font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;
+    padding:11px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;
   }
   .compare-inline-cta:hover:not(:disabled){background:var(--forest-dark);}
   .compare-inline-cta:disabled{background:var(--line);color:var(--ink-soft);cursor:not-allowed;}
   .option-select-btn{
     margin-top:14px;width:100%;background:var(--white);color:var(--forest-dark);
     border:1.5px solid var(--renti-orange);border-radius:8px;
-    padding:10px;font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;
+    padding:10px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;
     transition:all .15s ease;
   }
-  .option-select-btn:hover{background:rgba(255,101,55,0.08);}
+  .option-select-btn:hover{background:rgba(249,78,26,0.08);}
   .option-select-btn.selected{
     background:var(--renti-orange);color:#fff;
     animation:pop-check .3s cubic-bezier(.34,1.56,.64,1);
@@ -438,7 +448,7 @@
   .enquiry-field label{display:block;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:4px;}
   .enquiry-field input, .enquiry-field textarea{
     width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;
-    font-family:'Poppins',sans-serif;font-size:13.5px;color:var(--ink);box-sizing:border-box;
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13.5px;color:var(--ink);box-sizing:border-box;
   }
   .enquiry-field input:focus, .enquiry-field textarea:focus{outline:none;border-color:var(--renti-orange);}
   .enquiry-field textarea{resize:vertical;min-height:60px;}
@@ -469,16 +479,16 @@
     border:1.5px dashed #cfc6b2;background:rgba(255,255,255,.8);border-radius:10px;padding:14px;
     transition:border-color .15s ease,background .15s ease,transform .15s ease;
   }
-  .upload-dropzone.dragover{border-color:var(--renti-orange);background:rgba(255,101,55,.05);transform:translateY(-1px);}
+  .upload-dropzone.dragover{border-color:var(--renti-orange);background:rgba(249,78,26,.05);transform:translateY(-1px);}
   .upload-empty{display:flex;align-items:center;gap:12px;}
-  .upload-icon{width:36px;height:36px;border-radius:9px;background:rgba(255,101,55,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .upload-icon{width:36px;height:36px;border-radius:9px;background:rgba(249,78,26,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
   .upload-copy{flex:1;min-width:0;}
   .upload-copy strong{display:block;font-size:12.5px;color:var(--ink);margin-bottom:2px;}
   .upload-copy span{display:block;font-size:10.5px;color:var(--ink-soft);line-height:1.4;}
   .upload-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;}
   .upload-action{
     border:1px solid var(--line);background:var(--white);border-radius:8px;padding:8px 10px;
-    font-family:'Poppins',sans-serif;font-size:11.5px;font-weight:700;color:var(--forest-dark);cursor:pointer;
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:11.5px;font-weight:700;color:var(--forest-dark);cursor:pointer;
     transition:all .15s ease;
   }
   .upload-action.primary{background:var(--forest);border-color:var(--forest);color:#fff;}
@@ -494,15 +504,15 @@
   .remove-file-btn{border:none;background:var(--paper-2);color:var(--ink-soft);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:15px;line-height:1;}
   .remove-file-btn:hover{background:#f6ddd5;color:#b8431f;}
   .add-file-btn{
-    margin-top:4px;background:none;border:none;padding:4px 0;color:var(--forest-dark);font-family:'Poppins',sans-serif;
+    margin-top:4px;background:none;border:none;padding:4px 0;color:var(--forest-dark);font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
     font-size:11.5px;font-weight:700;cursor:pointer;
   }
   .add-file-btn:hover{color:var(--renti-orange);}
-  .upload-error{display:none;margin-top:8px;font-size:10.5px;font-weight:600;color:#b8431f;}
+  .upload-error{display:none;margin-top:8px;font-size:10.5px;font-weight:600;color:var(--danger);}
   .upload-error.show{display:block;}
   .enquiry-submit{
     width:100%;background:var(--renti-orange);color:#fff;border:none;border-radius:8px;
-    padding:12px;font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px;
+    padding:12px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px;
   }
   .enquiry-submit:hover{background:#e0501f;}
   .enquiry-call-note{margin-top:16px;font-size:12.5px;color:var(--ink-soft);text-align:center;}
@@ -549,7 +559,7 @@
   /* ---------- agent portal prototype ---------- */
   .agent-login-btn{
     border:1px solid var(--line);background:var(--white);color:var(--forest-dark);
-    border-radius:10px;padding:9px 14px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;
+    border-radius:10px;padding:9px 14px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12px;font-weight:700;
     cursor:pointer;transition:all .15s ease;
   }
   .agent-login-btn:hover{border-color:var(--renti-orange);transform:translateY(-1px);}
@@ -562,7 +572,7 @@
   .agent-id strong{display:block;font-size:14px;color:var(--ink);}
   .agent-id span{display:block;font-size:11.5px;color:var(--ink-soft);}
   .agent-actions{display:flex;gap:8px;flex-wrap:wrap;}
-  .agent-btn{border:1px solid var(--line);background:var(--white);color:var(--forest-dark);border-radius:9px;padding:9px 12px;font:700 12px 'Poppins',sans-serif;cursor:pointer;}
+  .agent-btn{border:1px solid var(--line);background:var(--white);color:var(--forest-dark);border-radius:9px;padding:9px 12px;font:700 12px 'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;cursor:pointer;}
   .agent-btn.primary{background:var(--renti-orange);border-color:var(--renti-orange);color:#fff;}
   .agent-btn.dark{background:var(--forest);border-color:var(--forest);color:#fff;}
   .agent-btn:disabled{opacity:.45;cursor:not-allowed;}
@@ -581,12 +591,12 @@
   .agent-field.full{grid-column:1/-1;}
   .agent-field label{display:block;font-size:10.5px;font-weight:700;color:var(--ink-soft);margin-bottom:5px;text-transform:uppercase;letter-spacing:.035em;}
   .agent-field input,.agent-field select,.agent-field textarea{
-    width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);font:500 12.5px 'Poppins',sans-serif;
+    width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);font:500 12.5px 'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   }
   .agent-field textarea{min-height:78px;resize:vertical;}
-  .agent-field input:focus,.agent-field select:focus,.agent-field textarea:focus{outline:none;border-color:var(--renti-orange);box-shadow:0 0 0 3px rgba(255,101,55,.08);}
+  .agent-field input:focus,.agent-field select:focus,.agent-field textarea:focus{outline:none;border-color:var(--renti-orange);box-shadow:0 0 0 3px rgba(249,78,26,.08);}
   .segmented{display:inline-flex;background:var(--paper-2);border:1px solid var(--line);padding:3px;border-radius:10px;gap:3px;}
-  .segmented button{border:none;background:transparent;border-radius:7px;padding:7px 10px;font:700 11px 'Poppins',sans-serif;color:var(--ink-soft);cursor:pointer;}
+  .segmented button{border:none;background:transparent;border-radius:7px;padding:7px 10px;font:700 11px 'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--ink-soft);cursor:pointer;}
   .segmented button.on{background:var(--forest);color:#fff;box-shadow:0 1px 2px rgba(0,0,0,.08);}
   .quote-stack{display:flex;flex-direction:column;gap:12px;}
   .quote-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--white);}
@@ -598,17 +608,17 @@
   .quote-body{padding:14px;}
   .rate-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:12px;}
   .rate-row-label{grid-column:1/-1;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--forest-dark);margin-top:3px;}
-  .calc-result{margin-top:13px;padding:12px 13px;border-radius:11px;background:rgba(74,25,66,.055);border:1px solid rgba(74,25,66,.12);display:flex;justify-content:space-between;gap:12px;align-items:end;}
+  .calc-result{margin-top:13px;padding:12px 13px;border-radius:11px;background:rgba(74,21,78,.055);border:1px solid rgba(74,21,78,.12);display:flex;justify-content:space-between;gap:12px;align-items:end;}
   .calc-result span{font-size:10.5px;color:var(--ink-soft);display:block;margin-bottom:2px;}
   .calc-result strong{font-size:21px;color:var(--forest-dark);}
   .calc-breakdown{font-size:10px;color:var(--ink-soft);text-align:right;line-height:1.45;}
-  .add-quote{width:100%;margin-top:12px;border:1.5px dashed #cfc6b2;background:rgba(255,255,255,.7);color:var(--forest-dark);border-radius:11px;padding:12px;font:700 12px 'Poppins',sans-serif;cursor:pointer;}
-  .add-quote:hover{border-color:var(--renti-orange);background:rgba(255,101,55,.03);}
+  .add-quote{width:100%;margin-top:12px;border:1.5px dashed #cfc6b2;background:rgba(255,255,255,.7);color:var(--forest-dark);border-radius:11px;padding:12px;font:700 12px 'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;cursor:pointer;}
+  .add-quote:hover{border-color:var(--renti-orange);background:rgba(249,78,26,.03);}
   .email-preview{border:1px solid var(--line);border-radius:13px;background:#fff;overflow:hidden;}
   .email-preview-head{padding:12px 14px;background:var(--paper-2);border-bottom:1px solid var(--line);font-size:11.5px;color:var(--ink-soft);}
   .email-preview-body{padding:16px;font-size:12px;line-height:1.65;color:var(--ink);min-height:250px;}
   .email-preview-body h3{font-size:14px;color:var(--forest-dark);margin:15px 0 7px;}
-  .email-preview-body[contenteditable="true"]{outline:2px solid rgba(255,101,55,.28);outline-offset:-2px;background:#fffdf9;}
+  .email-preview-body[contenteditable="true"]{outline:2px solid rgba(249,78,26,.28);outline-offset:-2px;background:#fffdf9;}
   .preview-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;}
   .preview-edit-note{font-size:10.5px;color:var(--ink-soft);}
   .recommend-box{margin-top:12px;padding:13px 14px;border:1px solid var(--line);border-left:3px solid var(--renti-orange);border-radius:10px;background:linear-gradient(180deg,#fff,#fffaf5);}
@@ -623,14 +633,14 @@
   .prototype-note{margin-top:10px;font-size:10.5px;color:var(--ink-soft);line-height:1.5;}
   .admin-roster{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;}
   .agent-pill{display:flex;align-items:center;gap:6px;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:5px 8px 5px 10px;font-size:10.5px;font-weight:600;color:var(--ink);}
-  .agent-pill.admin{background:rgba(255,101,55,.1);border-color:rgba(255,101,55,.25);}
+  .agent-pill.admin{background:rgba(249,78,26,.1);border-color:rgba(249,78,26,.25);}
   .agent-pill button{border:none;background:none;color:var(--ink-soft);cursor:pointer;padding:0;font-size:12px;}
   .agent-login-overlay{position:fixed;inset:0;z-index:120;background:rgba(31,20,10,.58);display:none;align-items:center;justify-content:center;padding:20px;}
   .agent-login-overlay.show{display:flex;}
   .agent-login-modal{width:min(430px,100%);background:var(--white);border-radius:18px;padding:24px;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.2);}
   .agent-login-modal h3{font-size:20px;margin:0 0 5px;color:var(--forest-dark);}
   .agent-login-modal p{font-size:12px;color:var(--ink-soft);line-height:1.55;margin:0 0 16px;}
-  .prototype-chip{display:inline-block;background:rgba(255,101,55,.1);color:#b8431f;border-radius:999px;padding:4px 8px;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;}
+  .prototype-chip{display:inline-block;background:#FFF1E0;color:var(--danger);border-radius:999px;padding:4px 8px;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;}
   @media(max-width:900px){.agent-grid{grid-template-columns:1fr}.rate-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
   @media(max-width:640px){.agent-shell{padding:20px 16px 60px}.agent-form-grid,.agent-form-grid.three{grid-template-columns:1fr}.rate-grid{grid-template-columns:1fr 1fr}.agent-hero{padding:24px 20px}.agent-hero h1{font-size:25px}.agent-panel{padding:16px}}
   @media(max-width:480px){.enquiry-modal{padding:18px 14px 22px}.compare-choice{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.compare-choice label{padding:9px 10px;font-size:11.5px;min-height:46px;grid-template-columns:16px minmax(0,auto);column-gap:7px}.enquiry-field>label{line-height:1.4}}
@@ -640,8 +650,8 @@
   .package-add-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
   .package-add-copy strong{display:block;font-size:13px;color:var(--ink);margin-bottom:2px;}
   .package-add-copy span{display:block;font-size:11px;color:var(--ink-soft);}
-  .package-add-btn{border:1.5px solid var(--renti-orange);background:#fff;color:var(--forest-dark);border-radius:9px;padding:9px 13px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
-  .package-add-btn:hover{background:rgba(255,101,55,.07);}
+  .package-add-btn{border:1.5px solid var(--renti-orange);background:#fff;color:var(--forest-dark);border-radius:9px;padding:9px 13px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
+  .package-add-btn:hover{background:rgba(249,78,26,.07);}
   .package-add-btn.active{background:var(--forest);border-color:var(--forest);color:#fff;}
   .bb-package{display:none;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,#fff 0%,#faf8f3 100%);padding:14px;}
   .bb-package.show{display:block;}
@@ -653,7 +663,7 @@
   .package-total span{font-size:11px;color:rgba(255,255,255,.72);display:block;margin-bottom:2px;}
   .package-total strong{font-size:22px;color:var(--clay);}
   .package-breakdown{font-size:11px;line-height:1.5;color:rgba(255,255,255,.78);text-align:right;}
-  .email-package-total{margin-top:10px;padding:10px 12px;border-radius:9px;background:rgba(74,25,66,.07);border-left:3px solid var(--renti-orange);}
+  .email-package-total{margin-top:10px;padding:10px 12px;border-radius:9px;background:rgba(74,21,78,.07);border-left:3px solid var(--renti-orange);}
   .email-package-total strong{color:var(--forest-dark);}
 
   .agent-shell.products-mode .agent-hero, .agent-shell.products-mode .agent-grid{display:none!important;}
@@ -679,8 +689,8 @@
   .daily-sales-message .daily-flourish{font-size:14px;font-weight:700;color:var(--renti-orange);white-space:nowrap;font-style:italic;}
   @media(max-width:640px){.daily-sales-message{grid-template-columns:1fr;gap:8px}.daily-sales-message .daily-flourish{white-space:normal;text-align:right;font-size:12.5px;}}
 
-  .auth-error{color:#b8431f!important;font-weight:600;}
-  .auth-ok{color:#3f7d2c!important;font-weight:600;}
+  .auth-error{color:var(--danger)!important;font-weight:600;}
+  .auth-ok{color:var(--success-text)!important;font-weight:600;}
   .admin-roster{margin-top:14px;}
   .me-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;}
   .me-coffee-note{display:flex;align-items:center;gap:9px;color:var(--forest);font-size:12px;font-weight:700;white-space:nowrap;transform:rotate(-1deg);}
@@ -689,7 +699,20 @@
   .admin-roster-table{margin-top:14px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;}
   .admin-roster-row{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(90px,.6fr) minmax(92px,.65fr) auto;gap:10px;align-items:center;padding:10px 12px;border-top:1px solid var(--line);font-size:11px;}
   .admin-roster-row:first-child{border-top:0}.admin-roster-head{background:var(--paper-2);font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:800;color:var(--ink-soft);}
-  .access-badge,.status-badge{display:inline-block;border-radius:999px;padding:4px 8px;font-size:9.5px;font-weight:800;width:max-content}.access-badge.admin{background:rgba(255,101,55,.12);color:#a53b1d}.access-badge.user{background:#f0ede5;color:#4b5a4e}.status-badge.active{background:#e6f4e2;color:#37722c}.status-badge.invited{background:#fff3df;color:#946416}.roster-actions{display:flex;gap:6px;justify-content:flex-end}.roster-actions button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font:600 9.5px 'Poppins',sans-serif;color:var(--forest-dark);cursor:pointer}.roster-actions button.danger{color:#a53b1d}.roster-actions button:disabled{opacity:.45;cursor:not-allowed}
+  .access-badge,.status-badge{display:inline-block;border-radius:999px;padding:4px 8px;font-size:9.5px;font-weight:800;width:max-content}.access-badge.admin{background:#FFF1E0;color:var(--danger)}.access-badge.user{background:#EDF2F7;color:var(--ink-soft)}.status-badge.active{background:var(--success-bg);color:var(--success-text)}.status-badge.invited{background:#FAF59F;color:#344660}.status-badge.pending{background:#FAF59F;color:#344660}.status-badge.reviewing{background:var(--info-bg);color:var(--info-text)}.status-badge.resolved{background:var(--success-bg);color:var(--success-text)}.status-badge.declined{background:#EDF2F7;color:var(--ink-soft)}.roster-actions{display:flex;gap:6px;justify-content:flex-end}.roster-actions button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font:600 9.5px 'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--forest-dark);cursor:pointer}.roster-actions button.danger{color:var(--danger)}.roster-actions button:disabled{opacity:.45;cursor:not-allowed}
+  .suggestion-item{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fff;}
+  .suggestion-item-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--ink-soft);margin-bottom:6px;}
+  .suggestion-item-body{font-size:13px;color:var(--ink);line-height:1.5;margin-bottom:8px;}
+  .suggestion-item-actions{display:flex;gap:6px;flex-wrap:wrap;}
+  .suggestion-item-actions button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 10px;font:600 10.5px 'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--forest-dark);cursor:pointer;}
+  .suggestion-item-actions button:disabled{opacity:.4;cursor:default;}
+  .suggestion-heading-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .suggestion-count-badge{
+    display:none;min-width:20px;height:20px;padding:0 6px;border-radius:999px;
+    align-items:center;justify-content:center;background:#d93025;color:#fff;
+    font-size:10.5px;font-weight:800;line-height:20px;box-shadow:0 0 0 2px rgba(217,48,37,.10);
+  }
+  .suggestion-count-badge.show{display:inline-flex;}
   @media(max-width:700px){.admin-roster-head{display:none}.admin-roster-row{grid-template-columns:1fr auto;gap:6px 10px}.admin-roster-email{grid-column:1/-1;font-weight:700}.roster-actions{grid-column:1/-1;justify-content:flex-start}}
 
 </style>
@@ -732,7 +755,7 @@
     <div class="consent-block">
       <strong>💡 Need a hand choosing?</strong> Not sure which provider or plan is right for you? Our Connections team is here to help. We can talk you through the options, explain the differences and help you work out what suits your home and needs.
     </div>
-    <button class="enquiry-cta" id="enquiryOpenGeneral">Get in touch about a deal</button>
+    <button class="enquiry-cta" id="enquiryOpenGeneral">Please email connectionsinfo@renti.co</button>
   </div>
 
 </div>
@@ -789,12 +812,26 @@
       </section>
 
       <section class="agent-panel" id="meProfilePanel" style="display:none;">
-        <div class="me-title-row"><div><h2>Me</h2><p class="panel-sub">Your agent profile and personal email settings.</p></div><div class="me-coffee-note"><span>Look at you,<br>running the show!</span><span class="me-coffee-cup" aria-hidden="true">☕</span></div></div>
+        <div class="me-title-row"><div><h2>Me</h2><p class="panel-sub">Your agent profile and personal email settings.</p></div></div>
         <div class="agent-form-grid">
           <div class="agent-field"><label>Name</label><input id="meAgentName" readonly></div>
           <div class="agent-field"><label>Renti email</label><input id="meAgentEmail" type="email" readonly></div>
           <div class="agent-field"><label>Access</label><input id="meAgentAccess" readonly value="User"></div>
         </div>
+      </section>
+
+      <section class="agent-panel" id="suggestionSubmitPanel" style="display:none;">
+        <h2>Got something to flag?</h2>
+        <p class="panel-sub">Spotted a rate that's changed, a feature worth adding, anything else worth a look — send it straight through.</p>
+        <div class="agent-field"><label>What do you want the admin to look at?</label><textarea id="suggestionMessage" style="min-height:90px;" placeholder="e.g. Powershop's credit might have changed — a customer mentioned $180 not $150. Worth double checking?"></textarea></div>
+        <div class="preview-tools"><button type="button" class="agent-btn primary" id="sendSuggestionBtn">Send suggestion</button><span class="preview-edit-note" id="suggestionSendNote"></span></div>
+        <div class="prototype-note" style="margin-top:9px;">Shows your name and when you sent it — this always goes to the primary admin.</div>
+      </section>
+
+      <section class="agent-panel" id="suggestionAdminPanel" style="display:none;">
+        <div class="suggestion-heading-row"><h2 style="margin:0;">Suggestions</h2><span class="suggestion-count-badge" id="suggestionPendingBadge" aria-label="Pending suggestions"></span></div>
+        <p class="panel-sub">What agents have flagged, newest first.</p>
+        <div class="admin-roster" id="suggestionList"></div>
       </section>
 
       <section class="agent-panel" id="gmailPanel" style="display:none;">
@@ -906,7 +943,7 @@
     <div class="compare-title" id="compareModalTitle">Side by side</div>
     <div class="compare-grid" id="compareGrid"></div>
     <div class="compare-note" id="compareModalNote"></div>
-    <button class="compare-inline-cta" id="enquiryOpenFromCompare">Get in touch about all of these</button>
+    <button class="compare-inline-cta" id="enquiryOpenFromCompare">Please email connectionsinfo@renti.co</button>
   </div>
 </div>
 
@@ -915,11 +952,10 @@
     <button class="compare-close" id="enquiryClose">✕</button>
 
     <div id="enquiryFormWrap">
-      <h3>Get in touch</h3>
-      <p class="sub">Leave your details and we'll arrange the connection or have an agent follow up — no need to draft an email.</p>
+      <h3>Email Connections</h3>
+      <p class="sub">Please email <a href="mailto:connectionsinfo@renti.co">connectionsinfo@renti.co</a>.</p>
 
-      <form name="renti-enquiry" method="POST" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" id="enquiryForm">
-        <input type="hidden" name="form-name" value="renti-enquiry">
+      <form enctype="multipart/form-data" id="enquiryForm">
         <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
 
         <div class="enquiry-field">
@@ -1358,15 +1394,16 @@ const PROVIDERS = [
     categories:["broadband"], recommended:true, exclusive:false,
     term:"Open term (30 days' notice)", termType:"open",
     plans:[
-      {id:"w-basic", label:"Wireless Basic — $50/mo", category:"broadband", bullets:["50GB, 56/18Mbps","Landline included"]},
-      {id:"w-lite", label:"Wireless Lite — $60/mo", category:"broadband", bullets:["300GB, 56/18Mbps"]},
-      {id:"w-everyday", label:"Wireless Everyday — $65/mo", category:"broadband", bullets:["Unlimited, 56/18Mbps"]},
-      {id:"w-max", label:"Wireless Max — $68/mo", category:"broadband", bullets:["Unlimited, 342/54Mbps"]},
+      {id:"w-basic", label:"Wireless Basic — $50/mo → $35/mo for 12mo", category:"broadband", bullets:["50GB, 56/18Mbps","Landline included"]},
+      {id:"w-lite", label:"Wireless Lite — $60/mo → $45/mo for 12mo", category:"broadband", bullets:["300GB, 56/18Mbps"]},
+      {id:"w-everyday", label:"Wireless Everyday — $65/mo → $50/mo for 12mo", category:"broadband", bullets:["Unlimited, 56/18Mbps"]},
+      {id:"w-max", label:"Wireless Max — $68/mo → $53/mo for 12mo", category:"broadband", bullets:["Unlimited, 342/54Mbps"]},
       {id:"f-lite", label:"Fibre Lite 105/26 — $70/mo", category:"broadband", bullets:["105/26Mbps"]},
       {id:"f-essential", label:"Fibre Essential 521/108 — $106/mo", category:"broadband", bullets:["521/108Mbps","Renti offer: $10 off"]},
       {id:"f-max", label:"Fibre Max 883/508 — $121/mo", category:"broadband", bullets:["883/508Mbps","Renti offer: $10 off"]}
     ],
     modemAxis:{label:"Modem", appliesTo:()=>true, options:[
+      {id:"free", label:"Free modem (current promo)"},
       {id:"buy", label:"Buy outright — $199 one-off"},
       {id:"inst12", label:"Pay over 12 months — $16.58/mo"},
       {id:"inst18", label:"Pay over 18 months — $11.06/mo"},
@@ -1375,15 +1412,17 @@ const PROVIDERS = [
       {id:"byo", label:"Bring your own"}
     ]},
     validity:"Wireless & Fibre — open term, ongoing",
-    headline:"Wireless from $50/mo, Fibre from $70/mo",
+    headline:`<span class="promo-tag">New promo</span>Wireless from $50/mo, Fibre from $70/mo`,
     details:`
       <h4>Wireless (subject to availability)</h4>
       <ul>
-        <li>Basic (landline incl.), 50GB, 56/18Mbps — $50/mo</li>
-        <li>Lite, 300GB, 56/18Mbps — $60/mo</li>
-        <li>Everyday, unlimited, 56/18Mbps — $65/mo</li>
-        <li>Max, unlimited, 342/54Mbps — $68/mo</li>
-        <li>BYO modem, or buy the Spark Smart Modem for $199 (interest-free over 12–36 months); $14.95 delivery; 30 days' notice to cancel</li>
+        <li><strong>Basic</strong> (landline incl.), 50GB, 56/18Mbps — $50/mo</li>
+        <li><strong>Lite</strong>, 300GB, 56/18Mbps — $60/mo</li>
+        <li><strong>Everyday</strong>, unlimited, 56/18Mbps — $65/mo</li>
+        <li><strong>Max</strong>, unlimited, 342/54Mbps — $68/mo</li>
+        <li style="color:#D93A1F;font-weight:700;">Get $15/month for 12 months, plus a free modem for all wireless plans. Total saving $379.</li>
+        <li>Modem delivery one-off $14.95</li>
+        <li>30 days' notice required to end the plan</li>
       </ul>
       <h4>Fibre</h4>
       <ul>
@@ -1432,8 +1471,8 @@ const PROVIDERS = [
       <h4>Fibre</h4>
       <ul>
         <li>100/20Mbps — $70/mo (+$5/mo optional modem)</li>
-        <li>500/100Mbps — $101/mo (+$5/mo optional modem) — $100 joining credit</li>
-        <li>900/500Mbps — $116/mo (+$5/mo optional modem) — $100 joining credit</li>
+        <li>500/100Mbps — $101/mo (+$5/mo optional modem) — $10/month off broadband</li>
+        <li>900/500Mbps — $116/mo (+$5/mo optional modem) — $10/month off broadband</li>
         <li>$15 one-off delivery fee</li>
       </ul>
       <h4>Bundle with power</h4>
@@ -1612,10 +1651,11 @@ function render(){
       if(p.modemAxis){
         const curFlat = existFlat || p.plans[0].id;
         const applies = p.modemAxis.appliesTo(curFlat);
+        const defaultC = existC || (p.id === 'spark' ? (curFlat.startsWith('w-') ? 'free' : 'buy') : null);
         modemSelectHtml = `
           <div class="card-foot-row modem-row" data-provider-id="${p.id}" style="display:${applies?'flex':'none'};">
             <select class="plan-select-c" data-provider-id="${p.id}">
-              ${p.modemAxis.options.map(o => `<option value="${o.id}" ${existC===o.id ? 'selected' : ''}>${o.label}</option>`).join('')}
+              ${p.modemAxis.options.map(o => `<option value="${o.id}" ${defaultC===o.id ? 'selected' : ''}>${o.label}</option>`).join('')}
             </select>
           </div>`;
       }
@@ -1717,6 +1757,18 @@ function render(){
         if(selectA && selectB) applies = provider.modemAxis.appliesTo(selectA.value, selectB.value);
         else if(singleSelect) applies = provider.modemAxis.appliesTo(singleSelect.value);
         if(modemRow) modemRow.style.display = applies ? 'flex' : 'none';
+
+        // Spark's free-modem promo only applies to wireless tiers right now —
+        // default the modem dropdown to it automatically so the saving shows
+        // up without the customer needing to go find it, and fall back to
+        // the standard "buy outright" default on fibre where the promo
+        // doesn't apply.
+        if(provider.id === 'spark' && singleSelect && e.target === singleSelect){
+          const modemSelectC = foot.querySelector('.plan-select-c');
+          if(modemSelectC){
+            modemSelectC.value = singleSelect.value.startsWith('w-') ? 'free' : 'buy';
+          }
+        }
       }
 
       const checkbox = foot.querySelector('[data-compare-provider]');
@@ -1941,8 +1993,8 @@ function resolveComboPlan(provider, idA, idB, idC){
       'w-essential':["Unlimited, 44/17Mbps","Free modem rental for 12-month term"],
       'w-max':["Unlimited 5G","Free modem rental for 12-month term"],
       'f-100':["100/20Mbps"],
-      'f-500':["500/100Mbps","$100 joining credit"],
-      'f-900':["900/500Mbps","$100 joining credit"]
+      'f-500':["500/100Mbps","$10/month off broadband"],
+      'f-900':["900/500Mbps","$10/month off broadband"]
     }[idA];
     const isFibre = idA.startsWith('f-');
     const modemBullets = isFibre
@@ -2023,6 +2075,20 @@ function resolveFlatPlanWithModem(provider, plan, modemId){
     const priceMatch = plan.label.match(/\$([\d.]+)/);
     const basePrice = priceMatch ? parseFloat(priceMatch[1]) : 0;
     const planName = plan.label.split(' — ')[0];
+    if(modemId === 'free'){
+      const discountedPrice = (basePrice - 15).toFixed(2);
+      return {
+        label:`${planName} — $${discountedPrice}/mo for 12 months, then $${basePrice}/mo (free modem)`,
+        category:plan.category,
+        sections:[{label:plan.label, bullets:[
+          ...plan.bullets,
+          "Free modem — no cost, no installments",
+          "$15/month credit for the first 12 months",
+          "Total saving over 12 months: $379 (credit + free modem, current promo)",
+          "$14.95 one-off delivery fee still applies"
+        ]}]
+      };
+    }
     if(modemId === 'byo'){
       return {label:plan.label, category:plan.category, sections:[{label:plan.label, bullets:[...plan.bullets, "Bring your own modem"]}]};
     }
@@ -2297,7 +2363,7 @@ function renderCompareModal(){
     : (sharedCategory ? 'Side by side' : 'Your combo');
   document.getElementById('compareModalNote').textContent =
     groups.length === 1
-    ? `Here's everything on this plan — hit "Get in touch" below when you're ready.`
+    ? `Here's everything on this plan. If you have any questions, please email connectionsinfo@renti.co.`
     : hasPackage
     ? `Each option below adds up to a full setup on its own — some are one provider's bundle, others are a few providers stitched together — so they're genuinely comparable side by side.`
     : sharedCategory
@@ -2367,13 +2433,13 @@ function updateModalCTA(groupCount){
   bottomBtn.style.display = 'block';
   if(groupCount === 1){
     bottomBtn.disabled = false;
-    bottomBtn.textContent = 'Get in touch about this';
+    bottomBtn.textContent = 'Please email connectionsinfo@renti.co';
   } else if(modalTicks.size === 0){
     bottomBtn.disabled = true;
     bottomBtn.textContent = 'Tick an option above to continue';
   } else {
     bottomBtn.disabled = false;
-    bottomBtn.textContent = `Get in touch about ${modalTicks.size===1 ? 'this' : 'these'} (${modalTicks.size})`;
+    bottomBtn.textContent = 'Please email connectionsinfo@renti.co';
   }
 }
 
@@ -2550,21 +2616,12 @@ function openEnquiry(prefillProviders){
   enquiryOverlay.classList.add('show');
 }
 
-document.getElementById('enquiryOpenGeneral').addEventListener('click', ()=> openEnquiry(''));
+document.getElementById('enquiryOpenGeneral').addEventListener('click', ()=>{
+  window.location.href='mailto:connectionsinfo@renti.co?subject=Renti%20Connections%20deal%20enquiry';
+});
 
 document.getElementById('enquiryOpenFromCompare').addEventListener('click', ()=>{
-  const groups = groupComparePicks(comparePicks);
-  let idsToUse;
-  if(groups.length === 1){
-    idsToUse = groups[0].pickIds;
-  } else if(modalTicks.size > 0){
-    idsToUse = [...modalTicks].flatMap(key => key.split(','));
-  } else {
-    return;
-  }
-  const names = idsToUse.map(pickLabel).join(', ');
-  document.getElementById('compareOverlay').classList.remove('show');
-  openEnquiry(names);
+  window.location.href='mailto:connectionsinfo@renti.co?subject=Renti%20Connections%20deal%20enquiry';
 });
 
 document.getElementById('enquiryClose').addEventListener('click', ()=>{
@@ -2756,6 +2813,7 @@ document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==
 
 function isRentiEmail(email){ return String(email||'').trim().toLowerCase().endsWith(RENTI_EMAIL_DOMAIN); }
 function isCurrentAdmin(){ return currentAgentEmail.toLowerCase()===SONTARY_ADMIN_EMAIL || currentAgentRoles.includes('admin'); }
+function isPrimaryAdmin(){ return currentAgentEmail.toLowerCase()===SONTARY_ADMIN_EMAIL; }
 function agentInitials(name){ return String(name||'R').split(/\s+/).filter(Boolean).map(x=>x[0]).join('').slice(0,2).toUpperCase(); }
 function friendlyAgentName(user){
   const raw=(user && (user.name || user.userMetadata?.full_name || user.userMetadata?.name)) || (user?.email||'').split('@')[0] || 'Agent';
@@ -2836,8 +2894,8 @@ const AGENT_BROADBAND_PLANS={
     {label:'Wireless Essential',price:60,modem:'Free modem rental on a 12-month term'},
     {label:'Wireless 5G Max',price:65,modem:'Free modem rental on a 12-month term'},
     {label:'Fibre 100/20',price:70},
-    {label:'Fibre 500/100',price:101,benefit:'$100 joining credit'},
-    {label:'Fibre 900/500',price:116,benefit:'$100 joining credit'}
+    {label:'Fibre 500/100',price:101,benefit:'$10/month off broadband'},
+    {label:'Fibre 900/500',price:116,benefit:'$10/month off broadband'}
   ],
   onenz:[
     {label:'5G Wireless',price:65,benefit:'$120 one-off credit',modem:'Modem included'},
@@ -2847,7 +2905,10 @@ const AGENT_BROADBAND_PLANS={
     {label:'Fibre 900/500',price:116,benefit:'$120 one-off credit'}
   ],
   spark:[
-    {label:'Wireless Basic',price:50},{label:'Wireless Lite',price:60},{label:'Wireless Everyday',price:65},{label:'Wireless Max',price:68},
+    {label:'Wireless Basic',price:50,benefit:'$15/month credit for 12 months + free modem (normally $199) — total saving $379'},
+    {label:'Wireless Lite',price:60,benefit:'$15/month credit for 12 months + free modem (normally $199) — total saving $379'},
+    {label:'Wireless Everyday',price:65,benefit:'$15/month credit for 12 months + free modem (normally $199) — total saving $379'},
+    {label:'Wireless Max',price:68,benefit:'$15/month credit for 12 months + free modem (normally $199) — total saving $379'},
     {label:'Fibre Lite 105/26',price:70},{label:'Fibre Essential 521/108',price:106},{label:'Fibre Max 883/508',price:121}
   ],
   sky:[
@@ -2914,7 +2975,10 @@ function setDefaultBroadbandModem(card,providerId,planLabel){
     if(/Fibre/i.test(planLabel)){type.value='rental';monthly.value='5.00';} else type.value='included';
   } else if(providerId==='2degrees'){
     if(/Fibre/i.test(planLabel)||/Starter/i.test(planLabel)){type.value='rental';monthly.value='5.00';} else type.value='included';
-  } else if(providerId==='spark'){type.value='purchase';oneoff.value='199.00';}
+  } else if(providerId==='spark'){
+    if(/Wireless/i.test(planLabel)){type.value='included';}
+    else{type.value='purchase';oneoff.value='199.00';}
+  }
   else if(providerId==='sky'){type.value='included';}
   else if(providerId==='pulse'){type.value='included';}
   else if(providerId==='electrickiwi'){type.value='none';}
@@ -3017,7 +3081,7 @@ function powerBreakdownHtml(card){
   const rowHtml=rows.map((r,i)=>`<tr><td style="padding:7px 8px;border-top:${i?'1px solid #e5dfd2':'0'};color:#243128;font-size:11px;line-height:1.3;">${r.label}</td><td style="padding:7px 8px;border-top:${i?'1px solid #e5dfd2':'0'};color:#243128;font-size:11px;line-height:1.3;overflow-wrap:anywhere;">$${r.rate.toFixed(4)} ${r.rateUnit}</td><td style="padding:7px 8px;border-top:${i?'1px solid #e5dfd2':'0'};color:#243128;font-size:11px;line-height:1.3;">${r.usage}</td><td style="padding:7px 8px;border-top:${i?'1px solid #e5dfd2':'0'};color:#243128;font-size:11px;line-height:1.3;text-align:right;white-space:nowrap;">$${r.cost.toFixed(2)}</td></tr>`).join('');
   const totals=gstMode==='exclusive'
     ? `<tr style="background:#faf8f3;"><td colspan="3" style="padding:7px 8px;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;">Subtotal excl. GST</td><td style="padding:7px 8px;text-align:right;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;white-space:nowrap;">$${subtotal.toFixed(2)}</td></tr><tr style="background:#faf8f3;"><td colspan="3" style="padding:7px 8px;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;">GST 15%</td><td style="padding:7px 8px;text-align:right;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;white-space:nowrap;">$${gst.toFixed(2)}</td></tr><tr style="background:#fff3e9;"><td colspan="3" style="padding:8px;font-size:11px;font-weight:800;color:#35152f;border-top:1px solid #ead7c5;">Estimated total incl. GST</td><td style="padding:8px;text-align:right;font-size:12px;font-weight:800;color:#35152f;border-top:1px solid #ead7c5;white-space:nowrap;">$${finalTotal.toFixed(2)}</td></tr>`
-    : `<tr style="background:#fff3e9;"><td colspan="3" style="padding:8px;font-size:11px;font-weight:700;color:#35152f;border-top:1px solid #ead7c5;">Estimated power total</td><td style="padding:8px;text-align:right;font-size:12px;font-weight:800;color:#35152f;border-top:1px solid #ead7c5;white-space:nowrap;">$${finalTotal.toFixed(2)}</td></tr>`;
+    : `<tr style="background:#fff3e9;"><td colspan="3" style="padding:8px;font-size:11px;font-weight:700;color:#10141B;border-top:1px solid #ead7c5;">Estimated power total</td><td style="padding:8px;text-align:right;font-size:12px;font-weight:800;color:#10141B;border-top:1px solid #ead7c5;white-space:nowrap;">$${finalTotal.toFixed(2)}</td></tr>`;
   return `<div style="margin-top:10px;"><div style="font-size:12px;font-weight:700;color:#35152f;margin-bottom:6px;">Power estimate breakdown</div><div style="width:100%;"><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;border:1px solid #e5dfd2;border-radius:9px;overflow:hidden;background:#ffffff;"><thead><tr style="background:#f2efe8;"><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">Charge type</th><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">${rateLabel}</th><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">Estimated usage</th><th style="padding:7px 8px;text-align:right;color:#4b5a4e;font-size:10px;line-height:1.25;">${costLabel}</th></tr></thead><tbody>${rowHtml}${totals}</tbody></table></div><div style="font-size:10.5px;color:#657267;margin-top:5px;">${gstMode==='exclusive'?'Rates entered are GST exclusive. GST is added after the usage and daily-charge subtotal, matching the way the estimate is calculated.':'Rates entered as GST inclusive.'}</div></div>`;
 }
 
@@ -3082,6 +3146,42 @@ function addAgentQuote(providerId='powershop'){
         <div style="font-size:10.5px;color:var(--ink-soft);margin-top:7px;">Genesis Power + Genesis LPG uses $155 per bottle. LPG by itself or with another power provider uses $175 per bottle. Rental remains $11.50/month for two bottles.</div>
         <div class="calc-result q-lpg-result" style="display:flex;margin-top:10px;"><div><span>Estimated LPG cost</span><strong>$0.00</strong></div><div class="calc-breakdown">Bottle quantity + prorated monthly rental</div></div>
       </div>
+      <div class="agent-form-grid">
+        <div class="agent-field"><label>Promotion type</label><select class="q-promo-type">
+          <option value="none">No promotional offer</option>
+          <option value="credit">Account credit</option>
+          <option value="percent">Percentage discount</option>
+          <option value="free">Free broadband / service period</option>
+          <option value="appliance">Appliance / device</option>
+          <option value="other">Other offer</option>
+        </select></div>
+      </div>
+      <div class="agent-form-grid q-promo-fields q-promo-credit" style="display:none;">
+        <div class="agent-field"><label>Total credit ($)</label><input class="q-promo-credit-amount" type="number" step="0.01" min="0" placeholder="120.00"></div>
+        <div class="agent-field"><label>Credit shape</label><select class="q-promo-credit-shape"><option value="spread">Spread over months (e.g. $10/mo)</option><option value="upfront">One-off upfront credit</option></select></div>
+        <div class="agent-field q-promo-credit-months-wrap"><label>Spread over how many months?</label><input class="q-promo-credit-months" type="number" step="1" min="1" placeholder="12"></div>
+        <div class="agent-field full"><label>What makes up this credit? (optional)</label><textarea class="q-promo-credit-breakdown" placeholder="e.g. Meridian: $120 credit&#10;One NZ: $120 credit" rows="2"></textarea><div style="font-size:10.5px;color:var(--ink-soft);margin-top:4px;">One item per line — shown to the customer as a breakdown under the total. Leave blank for a single-provider credit.</div></div>
+        <div class="agent-field full" style="font-size:10.5px;color:var(--ink-soft);">Enter the total benefit — e.g. Powershop's $150 over 12 months (25/10.../25) is still $150 total. The exact month-by-month shape doesn't change the first-year value shown to the customer.</div>
+      </div>
+      <div class="agent-form-grid q-promo-fields q-promo-percent" style="display:none;">
+        <div class="agent-field"><label>Discount (%)</label><input class="q-promo-percent" type="number" step="0.1" min="0" max="100" placeholder="10"></div>
+        <div class="agent-field full" style="font-size:10.5px;color:var(--ink-soft);">Applies to this option's power charges. Shown to the customer as before → discount → after, never a silently-reduced number.</div>
+      </div>
+      <div class="agent-form-grid q-promo-fields q-promo-free" style="display:none;">
+        <div class="agent-field"><label>Free period (months)</label><input class="q-promo-free-months" type="number" step="1" min="1" placeholder="2"></div>
+        <div class="agent-field full" style="font-size:10.5px;color:var(--ink-soft);">Applies to broadband. Counted as first-year value, not a permanent reduction.</div>
+      </div>
+      <div class="agent-form-grid q-promo-fields q-promo-appliance" style="display:none;">
+        <div class="agent-field"><label>Appliance / device name</label><input class="q-promo-appliance-name" placeholder="e.g. Samsung fridge"></div>
+        <div class="agent-field"><label>Provider-stated retail value ($)</label><input class="q-promo-appliance-provider-value" type="number" step="0.01" min="0" placeholder="1000.00"></div>
+        <div class="agent-field"><label>Comparable retail price entered ($)</label><input class="q-promo-appliance-comparable-price" type="number" step="0.01" min="0" placeholder="500.00"></div>
+        <div class="agent-field"><label>Retailer name</label><input class="q-promo-appliance-retailer" placeholder="e.g. PB Tech"></div>
+        <div class="agent-field"><label>Retailer URL (optional)</label><input class="q-promo-appliance-url" type="url" placeholder="https://..."></div>
+        <div class="agent-field"><label>Required contract term (months)</label><input class="q-promo-appliance-term" type="number" step="1" min="1" placeholder="24"></div>
+      </div>
+      <div class="agent-form-grid q-promo-fields q-promo-other" style="display:none;">
+        <div class="agent-field full"><label>Describe the offer</label><input class="q-promo-other" placeholder="e.g. Free installation, valued at $99"></div>
+      </div>
       <div class="agent-form-grid" style="margin-top:12px;">
         <div class="agent-field q-broadband-field" style="display:none;"><label>Broadband monthly price ($)</label><input class="q-bbprice-legacy" type="number" step="0.01" min="0" placeholder="85.00"></div>
         <div class="agent-field q-broadband-field" style="display:none;"><label>Modem option</label><select class="q-legacy-modem-type"><option value="included">Included / free</option><option value="rental">Monthly rental</option><option value="instalment">Monthly instalment</option><option value="purchase">Buy outright (one-off)</option><option value="byo">Bring your own</option><option value="none">Not applicable</option></select></div>
@@ -3090,7 +3190,6 @@ function addAgentQuote(providerId='powershop'){
         <div class="agent-field q-mobile-field" style="display:none;"><label>Mobile monthly price ($)</label><input class="q-mobile-price" type="number" step="0.01" min="0" placeholder="50.00"></div>
         <div class="agent-field q-mobile-field" style="display:none;"><label>Mobile benefit / offer</label><input class="q-mobile-benefit" placeholder="e.g. $10 exclusive discount"></div>
         <div class="agent-field full q-mobile-field" style="display:none;"><label>Mobile product information</label><textarea class="q-mobile-info" placeholder="Data, calls/texts, companion plans or other useful details"></textarea></div>
-        <div class="agent-field"><label>Benefits / offer</label><input class="q-benefit" placeholder="e.g. $120 one-off credit on 12-month term"></div>
         <div class="agent-field full"><label>Key product information</label><textarea class="q-keyinfo" placeholder="Useful product details for the customer — one point per line">${providerKeyInfo(p, (p.plans&&p.plans[0]?p.plans[0].label:(p.planA&&p.planA.options[0]?p.planA.options[0].label:'')))}</textarea><div style="font-size:10.5px;color:var(--ink-soft);margin-top:5px;">Pre-filled from the provider details. Edit or remove anything that isn't relevant to this customer.</div></div>
         <div class="agent-field full"><label>Agent note / product detail</label><textarea class="q-note" placeholder="Optional extra note to include in the customer comparison"></textarea></div>
       </div>
@@ -3138,6 +3237,156 @@ function quotePackageTotal(card){
   const lpg=(card.dataset.hasLpg==='true'||service==='lpg')?quoteLpgTotal(card):0;
   return power+quoteBroadbandPeriod(card)+lpg;
 }
+
+// Reads the selected promotion type and its fields into one plain object.
+// Returns null when no promotion is selected. This is the single source of
+// truth every other promo-aware calculation below reads from.
+function quotePromo(card){
+  const type=card.querySelector('.q-promo-type')?.value||'none';
+  if(type==='none') return null;
+  if(type==='credit'){
+    const amount=numberValue(card,'.q-promo-credit-amount');
+    if(!amount) return null;
+    return {type, amount, shape:card.querySelector('.q-promo-credit-shape')?.value||'spread', months:numberValue(card,'.q-promo-credit-months')||12, breakdown:card.querySelector('.q-promo-credit-breakdown')?.value.trim()||''};
+  }
+  if(type==='percent'){
+    const percent=numberValue(card,'.q-promo-percent');
+    if(!percent) return null;
+    return {type, percent};
+  }
+  if(type==='free'){
+    const freeMonths=numberValue(card,'.q-promo-free-months');
+    if(!freeMonths) return null;
+    return {type, freeMonths};
+  }
+  if(type==='appliance'){
+    const name=card.querySelector('.q-promo-appliance-name')?.value.trim()||'';
+    if(!name) return null;
+    return {
+      type, name,
+      providerValue:numberValue(card,'.q-promo-appliance-provider-value'),
+      comparablePrice:numberValue(card,'.q-promo-appliance-comparable-price'),
+      retailer:card.querySelector('.q-promo-appliance-retailer')?.value.trim()||'',
+      url:card.querySelector('.q-promo-appliance-url')?.value.trim()||'',
+      term:numberValue(card,'.q-promo-appliance-term')||24
+    };
+  }
+  if(type==='other'){
+    const description=card.querySelector('.q-promo-other')?.value.trim()||'';
+    if(!description) return null;
+    return {type, description};
+  }
+  return null;
+}
+
+// A percentage discount is a genuine ongoing reduction (unlike a temporary
+// credit), so it changes the true recurring power cost — everything downstream
+// that needs "the real monthly power figure" should use .after, not the raw
+// quotePowerTotal(), which stays as the pre-discount base rate for display.
+function quotePowerAfterPromo(card){
+  const before=quotePowerTotal(card);
+  const promo=quotePromo(card);
+  if(promo && promo.type==='percent' && promo.percent>0){
+    const discount=before*(promo.percent/100);
+    return {before, discount, after:Math.max(0,before-discount)};
+  }
+  return {before, discount:0, after:before};
+}
+
+// The recurring monthly figure used for cross-option comparison — reflects a
+// percentage discount (ongoing) but never a temporary credit or free-service
+// period (first-year-only effects, handled separately in quoteFirstYearInfo).
+function quoteOngoingMonthly(card){
+  const service=card.querySelector('.q-service').value;
+  const hasPower=service==='power';
+  const hasBB=service==='broadband'||(card.dataset.hasBroadbandPackage==='true'&&hasPower);
+  const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);
+  let monthly=0;
+  if(hasPower) monthly += quotePowerAfterPromo(card).after*(30/days);
+  if(hasBB) monthly += quoteBroadbandMonthly(card);
+  if(service==='mobile') monthly += numberValue(card,'.q-mobile-price');
+  if(card.dataset.hasLpg==='true'||service==='lpg') monthly += numberValue(card,'.q-lpg-rental');
+  return monthly;
+}
+
+// First-year value: the ongoing monthly rate ×12, minus whatever credit or
+// free-service value actually lands within that same 12 months. A credit
+// spread over more than 12 months only counts its first-12-month share here —
+// this is what keeps "ongoing cost" and "first-year cost" honestly separate
+// rather than one confusing blended number.
+function quoteFirstYearInfo(card){
+  const ongoing=quoteOngoingMonthly(card);
+  const promo=quotePromo(card);
+  let creditValue=0, creditNote='';
+  if(promo && promo.type==='credit'){
+    if(promo.shape==='upfront'){
+      creditValue=promo.amount;
+      creditNote=`$${promo.amount.toFixed(2)} one-off account credit`;
+    } else {
+      const monthsInFirstYear=Math.min(promo.months,12);
+      creditValue=promo.amount*(monthsInFirstYear/promo.months);
+      creditNote=`$${promo.amount.toFixed(2)} credit over ${promo.months} month${promo.months===1?'':'s'}`;
+    }
+  } else if(promo && promo.type==='free'){
+    const bbMonthly=quoteBroadbandMonthly(card);
+    const monthsInFirstYear=Math.min(promo.freeMonths,12);
+    creditValue=bbMonthly*monthsInFirstYear;
+    creditNote=`${promo.freeMonths} month${promo.freeMonths===1?'':'s'} free broadband`;
+  }
+  const firstYearCost=Math.max(0,ongoing*12-creditValue);
+  return {ongoing, creditValue, firstYearCost, creditNote};
+}
+
+// Simple monthly/12-month/24-month projection of an ongoing cost difference —
+// just the same monthly gap multiplied out at the two standard contract
+// checkpoints, always shown together, never picked one-at-a-time.
+function savingsProjection(monthlyDiff){
+  return {monthly:monthlyDiff, twelveMonth:monthlyDiff*12, twentyFourMonth:monthlyDiff*24};
+}
+
+function updatePromoFieldVisibility(card){
+  const type=card.querySelector('.q-promo-type')?.value||'none';
+  ['credit','percent','free','appliance','other'].forEach(t=>{
+    const el=card.querySelector('.q-promo-'+t);
+    if(el) el.style.display=(t===type)?'grid':'none';
+  });
+  if(type==='credit'){
+    const shape=card.querySelector('.q-promo-credit-shape')?.value||'spread';
+    const monthsWrap=card.querySelector('.q-promo-credit-months-wrap');
+    if(monthsWrap) monthsWrap.style.display=shape==='spread'?'block':'none';
+  }
+}
+
+// Renders the customer-facing "Promotional offer" block for whichever type is
+// selected. Each type gets its own honest framing — an appliance's comparable
+// price is never called the definitive value, a percentage discount always
+// shows the before/after, a credit never reads as a permanent price drop.
+function promoDisplayHtml(card){
+  const promo=quotePromo(card);
+  if(!promo) return '';
+  const wrap=(title,inner)=>`<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#f2edff;color:#3c2a8a;font-size:11.5px;"><strong style="display:block;margin-bottom:4px;">${title}</strong>${inner}</div>`;
+  if(promo.type==='credit'){
+    const label=promo.shape==='upfront' ? `$${promo.amount.toFixed(2)} one-off account credit` : `$${promo.amount.toFixed(2)} credit over ${promo.months} month${promo.months===1?'':'s'}`;
+    const breakdownLines=promo.breakdown?promo.breakdown.split('\n').map(l=>l.trim()).filter(Boolean):[];
+    const breakdownHtml=breakdownLines.length?`<ul style="margin:6px 0 0;padding-left:16px;">${breakdownLines.map(l=>`<li>${l}</li>`).join('')}</ul>`:'';
+    return wrap('Promotional offer — Account credit', label+breakdownHtml);
+  }
+  if(promo.type==='percent'){
+    return wrap('Promotional offer — Percentage discount', `${promo.percent}% off eligible power charges — see the breakdown above.`);
+  }
+  if(promo.type==='free'){
+    return wrap('Promotional offer — Free broadband', `${promo.freeMonths} month${promo.freeMonths===1?'':'s'} free, then the standard monthly rate applies.`);
+  }
+  if(promo.type==='appliance'){
+    const link=promo.url?` — <a href="${promo.url}" target="_blank" rel="noopener" style="color:#3c2a8a;font-weight:700;text-decoration:underline;">View retailer listing</a>`:'';
+    return wrap('Promotional offer — Appliance / device', `${promo.name}<br>Provider-stated value: $${promo.providerValue.toFixed(2)}<br>Comparable retail price entered: $${promo.comparablePrice.toFixed(2)}${promo.retailer?` (${promo.retailer})`:''}${link}<br>Required contract term: ${promo.term} months`);
+  }
+  if(promo.type==='other'){
+    return wrap('Promotional offer', promo.description);
+  }
+  return '';
+}
+
 function broadbandProviderName(card){
   const id=card.querySelector('.q-bb-provider')?.value;
   if(!id) return '';
@@ -3182,6 +3431,10 @@ function wireQuoteCard(card){
   card.querySelector('.quote-remove').addEventListener('click',()=>{ card.remove(); if(!quoteStack.children.length) addAgentQuote(); renumberQuoteCards(); refreshAgentPreview(); });
   card.dataset.hasBroadbandPackage='false';
   card.dataset.hasLpg='false';
+  updatePromoFieldVisibility(card);
+  card.querySelector('.q-promo-type').addEventListener('change',()=>{ updatePromoFieldVisibility(card); markRecommendationAuto(); refreshAgentPreview(); });
+  card.querySelector('.q-promo-credit-shape')?.addEventListener('change',()=>{ updatePromoFieldVisibility(card); refreshAgentPreview(); });
+  card.querySelectorAll('.q-promo-fields input').forEach(el=>el.addEventListener('input',()=>{ markRecommendationAuto(); refreshAgentPreview(); }));
   const bbPackage=card.querySelector('.q-bb-package');
   const addBB=card.querySelector('.q-add-broadband');
   const removeBB=card.querySelector('.q-remove-broadband');
@@ -3288,7 +3541,8 @@ function wireQuoteCard(card){
       card.querySelector('.q-keyinfo').value='';
       customPlan.value='';
     }
-    card.querySelector('.q-benefit').value='';
+    card.querySelector('.q-promo-type').value='none';
+    updatePromoFieldVisibility(card);
     enforceProviderRules();
     markRecommendationAuto();
     refreshAgentPreview();
@@ -3343,7 +3597,6 @@ function quotePreviewHtml(card,index,emailType,totalOptions=1){
   const providerName=providerId==='custom' ? (card.querySelector('.q-custom-provider').value.trim() || 'Other provider') : provider.name;
   const plan=providerId==='custom' ? (card.querySelector('.q-custom-plan').value.trim() || 'Plan details') : card.querySelector('.q-plan').value;
   const service=card.querySelector('.q-service').value;
-  const benefit=card.querySelector('.q-benefit').value.trim();
   const note=card.querySelector('.q-note').value.trim();
   const keyInfo=card.querySelector('.q-keyinfo')?.value.trim()||'';
   const hasPower=service==='power';
@@ -3362,7 +3615,9 @@ function quotePreviewHtml(card,index,emailType,totalOptions=1){
   }
   let body='';
   if(emailType==='full' && hasPower){
-    body += `<div style="margin-top:12px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">Power — estimated cost: <span style="font-size:18px;color:#ff6537;">$${quotePowerTotal(card).toFixed(2)}</span></div>${powerBreakdownHtml(card)}</div>`;
+    const powerInfo=quotePowerAfterPromo(card);
+    const percentLine=(powerInfo.discount>0)?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:6px;line-height:1.6;">Power before discount: $${powerInfo.before.toFixed(2)}<br>Promotional discount: −$${powerInfo.discount.toFixed(2)}<br><strong style="color:#10141B;">Estimated power after discount: $${powerInfo.after.toFixed(2)}</strong></div>`:'';
+    body += `<div style="margin-top:12px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#10141B;">Power — estimated cost: <span style="font-size:18px;color:#10141B;">$${powerInfo.after.toFixed(2)}</span></div>${percentLine}${powerBreakdownHtml(card)}</div>`;
   }
   if(card.dataset.hasLpg==='true'||service==='lpg'){ body += lpgBreakdownHtml(card); const combined=(hasPower?quotePowerTotal(card):0)+quoteLpgTotal(card); body += `<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:#fff1e7;border:1px solid #ffd6c7;"><div style="font-size:12px;font-weight:700;color:#ff6537;">${hasPower?'Estimated power + LPG total':'Estimated LPG total'}</div><div style="font-size:24px;line-height:1.2;font-weight:800;color:#ff6537;margin-top:2px;">$${combined.toFixed(2)}</div></div>`; }
   if(service==='mobile'){
@@ -3380,7 +3635,7 @@ function quotePreviewHtml(card,index,emailType,totalOptions=1){
   if(emailType==='full' && packageActive){
     body += `<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:#fff1e7;border:1px solid #ffd6c7;"><div style="font-size:12px;font-weight:700;color:#ff6537;">Estimated package total</div><div style="font-size:24px;line-height:1.2;font-weight:800;color:#ff6537;margin-top:2px;">$${quotePackageTotal(card).toFixed(2)}</div><div style="font-size:10.5px;color:#5c675e;margin-top:4px;">Power + broadband for ${document.getElementById('agDays').value||30} days. Broadband is prorated from the monthly price.</div></div>`;
   }
-  const mainBenefit=benefit?`<div style="margin-top:10px;padding:8px 10px;border-radius:8px;background:#fff7df;color:#5b4318;font-size:11.5px;"><strong>Benefit:</strong> ${benefit}</div>`:'';
+  const mainBenefit=promoDisplayHtml(card);
   const mainInfo=keyInfoHtml(keyInfo);
   const noteHtml=note?`<div style="margin-top:10px;color:#4b5a4e;font-size:12px;line-height:1.5;">${note}</div>`:'';
   return `<div class="email-option" style="margin:14px 0;border:1px solid #ddd5c4;border-radius:14px;background:#f8f5ee;overflow:hidden;"><div style="padding:14px 14px 12px;"><div style="font-size:15px;font-weight:800;color:#35152f;line-height:1.35;">${quoteHeading(card,index,totalOptions,titleName)}</div>${planLine}</div><div style="padding:0 12px 12px;">${body}${mainBenefit}${mainInfo}${noteHtml}</div></div>`;
@@ -3404,26 +3659,48 @@ function quoteMetrics(card){
   const hasLpg=card.dataset.hasLpg==='true'||service==='lpg';
   const lpgBottle=hasLpg?numberValue(card,'.q-lpg-bottle'):null;
   const lpgRental=hasLpg?numberValue(card,'.q-lpg-rental'):null;
-  return {card,name,providerId,keyInfo,hasPower,hasBB,hasMobile,hasLpg,power:hasPower?quotePowerTotal(card):null,broadband:hasBB?quoteBroadbandMonthly(card):null,packageTotal:packageActive?quotePackageTotal(card):null,lpgBottle,lpgRental};
+  const promo=quotePromo(card);
+  const firstYearInfo=quoteFirstYearInfo(card);
+  return {card,name,providerId,keyInfo,hasPower,hasBB,hasMobile,hasLpg,power:hasPower?quotePowerTotal(card):null,broadband:hasBB?quoteBroadbandMonthly(card):null,packageTotal:packageActive?quotePackageTotal(card):null,lpgBottle,lpgRental,promo,ongoingMonthly:firstYearInfo.ongoing,firstYearCost:firstYearInfo.firstYearCost,creditValue:firstYearInfo.creditValue,creditNote:firstYearInfo.creditNote,contractTerm:promo&&promo.type==='appliance'?promo.term:null};
 }
 function priceComparisonHtml(){
   const metrics=[...quoteStack.children].map(quoteMetrics);
   if(metrics.length<2) return '';
-  const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);
-  const recurring=metrics.map(m=>{
-    let monthly=0,parts=[];
-    if(m.hasPower && m.power!==null){ monthly += m.power*(30/days); parts.push('power'); }
-    if(m.hasBB && m.broadband!==null){ monthly += m.broadband; parts.push('broadband'); }
-    if(m.hasMobile){ const mp=numberValue(m.card,'.q-mobile-price'); if(mp){monthly+=mp;parts.push('mobile');} }
-    if(m.hasLpg && m.lpgRental){ monthly += m.lpgRental; parts.push('LPG bottle rental'); }
-    return {...m,monthly,parts};
-  }).filter(m=>m.monthly>0);
+  const recurring=metrics.filter(m=>(m.hasPower||m.hasBB||m.hasMobile||(m.hasLpg&&m.lpgRental)) && m.ongoingMonthly>0);
   let recurringHtml='';
+  let extraRowsHtml='';
   if(recurring.length>=2){
-    const sorted=[...recurring].sort((a,b)=>a.monthly-b.monthly);
-    const low=sorted[0], high=sorted[sorted.length-1], diff=high.monthly-low.monthly;
-    const rows=sorted.map(m=>`<div style="display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid #eee8dc;"><span style="color:#35443a;">${m.name}</span><strong style="color:#35152f;white-space:nowrap;">$${m.monthly.toFixed(2)}/month</strong></div>`).join('');
-    recurringHtml=`<div style="font-size:12px;font-weight:800;color:#35152f;margin-bottom:5px;">Estimated ongoing monthly cost</div>${rows}${diff>0.005?`<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#ffffff;color:#35443a;line-height:1.55;border:1px solid #f1d8c8;"><strong>${low.name}</strong> has an estimated ongoing cost approximately <strong>$${diff.toFixed(2)} lower per month</strong>, or <strong>$${(diff*12).toFixed(2)} lower per year</strong>, based on the recurring costs entered.</div>`:''}`;
+    const sorted=[...recurring].sort((a,b)=>a.ongoingMonthly-b.ongoingMonthly);
+    const low=sorted[0], high=sorted[sorted.length-1], diff=high.ongoingMonthly-low.ongoingMonthly;
+    const rows=sorted.map(m=>`<div style="display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid #eee8dc;"><span style="color:#35443a;">${m.name}</span><strong style="color:#35152f;white-space:nowrap;">$${m.ongoingMonthly.toFixed(2)}/month</strong></div>`).join('');
+    recurringHtml=`<div style="font-size:12px;font-weight:800;color:#35152f;margin-bottom:5px;">Estimated ongoing monthly cost</div>${rows}`;
+
+    // Monthly / 12-month / 24-month projection — always shown together, always
+    // just the existing ongoing difference multiplied out at the two standard
+    // contract checkpoints. Not a separate "pick one period" calculation.
+    if(diff>0.005){
+      const proj=savingsProjection(diff);
+      recurringHtml += `<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#ffffff;color:#35443a;line-height:1.55;border:1px solid #f1d8c8;"><strong>${low.name}</strong> has an estimated ongoing cost approximately <strong>$${proj.monthly.toFixed(2)} lower per month</strong>.<div style="margin-top:6px;font-size:11px;color:#5c675e;">Over 12 months: <strong style="color:#35152f;">$${proj.twelveMonth.toFixed(2)}</strong> &nbsp;·&nbsp; Over 24 months: <strong style="color:#35152f;">$${proj.twentyFourMonth.toFixed(2)}</strong></div></div>`;
+    }
+
+    // First-year cost / credit / contract term / promotional benefit — only
+    // shown when at least one option actually has something to say here, so a
+    // plain no-promo comparison doesn't get cluttered with empty rows.
+    const anyCredit=recurring.some(m=>m.creditValue>0);
+    const anyTerm=recurring.some(m=>m.contractTerm);
+    const anyPromo=recurring.some(m=>m.promo);
+    if(anyCredit||anyTerm||anyPromo){
+      const promoLabel=(m)=>{
+        if(!m.promo) return '—';
+        if(m.promo.type==='credit') return 'Account credit';
+        if(m.promo.type==='percent') return 'Percentage discount';
+        if(m.promo.type==='free') return 'Free broadband';
+        if(m.promo.type==='appliance') return 'Appliance / device';
+        return 'Other offer';
+      };
+      const rowsMore=(label,fn)=>`<div style="display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid #eee8dc;"><span style="color:#35443a;">${label}</span><div style="display:flex;gap:18px;">${sorted.map(m=>`<strong style="color:#35152f;white-space:nowrap;min-width:90px;text-align:right;">${fn(m)}</strong>`).join('')}</div></div>`;
+      extraRowsHtml=`<div style="margin-top:12px;">${anyCredit?rowsMore('First-year estimated cost',m=>`$${m.firstYearCost.toFixed(2)}`):''}${anyCredit?rowsMore('Account credits',m=>m.creditValue>0?`$${m.creditValue.toFixed(2)}`:'—'):''}${anyTerm?rowsMore('Contract period',m=>m.contractTerm?`${m.contractTerm} months`:'Open/12 months'):''}${anyPromo?rowsMore('Promotional benefit',m=>promoLabel(m)):''}</div>`;
+    }
   }
   const lpg=metrics.filter(m=>m.hasLpg && m.lpgBottle>0);
   let lpgHtml='';
@@ -3434,7 +3711,7 @@ function priceComparisonHtml(){
     lpgHtml=`${recurringHtml?'<div style="height:12px;"></div>':''}<div style="font-size:12px;font-weight:800;color:#35152f;margin-bottom:5px;">LPG price comparison</div>${rows}${diff>0.005?`<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#f7f4ed;color:#35443a;line-height:1.5;"><strong>${low.name}</strong> is <strong>$${diff.toFixed(2)} lower per bottle</strong>.</div>`:''}<div style="margin-top:8px;font-size:11px;color:#68746b;line-height:1.5;">LPG usage varies by household, so the per-bottle difference is not converted into a monthly or annual saving. Bottle rental is included in the recurring monthly comparison above where applicable.</div>`;
   }
   if(!recurringHtml && !lpgHtml) return '';
-  return `<div style="margin:16px 0;padding:16px;border:1px solid #efc7b7;border-left:4px solid #ff6537;border-radius:14px;background:#fff4ec;box-shadow:0 6px 18px rgba(53,21,47,.06);"><div style="font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#a05a45;margin-bottom:3px;">At a glance</div><strong style="display:block;color:#35152f;font-size:17px;margin-bottom:10px;">Price comparison</strong>${recurringHtml}${lpgHtml}<div style="margin-top:10px;padding-top:9px;border-top:1px solid #efd8ca;font-size:10.5px;color:#7a857b;line-height:1.45;">Estimates use the figures entered above. One-off credits, joining benefits and one-off equipment costs are not treated as ongoing monthly savings.</div></div>`;
+  return `<div style="margin:16px 0;padding:16px;border:1px solid #efc7b7;border-left:4px solid #ff6537;border-radius:14px;background:#fff4ec;box-shadow:0 6px 18px rgba(53,21,47,.06);"><div style="font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#a05a45;margin-bottom:3px;">At a glance</div><strong style="display:block;color:#35152f;font-size:17px;margin-bottom:10px;">Price comparison</strong>${recurringHtml}${extraRowsHtml}${lpgHtml}<div style="margin-top:10px;padding-top:9px;border-top:1px solid #efd8ca;font-size:10.5px;color:#7a857b;line-height:1.45;">Estimates use the figures entered above. Account credits and appliance/device values are shown separately above, not folded into the ongoing monthly cost.</div></div>`;
 }
 function providerStrength(metric,priority){
   const text=metric.keyInfo;
@@ -3448,33 +3725,82 @@ function generateRecommendation(){
   const metrics=[...quoteStack.children].map(quoteMetrics);
   if(metrics.length<2) return 'This option is shown based on the figures and plan details entered. If you want, we can talk through anything that matters most to you before you decide what works best for your home.';
   const priority=document.getElementById('agPriority').value;
-  const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);
-  const recurring=metrics.map(m=>{
-    let monthly=0;
-    if(m.hasPower && m.power!==null) monthly += m.power*(30/days);
-    if(m.hasBB && m.broadband!==null) monthly += m.broadband;
-    if(m.hasMobile) monthly += numberValue(m.card,'.q-mobile-price');
-    if(m.hasLpg && m.lpgRental) monthly += m.lpgRental;
-    return {...m,monthly};
-  }).filter(m=>m.monthly>0).sort((a,b)=>a.monthly-b.monthly);
+  const priorityLabel=document.getElementById('agPriority').selectedOptions[0].textContent.toLowerCase();
+  const recurring=metrics.filter(m=>m.ongoingMonthly>0).sort((a,b)=>a.ongoingMonthly-b.ongoingMonthly);
   const cheapest=recurring.length>=2?recurring[0]:null;
   const next=recurring.length>=2?recurring[1]:null;
-  const diff=cheapest&&next?next.monthly-cheapest.monthly:0;
+  const diff=cheapest&&next?next.ongoingMonthly-cheapest.ongoingMonthly:0;
+  // A price gap under $5/month (or under 3% of the cheaper option, whichever is
+  // larger) reads as noise, not a real difference — say so honestly rather than
+  // mechanically crowning a winner over a couple of dollars.
+  const closeThreshold=cheapest?Math.max(5,cheapest.ongoingMonthly*0.03):5;
+  const isClose=cheapest&&diff>0&&diff<closeThreshold;
   const strengthCandidate=metrics.find(m=>providerStrength(m,priority));
-  if(priority==='cost' && cheapest){
-    const saving=diff>0.005?` That's approximately $${diff.toFixed(2)} lower per month, or $${(diff*12).toFixed(2)} lower per year, than the next lowest ongoing estimate entered.`:'';
-    return `You mentioned keeping the ongoing cost down is the priority. Based on the figures entered, ${cheapest.name} has the lowest estimated ongoing cost.${saving} If price is the main thing you want to optimise, this is the option that best matches that priority from the choices above.`;
+
+  // Appliance vs. alternative — weighs the real ongoing cost difference plus
+  // any credits over the appliance's own required term, against its comparable
+  // retail price. Purely calculated from the entered figures; can genuinely
+  // land either way, never hard-coded to favour the appliance or the cash option.
+  const applianceOption=metrics.find(m=>m.promo && m.promo.type==='appliance' && m.promo.comparablePrice>0);
+  if(applianceOption && recurring.length>=2){
+    const alt=recurring.find(m=>m.name!==applianceOption.name);
+    if(alt){
+      const term=applianceOption.promo.term||24;
+      const applianceOngoing=recurring.find(m=>m.name===applianceOption.name)?.ongoingMonthly ?? applianceOption.ongoingMonthly;
+      const costAdvantage=(applianceOngoing-alt.ongoingMonthly)*term; // positive = alt saves money over the term
+      const altTotalAdvantage=costAdvantage+alt.creditValue;
+      const applianceValue=applianceOption.promo.comparablePrice;
+      const netDiff=altTotalAdvantage-applianceValue; // positive = alt ahead, negative = appliance ahead
+      const creditPhrase=alt.creditValue>0?`, plus $${alt.creditValue.toFixed(2)} in account credits`:'';
+      const costPhrase=costAdvantage>=0?`estimated to save approximately $${costAdvantage.toFixed(2)} in ongoing utility costs`:`estimated to cost approximately $${Math.abs(costAdvantage).toFixed(2)} more in ongoing utility costs`;
+      const verdict=Math.abs(netDiff)<Math.max(20,applianceValue*0.05)
+        ? `These come out close enough that it's really a question of whether having the appliance now matters more to you than the equivalent value spread out over time.`
+        : (netDiff<0
+          ? `Using that comparable price, ${applianceOption.name}'s appliance offer is approximately $${Math.abs(netDiff).toFixed(2)} ahead over the ${term}-month period in this comparison.`
+          : `Using that comparable price, ${alt.name} is approximately $${Math.abs(netDiff).toFixed(2)} ahead over the ${term}-month period in this comparison.`);
+      return `Over the ${term}-month term ${applianceOption.name}'s appliance offer requires, ${alt.name} is ${costPhrase}${creditPhrase}. ${applianceOption.name} includes ${applianceOption.promo.name}, which has a $${applianceOption.promo.providerValue.toFixed(2)} provider-stated retail value — a comparable retail price of approximately $${applianceValue.toFixed(2)} was entered for this comparison. ${verdict}`;
+    }
   }
+
+  if(priority==='cost' && cheapest){
+    if(isClose){
+      return `You said keeping the cost down matters most, but ${cheapest.name} and ${next.name} land within about $${diff.toFixed(2)} a month of each other — close enough that it's not really a price question. Worth deciding on whichever plan's terms or features actually suit better, since the cost difference alone won't move the needle much.`;
+    }
+    const saving=diff>0.005?` That works out to roughly $${diff.toFixed(2)} less per month, or $${(diff*12).toFixed(2)} a year, than the next lowest option here.`:'';
+    return `Since price is what matters most, ${cheapest.name} comes out lowest on the figures entered.${saving} That's a genuine gap, so this is the one that best fits what you're after.`;
+  }
+
+  if(priority==='overall' && cheapest){
+    const creditNote=cheapest.creditValue>0?` It also comes with ${cheapest.creditNote}, adding to the first-year value.`:'';
+    if(isClose){
+      return `You said overall value matters most, and ${cheapest.name} and ${next.name} are close enough on price (about $${diff.toFixed(2)}/month apart) that it's worth weighing the promotional benefits and features above rather than the cost alone.`;
+    }
+    const saving=diff>0.005?` roughly $${diff.toFixed(2)} less per month`:'';
+    return `Weighing price and promotional benefits together, ${cheapest.name} comes out ahead on ongoing cost${saving?` (${saving.trim()})`:''}.${creditNote} Worth checking the other options' benefits above too in case one suits your priorities better.`;
+  }
+
   if(priority!=='overall' && strengthCandidate){
     const strength=providerStrength(strengthCandidate,priority);
-    const costContext=cheapest&&cheapest.name!==strengthCandidate.name?` ${cheapest.name} has the lower estimated ongoing cost, while ${strengthCandidate.name} stands out more for ${strength}.`:` ${strengthCandidate.name} also aligns with the ${strength} information entered above.`;
-    return `You told us ${document.getElementById('agPriority').selectedOptions[0].textContent.toLowerCase()} matters most.${costContext} We've laid the options out side by side so you can choose the balance of price and features that works best for you.`;
+    let costContext;
+    if(cheapest && cheapest.name!==strengthCandidate.name){
+      costContext = isClose
+        ? ` On price, ${cheapest.name} and ${strengthCandidate.name} are close enough (about $${diff.toFixed(2)}/month apart) that it likely comes down to ${strength} either way.`
+        : ` Worth knowing: ${cheapest.name} is cheaper month to month, while ${strengthCandidate.name} is the one that actually delivers on ${strength}.`;
+    } else {
+      costContext = ` It also holds up well on price, so there's no real trade-off to weigh here.`;
+    }
+    return `Since ${priorityLabel} is what you said matters most, ${strengthCandidate.name} is the one built around that.${costContext} Happy to talk through anything else that's on your mind before you decide.`;
   }
+
   if(cheapest){
-    const saving=diff>0.005?` It is approximately $${diff.toFixed(2)} lower per month ($${(diff*12).toFixed(2)} per year) than the next lowest ongoing estimate entered.`:'';
-    return `Based on the figures entered, ${cheapest.name} has the lowest estimated ongoing cost.${saving} The options above also have different features, benefits and terms, so the best overall fit depends on what matters most to you. We're here to help you compare the differences and choose what works best for you.`;
+    if(isClose){
+      return `${cheapest.name} and ${next.name} are within about $${diff.toFixed(2)} a month of each other on the figures entered — close enough that price probably shouldn't be the deciding factor here. Worth weighing up the other features and terms above instead.`;
+    }
+    const saving=diff>0.005?` That's roughly $${diff.toFixed(2)} less per month, or $${(diff*12).toFixed(2)} a year, than the next lowest option shown.`:'';
+    return `${cheapest.name} comes out lowest on ongoing cost from what's entered.${saving} The options do differ elsewhere too — features, terms, benefits — so it's worth weighing those against the price gap. Happy to talk through whatever matters most to you before you decide.`;
   }
-  return `There isn't a directly comparable ongoing monthly price difference from the information entered. We've shown the relevant charges, features, benefits and terms above so you can compare them on the things that matter most to you. We're here to help you choose what works best for your home.`;
+
+  return `There isn't a directly comparable ongoing price difference from what's entered here. The details above should still help you weigh the options on their features, terms and benefits — let us know what matters most and we can talk it through.`;
 }
 
 
@@ -3569,6 +3895,7 @@ function renderComparisonValidation(){
 function refreshAgentPreview(){
   refreshThreadStatus();
   renderComparisonValidation();
+  updateGmailUi();
   const name=document.getElementById('agCustomerName').value.trim();
   const email=document.getElementById('agCustomerEmail').value.trim();
   const address=document.getElementById('agAddress').value.trim();
@@ -3582,8 +3909,11 @@ function refreshAgentPreview(){
   const options = cards.map((card,i)=>quotePreviewHtml(card,i,emailType,cards.length)).join('');
   if(recommendationAuto){ document.getElementById('agRecommendation').value=generateRecommendation(); }
   const recommendation=document.getElementById('agRecommendation').value.trim();
+  const anyPower=cards.some(c=>c.querySelector('.q-service')?.value==='power');
   if(!previewManualEdit){
-    document.getElementById('previewBody').innerHTML=`<div class="renti-email" style="max-width:680px;margin:0 auto;font-family:Arial,'Helvetica Neue',sans-serif;color:#243128;font-size:13px;line-height:1.6;"><p style="margin:0 0 12px;">${intro}</p>${address?`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for <strong style="color:#35152f;">${address}</strong>${moveDate?` for your move on <strong style="color:#35152f;">${moveDate}</strong>`:''}.</p>`:`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for you.</p>`}<p style="margin:0 0 16px;color:#4b5a4e;">${emailType==='full'?'The estimated costs below use the rates and consumption discussed with you. Actual bills may vary depending on your usage and final provider pricing.':'Here are the product options we discussed.'}</p><div style="font-size:18px;font-weight:800;color:#35152f;margin:0 0 8px;">Your options</div>${options}${priceComparisonHtml()}${recommendation?`<div class="recommend-box" style="margin:14px 0;padding:12px 14px;border:1px solid #ddd5c4;border-left:3px solid #ff6537;border-radius:10px;background:#fffaf5;color:#35443a;"><strong style="display:block;color:#35152f;margin-bottom:4px;">Our take</strong>${recommendation}</div>`:''}<p style="margin:16px 0 10px;">Want to explore more plans? <a href="https://renti-connections-deals.netlify.app/" target="_blank" rel="noopener" style="color:#4a1942;font-weight:700;">View the latest Renti Connections deals</a>.</p><p style="margin:0 0 12px;">If you'd like to go ahead with one of these options, or want us to compare something else, just reply to this email.</p>${signatureHtml(true)}</div>`;
+    const preparedWhen=new Date().toLocaleString('en-NZ',{timeZone:'Pacific/Auckland',dateStyle:'long',timeStyle:'short'});
+    const powerDisclaimer=anyPower?' Power estimates are based on the rates and usage entered above — actual bills will vary depending on usage.':'';
+    document.getElementById('previewBody').innerHTML=`<div class="renti-email" style="max-width:680px;margin:0 auto;font-family:Arial,'Helvetica Neue',sans-serif;color:#243128;font-size:13px;line-height:1.6;"><div style="font-size:11px;color:#8b8478;margin:0 0 14px;">Comparison prepared: ${preparedWhen}</div><p style="margin:0 0 12px;">${intro}</p>${address?`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for <strong style="color:#35152f;">${address}</strong>${moveDate?` for your move on <strong style="color:#35152f;">${moveDate}</strong>`:''}.</p>`:`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for you.</p>`}<p style="margin:0 0 16px;color:#4b5a4e;">${emailType==='full'?'The estimated costs below use the rates and consumption discussed with you. Actual bills may vary depending on your usage and final provider pricing.':'Here are the product options we discussed.'}</p><div style="font-size:18px;font-weight:800;color:#35152f;margin:0 0 8px;">Your options</div>${options}${priceComparisonHtml()}${recommendation?`<div class="recommend-box" style="margin:14px 0;padding:12px 14px;border:1px solid #ddd5c4;border-left:3px solid #ff6537;border-radius:10px;background:#fffaf5;color:#35443a;"><strong style="display:block;color:#35152f;margin-bottom:4px;">Our take</strong>${recommendation}</div>`:''}<p style="margin:16px 0 10px;">Want to explore more plans? <a href="https://renti-connections-deals.netlify.app/" target="_blank" rel="noopener" style="color:#4a1942;font-weight:700;">View the latest Renti Connections deals</a>.</p><p style="margin:0 0 12px;">If you'd like to go ahead with one of these options, or want us to compare something else, just reply to this email.</p><p style="margin:16px 0 0;font-size:10.5px;color:#8b8478;line-height:1.5;">Rates, offers and third-party retail prices shown are based on information available and entered when this comparison was prepared. Prices, promotions and availability may change.${powerDisclaimer}</p>${signatureHtml(true)}</div>`;
   }
 }
 
@@ -3593,7 +3923,7 @@ const agentMeContent=document.createElement('div');
 agentMeContent.id='agentMeContent';
 agentMeContent.className='agent-me-content';
 agentShell.appendChild(agentMeContent);
-['meProfilePanel','gmailPanel','signaturePanel','adminPanel'].forEach(id=>{
+['meProfilePanel','gmailPanel','signaturePanel','suggestionSubmitPanel','suggestionAdminPanel','adminPanel'].forEach(id=>{
   const panel=document.getElementById(id);
   if(panel) agentMeContent.appendChild(panel);
 });
@@ -3611,7 +3941,10 @@ function showAgentTab(tab){
   const gmail=document.getElementById('gmailPanel');
   const profile=document.getElementById('meProfilePanel');
   const admin=document.getElementById('adminPanel');
+  const suggestionSubmit=document.getElementById('suggestionSubmitPanel');
+  const suggestionAdmin=document.getElementById('suggestionAdminPanel');
   const isAdmin=isCurrentAdmin();
+  const isPrimary=isPrimaryAdmin();
   document.body.classList.toggle('agent-products-open',tab==='products');
   agentShell.classList.toggle('products-mode',tab==='products');
   comparisonHero.style.display=tab==='comparison'?'':'none';
@@ -3621,6 +3954,10 @@ function showAgentTab(tab){
   gmail.style.display=tab==='me'?'block':'none';
   signature.style.display=tab==='me'?'block':'none';
   admin.style.display=(tab==='me'&&isAdmin)?'block':'none';
+  // The primary admin sees the tracked list. Other agents, including regular
+  // admins, see the submission box instead.
+  suggestionSubmit.style.display=(tab==='me'&&!isPrimary)?'block':'none';
+  suggestionAdmin.style.display=(tab==='me'&&isPrimary)?'block':'none';
   if(tab==='products') customerShell.classList.remove('agent-hidden');
   else customerShell.classList.add('agent-hidden');
   if(tab==='me'){
@@ -3630,6 +3967,7 @@ function showAgentTab(tab){
     loadSignature();
     checkGmailStatus();
     if(isAdmin) renderAdminRoster();
+    if(isPrimary) renderSuggestionList();
   }
   [['agentComparisonTab','comparison'],['agentProductsTab','products'],['agentMeTab','me']].forEach(([id,key])=>{
     const b=document.getElementById(id); b.classList.toggle('primary',tab===key);
@@ -3691,6 +4029,77 @@ async function renderAdminRoster(){
       renderAdminRoster();
     }));
   }catch(err){ roster.innerHTML=`<span class="prototype-note" style="color:#b8431f;">${err.message}</span>`; }
+}
+
+const SUGGESTION_STATUS_LABEL={pending:'Pending',reviewing:'Reviewing',resolved:'Resolved',declined:'Declined'};
+
+function updateSuggestionPendingBadge(suggestions=[]){
+  const badge=document.getElementById('suggestionPendingBadge');
+  if(!badge) return;
+  const pending=suggestions.filter(s=>(s.status||'pending')==='pending').length;
+  badge.textContent=String(pending);
+  badge.classList.toggle('show',pending>0);
+  badge.setAttribute('aria-label',`${pending} pending suggestion${pending===1?'':'s'}`);
+}
+
+async function renderSuggestionList(){
+  const list=document.getElementById('suggestionList');
+  if(!list || !isPrimaryAdmin()) return;
+  list.innerHTML='<span class="prototype-note">Loading suggestions…</span>';
+  try{
+    const res=await fetch('/.netlify/functions/list-suggestions',{credentials:'include'});
+    const data=await readFunctionJson(res,'Suggestions service');
+    if(!res.ok) throw new Error(data.error||'Could not load suggestions');
+    const suggestions=data.suggestions||[];
+    updateSuggestionPendingBadge(suggestions);
+    if(!suggestions.length){ list.innerHTML='<span class="prototype-note">No suggestions yet.</span>'; return; }
+
+    list.innerHTML=suggestions.map(s=>{
+      const when=new Date(s.createdAt).toLocaleString('en-NZ',{dateStyle:'medium',timeStyle:'short'});
+      const status=s.status||'pending';
+      const actions=[];
+      if(status==='pending') actions.push(['reviewing','Mark reviewing']);
+      if(status==='reviewing'){ actions.push(['resolved','Mark resolved']); actions.push(['declined','Decline']); }
+      if(status==='resolved'||status==='declined') actions.push(['pending','Reopen']);
+      const actionHtml=actions.map(([next,label])=>`<button type="button" data-suggestion-id="${s.id}" data-suggestion-status="${next}">${label}</button>`).join('');
+      return `<div class="suggestion-item">
+        <div class="suggestion-item-meta"><span><strong style="color:var(--forest-dark);">${s.agentName||s.agentEmail}</strong> · ${when}</span><span class="status-badge ${status}">${SUGGESTION_STATUS_LABEL[status]||status}</span></div>
+        <div class="suggestion-item-body">${(s.message||'').replace(/</g,'&lt;')}</div>
+        <div class="suggestion-item-actions">${actionHtml}</div>
+      </div>`;
+    }).join('');
+
+    list.querySelectorAll('[data-suggestion-id]').forEach(btn=>btn.addEventListener('click',async()=>{
+        btn.disabled=true;
+        try{
+          const resp=await fetch('/.netlify/functions/update-suggestion',{method:'POST',credentials:'include',headers:{'content-type':'application/json'},body:JSON.stringify({id:btn.dataset.suggestionId,status:btn.dataset.suggestionStatus})});
+          const result=await readFunctionJson(resp,'Suggestions service');
+          if(!resp.ok) throw new Error(result.error||'Could not update suggestion');
+          await renderSuggestionList();
+        }catch(err){ alert(err.message); btn.disabled=false; }
+      }));
+  }catch(err){
+    updateSuggestionPendingBadge([]);
+    list.innerHTML=`<span class="prototype-note" style="color:#b8431f;">${err.message}</span>`;
+  }
+}
+
+async function sendSuggestion(){
+  const textarea=document.getElementById('suggestionMessage');
+  const note=document.getElementById('suggestionSendNote');
+  const button=document.getElementById('sendSuggestionBtn');
+  const message=textarea.value.trim();
+  note.textContent='';
+  if(!message){ note.style.color='#b8431f'; note.textContent='Write something before sending.'; return; }
+  button.disabled=true; button.textContent='Sending…';
+  try{
+    const res=await fetch('/.netlify/functions/submit-suggestion',{method:'POST',credentials:'include',headers:{'content-type':'application/json'},body:JSON.stringify({message})});
+    const data=await readFunctionJson(res,'Suggestions service');
+    if(!res.ok) throw new Error(data.error||'Could not send suggestion');
+    note.style.color='#3f7d2c'; note.textContent='Sent — the primary admin will see this.';
+    textarea.value='';
+  }catch(err){ note.style.color='#b8431f'; note.textContent=err.message; }
+  finally{ button.disabled=false; button.textContent='Send suggestion'; }
 }
 
 
@@ -3796,6 +4205,7 @@ document.getElementById('signatureImageInput').addEventListener('change',e=>{con
 document.getElementById('saveSignatureBtn').addEventListener('click',saveSignature);
 document.getElementById('clearSignatureBtn').addEventListener('click',()=>{signatureState[currentAgent]=defaultSignature();try{localStorage.removeItem(signatureStorageKey());}catch(e){}loadSignature();document.getElementById('signatureSaveNote').textContent='Signature cleared.';refreshAgentPreview();});
 document.getElementById('addAgentBtn').addEventListener('click',sendAgentInvite);
+document.getElementById('sendSuggestionBtn').addEventListener('click',sendSuggestion);
 
 document.getElementById('gstToggle').addEventListener('click',e=>{const b=e.target.closest('button[data-gst]');if(!b)return;gstMode=b.dataset.gst;document.querySelectorAll('#gstToggle button').forEach(x=>x.classList.toggle('on',x===b));[...quoteStack.children].forEach(recalcQuote);refreshAgentPreview();});
 ['agCustomerName','agCustomerEmail','agAddress','agMoveDate','agDays','agSubject','agEmailType'].forEach(id=>{const el=document.getElementById(id);el.addEventListener('input',()=>{if(id==='agDays'){[...quoteStack.children].forEach(recalcQuote);markRecommendationAuto();}refreshAgentPreview();});el.addEventListener('change',()=>{if(id==='agDays'){[...quoteStack.children].forEach(recalcQuote);markRecommendationAuto();}refreshAgentPreview();});});

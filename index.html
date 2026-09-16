@@ -5,37 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Renti Connections — Utility Deals</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F6F3EC;
-    --paper-2:#EEE9DC;
-    --ink:#1F2E22;
-    --ink-soft:#4B5A4E;
-    --forest:#4A1942;
-    --forest-dark:#3A1433;
-    --moss:#8FA88C;
-    --clay:#FFF2A7;
-    --renti-orange:#FF6537;
-    --line:#DCD5C4;
-    --white:#FFFFFF;
-    --radius:14px;
+    --paper:#FFFFFB;
+    --paper-2:#FFFEF1;
+    --ink:#10141B;
+    --ink-soft:#344660;
+    --forest:#4A154E;
+    --forest-dark:#4A154E;
+    --moss:#D2F287;
+    --clay:#FAF59F;
+    --renti-orange:#F94E1A;
+    --line:#E2E8F0;
+    --white:#FFFFFB;
+    --radius:16px;
+    --success-bg:#EBFEBF;
+    --success-text:#159A3F;
+    --info-bg:#F0E9F4;
+    --info-text:#0C5BB6;
+    --danger:#AE0712;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
     background:var(--paper);
     color:var(--ink);
-    font-family:'Poppins',sans-serif;
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
     -webkit-font-smoothing:antialiased;
   }
   h1,h2,h3,.display{
-    font-family:'Poppins',sans-serif;
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
     font-weight:700;
     letter-spacing:-0.01em;
   }
   .mono{
-    font-family:'Poppins',sans-serif;
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   }
   a{color:var(--forest-dark);}
 
@@ -51,15 +56,15 @@
   .brandmark .dot{
     width:11px;height:11px;border-radius:50%;
     background:var(--renti-orange);
-    box-shadow:0 0 0 3px rgba(255,101,55,0.22);
+    box-shadow:0 0 0 3px rgba(249,78,26,0.22);
     animation:dot-pulse 1.8s ease-in-out infinite;
   }
   @keyframes dot-pulse{
-    0%,100%{opacity:1;box-shadow:0 0 0 3px rgba(255,101,55,0.22);}
-    50%{opacity:0.45;box-shadow:0 0 0 6px rgba(255,101,55,0.05);}
+    0%,100%{opacity:1;box-shadow:0 0 0 3px rgba(249,78,26,0.22);}
+    50%{opacity:0.45;box-shadow:0 0 0 6px rgba(249,78,26,0.05);}
   }
   .brandmark span{
-    font-family:'Poppins',sans-serif;
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
     font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
     color:var(--ink-soft);
   }
@@ -133,7 +138,7 @@
   }
   .breaker:not(.on):hover{
     transform:translateY(-1px);
-    border-color:rgba(255,101,55,0.4);
+    border-color:rgba(249,78,26,0.4);
     background:var(--white);
   }
   .breaker::before{
@@ -144,10 +149,10 @@
   .breaker.on{
     background:var(--forest);color:var(--white);border-color:var(--forest);
   }
-  .breaker.on::before{background:var(--renti-orange);box-shadow:0 0 0 3px rgba(255,101,55,0.4);animation:dot-pulse-clay 1.8s ease-in-out infinite;}
+  .breaker.on::before{background:var(--renti-orange);box-shadow:0 0 0 3px rgba(249,78,26,0.4);animation:dot-pulse-clay 1.8s ease-in-out infinite;}
   @keyframes dot-pulse-clay{
-    0%,100%{opacity:1;box-shadow:0 0 0 3px rgba(255,101,55,0.4);}
-    50%{opacity:0.45;box-shadow:0 0 0 6px rgba(255,101,55,0.1);}
+    0%,100%{opacity:1;box-shadow:0 0 0 3px rgba(249,78,26,0.4);}
+    50%{opacity:0.45;box-shadow:0 0 0 6px rgba(249,78,26,0.1);}
   }
 
   /* ---------- grid ---------- */
@@ -166,7 +171,7 @@
   .card:hover{
     box-shadow:0 12px 28px rgba(31,46,34,0.12);
     transform:translateY(-4px) scale(1.012);
-    border-color:rgba(255,101,55,0.35);
+    border-color:rgba(249,78,26,0.35);
   }
   .card:hover .badge{transform:scale(1.08) rotate(-3deg);}
   .card.hidden{display:none;}
@@ -179,7 +184,7 @@
   .badge{
     width:42px;height:42px;border-radius:10px;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
-    font-family:'Poppins',sans-serif;font-weight:600;font-size:13px;color:var(--white);
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:600;font-size:13px;color:var(--white);
     transition:transform .2s cubic-bezier(.34,1.56,.64,1);
   }
   .card-heading{flex:1;min-width:0;}
@@ -191,9 +196,9 @@
   }
   .tag.ribbon-rec{background:rgba(58,20,51,0.1);color:var(--forest-dark);}
   .tag.ribbon-excl{background:rgba(255,242,167,0.45);color:#8a5f26;}
-  .tag.term-open{background:rgba(89,169,70,0.15);color:#3f7d2c;}
-  .tag.term-fixed{background:rgba(74,25,66,0.12);color:var(--forest-dark);}
-  .tag.term-mixed{background:rgba(255,101,55,0.14);color:#b8431f;}
+  .tag.term-open{background:var(--success-bg);color:var(--success-text);}
+  .tag.term-fixed{background:rgba(74,21,78,0.12);color:var(--forest-dark);}
+  .tag.term-mixed{background:#FFF1E0;color:var(--danger);}
   .countdown-badge{
     display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;
     background:var(--renti-orange);color:#fff;font-size:10px;font-weight:700;
@@ -210,11 +215,11 @@
 
   .card-body{padding:16px 20px 8px;flex:1;}
   .headline-stat{
-    font-family:'Poppins',sans-serif;font-size:19px;font-weight:600;color:var(--forest-dark);
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:19px;font-weight:600;color:var(--forest-dark);
     margin-bottom:4px;
   }
   .promo-tag{
-    display:inline-block;background:#D93A1F;color:#fff;font-size:10.5px;font-weight:700;
+    display:inline-block;background:var(--danger);color:#fff;font-size:10.5px;font-weight:700;
     text-transform:uppercase;letter-spacing:.03em;padding:3px 8px;border-radius:999px;
     vertical-align:middle;margin-right:8px;
   }
@@ -227,7 +232,7 @@
   .details.open{display:block;}
   .details h4{
     font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--forest-dark);
-    margin:14px 0 6px;font-family:'Poppins',sans-serif;font-weight:700;
+    margin:14px 0 6px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:700;
   }
   .details h4:first-child{margin-top:0;}
   .details ul{margin:0 0 4px;padding-left:18px;}
@@ -239,20 +244,20 @@
   .card-foot-row{display:flex;gap:8px;align-items:center;}
   .expand-btn{
     flex:1;background:var(--paper-2);border:1px solid var(--line);
-    border-radius:8px;padding:9px;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600;
+    border-radius:8px;padding:9px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12.5px;font-weight:600;
     color:var(--ink);cursor:pointer;transition:background .15s ease, transform .1s ease;
   }
   .expand-btn:hover{background:var(--line);}
   .expand-btn:active{transform:scale(0.97);}
   .plan-select, .plan-select-a, .plan-select-b, .plan-select-c{
     flex:1;min-width:0;padding:10px 30px 10px 12px;border:1.5px solid var(--line);border-radius:9px;
-    font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:500;color:var(--ink);background-color:var(--white);
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12.5px;font-weight:500;color:var(--ink);background-color:var(--white);
     cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234B5A4E' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 8px center;background-size:14px;
     transition:border-color .15s ease;
   }
-  .plan-select:hover, .plan-select-a:hover, .plan-select-b:hover, .plan-select-c:hover{border-color:rgba(255,101,55,0.5);}
+  .plan-select:hover, .plan-select-a:hover, .plan-select-b:hover, .plan-select-c:hover{border-color:rgba(249,78,26,0.5);}
   .plan-select:focus, .plan-select-a:focus, .plan-select-b:focus, .plan-select-c:focus{outline:none;border-color:var(--renti-orange);}
   .compare-check{
     display:flex;align-items:center;gap:6px;padding:9px 12px;border-radius:8px;
@@ -260,10 +265,10 @@
     font-size:12.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;flex-shrink:0;
     transition:all .15s ease;
   }
-  .compare-check:hover{border-color:rgba(255,101,55,0.5);}
+  .compare-check:hover{border-color:rgba(249,78,26,0.5);}
   .compare-check input{accent-color:var(--renti-orange);width:14px;height:14px;cursor:pointer;}
   .compare-check.picked{
-    background:rgba(255,101,55,0.1);border-color:var(--renti-orange);color:var(--forest-dark);
+    background:rgba(249,78,26,0.1);border-color:var(--renti-orange);color:var(--forest-dark);
     animation:pop-check .35s cubic-bezier(.34,1.56,.64,1);
   }
   @keyframes pop-check{
@@ -272,7 +277,7 @@
     100%{transform:scale(1);}
   }
   .select-plan-hint{
-    display:none;font-size:11.5px;font-weight:600;color:#D93A1F;
+    display:none;font-size:11.5px;font-weight:600;color:var(--danger);
     margin-top:2px;animation:hint-pop .25s ease;
   }
   .select-plan-hint.show{display:block;}
@@ -303,7 +308,7 @@
   .compare-actions{display:flex;gap:10px;align-items:center;}
   .compare-go{
     background:var(--renti-orange);color:#fff;border:none;border-radius:8px;
-    padding:9px 18px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;
+    padding:9px 18px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13px;font-weight:700;
     cursor:pointer;white-space:nowrap;
     transition:transform .12s cubic-bezier(.34,1.56,.64,1), background .15s ease;
   }
@@ -367,14 +372,14 @@
   .badge-mini{
     width:22px;height:22px;border-radius:6px;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
-    font-family:'Poppins',sans-serif;font-weight:700;font-size:8px;color:#fff;
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:700;font-size:8px;color:#fff;
   }
   .package-item-head strong{font-size:12.5px;flex:1;line-height:1.3;}
   .package-item-remove{
     background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;
     flex-shrink:0;padding:2px;
   }
-  .package-item-remove:hover{color:#D93A1F;}
+  .package-item-remove:hover{color:var(--danger);}
   .package-item ul{margin:0;padding-left:16px;font-size:12.5px;line-height:1.5;color:var(--ink-soft);}
   .section-label{
     font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;
@@ -403,7 +408,7 @@
   .enquiry-cta{
     display:inline-flex;align-items:center;gap:8px;margin-top:18px;
     background:var(--renti-orange);color:#fff;border:none;border-radius:10px;
-    padding:12px 22px;font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;
+    padding:12px 22px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:14px;font-weight:700;
     cursor:pointer;transition:transform .12s cubic-bezier(.34,1.56,.64,1), background .15s ease;
   }
   .enquiry-cta:hover{background:#e0501f;transform:translateY(-1px);}
@@ -411,17 +416,17 @@
 
   .compare-inline-cta{
     margin-top:16px;width:100%;background:var(--forest);color:#fff;border:none;border-radius:8px;
-    padding:11px;font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;
+    padding:11px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;
   }
   .compare-inline-cta:hover:not(:disabled){background:var(--forest-dark);}
   .compare-inline-cta:disabled{background:var(--line);color:var(--ink-soft);cursor:not-allowed;}
   .option-select-btn{
     margin-top:14px;width:100%;background:var(--white);color:var(--forest-dark);
     border:1.5px solid var(--renti-orange);border-radius:8px;
-    padding:10px;font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;
+    padding:10px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;
     transition:all .15s ease;
   }
-  .option-select-btn:hover{background:rgba(255,101,55,0.08);}
+  .option-select-btn:hover{background:rgba(249,78,26,0.08);}
   .option-select-btn.selected{
     background:var(--renti-orange);color:#fff;
     animation:pop-check .3s cubic-bezier(.34,1.56,.64,1);
@@ -443,7 +448,7 @@
   .enquiry-field label{display:block;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:4px;}
   .enquiry-field input, .enquiry-field textarea{
     width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;
-    font-family:'Poppins',sans-serif;font-size:13.5px;color:var(--ink);box-sizing:border-box;
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13.5px;color:var(--ink);box-sizing:border-box;
   }
   .enquiry-field input:focus, .enquiry-field textarea:focus{outline:none;border-color:var(--renti-orange);}
   .enquiry-field textarea{resize:vertical;min-height:60px;}
@@ -474,16 +479,16 @@
     border:1.5px dashed #cfc6b2;background:rgba(255,255,255,.8);border-radius:10px;padding:14px;
     transition:border-color .15s ease,background .15s ease,transform .15s ease;
   }
-  .upload-dropzone.dragover{border-color:var(--renti-orange);background:rgba(255,101,55,.05);transform:translateY(-1px);}
+  .upload-dropzone.dragover{border-color:var(--renti-orange);background:rgba(249,78,26,.05);transform:translateY(-1px);}
   .upload-empty{display:flex;align-items:center;gap:12px;}
-  .upload-icon{width:36px;height:36px;border-radius:9px;background:rgba(255,101,55,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .upload-icon{width:36px;height:36px;border-radius:9px;background:rgba(249,78,26,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
   .upload-copy{flex:1;min-width:0;}
   .upload-copy strong{display:block;font-size:12.5px;color:var(--ink);margin-bottom:2px;}
   .upload-copy span{display:block;font-size:10.5px;color:var(--ink-soft);line-height:1.4;}
   .upload-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;}
   .upload-action{
     border:1px solid var(--line);background:var(--white);border-radius:8px;padding:8px 10px;
-    font-family:'Poppins',sans-serif;font-size:11.5px;font-weight:700;color:var(--forest-dark);cursor:pointer;
+    font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:11.5px;font-weight:700;color:var(--forest-dark);cursor:pointer;
     transition:all .15s ease;
   }
   .upload-action.primary{background:var(--forest);border-color:var(--forest);color:#fff;}
@@ -499,15 +504,15 @@
   .remove-file-btn{border:none;background:var(--paper-2);color:var(--ink-soft);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:15px;line-height:1;}
   .remove-file-btn:hover{background:#f6ddd5;color:#b8431f;}
   .add-file-btn{
-    margin-top:4px;background:none;border:none;padding:4px 0;color:var(--forest-dark);font-family:'Poppins',sans-serif;
+    margin-top:4px;background:none;border:none;padding:4px 0;color:var(--forest-dark);font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
     font-size:11.5px;font-weight:700;cursor:pointer;
   }
   .add-file-btn:hover{color:var(--renti-orange);}
-  .upload-error{display:none;margin-top:8px;font-size:10.5px;font-weight:600;color:#b8431f;}
+  .upload-error{display:none;margin-top:8px;font-size:10.5px;font-weight:600;color:var(--danger);}
   .upload-error.show{display:block;}
   .enquiry-submit{
     width:100%;background:var(--renti-orange);color:#fff;border:none;border-radius:8px;
-    padding:12px;font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px;
+    padding:12px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px;
   }
   .enquiry-submit:hover{background:#e0501f;}
   .enquiry-call-note{margin-top:16px;font-size:12.5px;color:var(--ink-soft);text-align:center;}
@@ -554,7 +559,7 @@
   /* ---------- agent portal prototype ---------- */
   .agent-login-btn{
     border:1px solid var(--line);background:var(--white);color:var(--forest-dark);
-    border-radius:10px;padding:9px 14px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;
+    border-radius:10px;padding:9px 14px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12px;font-weight:700;
     cursor:pointer;transition:all .15s ease;
   }
   .agent-login-btn:hover{border-color:var(--renti-orange);transform:translateY(-1px);}
@@ -567,7 +572,7 @@
   .agent-id strong{display:block;font-size:14px;color:var(--ink);}
   .agent-id span{display:block;font-size:11.5px;color:var(--ink-soft);}
   .agent-actions{display:flex;gap:8px;flex-wrap:wrap;}
-  .agent-btn{border:1px solid var(--line);background:var(--white);color:var(--forest-dark);border-radius:9px;padding:9px 12px;font:700 12px 'Poppins',sans-serif;cursor:pointer;}
+  .agent-btn{border:1px solid var(--line);background:var(--white);color:var(--forest-dark);border-radius:9px;padding:9px 12px;font:700 12px 'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;cursor:pointer;}
   .agent-btn.primary{background:var(--renti-orange);border-color:var(--renti-orange);color:#fff;}
   .agent-btn.dark{background:var(--forest);border-color:var(--forest);color:#fff;}
   .agent-btn:disabled{opacity:.45;cursor:not-allowed;}
@@ -586,12 +591,12 @@
   .agent-field.full{grid-column:1/-1;}
   .agent-field label{display:block;font-size:10.5px;font-weight:700;color:var(--ink-soft);margin-bottom:5px;text-transform:uppercase;letter-spacing:.035em;}
   .agent-field input,.agent-field select,.agent-field textarea{
-    width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);font:500 12.5px 'Poppins',sans-serif;
+    width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);font:500 12.5px 'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   }
   .agent-field textarea{min-height:78px;resize:vertical;}
-  .agent-field input:focus,.agent-field select:focus,.agent-field textarea:focus{outline:none;border-color:var(--renti-orange);box-shadow:0 0 0 3px rgba(255,101,55,.08);}
+  .agent-field input:focus,.agent-field select:focus,.agent-field textarea:focus{outline:none;border-color:var(--renti-orange);box-shadow:0 0 0 3px rgba(249,78,26,.08);}
   .segmented{display:inline-flex;background:var(--paper-2);border:1px solid var(--line);padding:3px;border-radius:10px;gap:3px;}
-  .segmented button{border:none;background:transparent;border-radius:7px;padding:7px 10px;font:700 11px 'Poppins',sans-serif;color:var(--ink-soft);cursor:pointer;}
+  .segmented button{border:none;background:transparent;border-radius:7px;padding:7px 10px;font:700 11px 'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--ink-soft);cursor:pointer;}
   .segmented button.on{background:var(--forest);color:#fff;box-shadow:0 1px 2px rgba(0,0,0,.08);}
   .quote-stack{display:flex;flex-direction:column;gap:12px;}
   .quote-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--white);}
@@ -603,17 +608,17 @@
   .quote-body{padding:14px;}
   .rate-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:12px;}
   .rate-row-label{grid-column:1/-1;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--forest-dark);margin-top:3px;}
-  .calc-result{margin-top:13px;padding:12px 13px;border-radius:11px;background:rgba(74,25,66,.055);border:1px solid rgba(74,25,66,.12);display:flex;justify-content:space-between;gap:12px;align-items:end;}
+  .calc-result{margin-top:13px;padding:12px 13px;border-radius:11px;background:rgba(74,21,78,.055);border:1px solid rgba(74,21,78,.12);display:flex;justify-content:space-between;gap:12px;align-items:end;}
   .calc-result span{font-size:10.5px;color:var(--ink-soft);display:block;margin-bottom:2px;}
   .calc-result strong{font-size:21px;color:var(--forest-dark);}
   .calc-breakdown{font-size:10px;color:var(--ink-soft);text-align:right;line-height:1.45;}
-  .add-quote{width:100%;margin-top:12px;border:1.5px dashed #cfc6b2;background:rgba(255,255,255,.7);color:var(--forest-dark);border-radius:11px;padding:12px;font:700 12px 'Poppins',sans-serif;cursor:pointer;}
-  .add-quote:hover{border-color:var(--renti-orange);background:rgba(255,101,55,.03);}
+  .add-quote{width:100%;margin-top:12px;border:1.5px dashed #cfc6b2;background:rgba(255,255,255,.7);color:var(--forest-dark);border-radius:11px;padding:12px;font:700 12px 'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;cursor:pointer;}
+  .add-quote:hover{border-color:var(--renti-orange);background:rgba(249,78,26,.03);}
   .email-preview{border:1px solid var(--line);border-radius:13px;background:#fff;overflow:hidden;}
   .email-preview-head{padding:12px 14px;background:var(--paper-2);border-bottom:1px solid var(--line);font-size:11.5px;color:var(--ink-soft);}
   .email-preview-body{padding:16px;font-size:12px;line-height:1.65;color:var(--ink);min-height:250px;}
   .email-preview-body h3{font-size:14px;color:var(--forest-dark);margin:15px 0 7px;}
-  .email-preview-body[contenteditable="true"]{outline:2px solid rgba(255,101,55,.28);outline-offset:-2px;background:#fffdf9;}
+  .email-preview-body[contenteditable="true"]{outline:2px solid rgba(249,78,26,.28);outline-offset:-2px;background:#fffdf9;}
   .preview-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;}
   .preview-edit-note{font-size:10.5px;color:var(--ink-soft);}
   .recommend-box{margin-top:12px;padding:13px 14px;border:1px solid var(--line);border-left:3px solid var(--renti-orange);border-radius:10px;background:linear-gradient(180deg,#fff,#fffaf5);}
@@ -628,14 +633,14 @@
   .prototype-note{margin-top:10px;font-size:10.5px;color:var(--ink-soft);line-height:1.5;}
   .admin-roster{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;}
   .agent-pill{display:flex;align-items:center;gap:6px;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:5px 8px 5px 10px;font-size:10.5px;font-weight:600;color:var(--ink);}
-  .agent-pill.admin{background:rgba(255,101,55,.1);border-color:rgba(255,101,55,.25);}
+  .agent-pill.admin{background:rgba(249,78,26,.1);border-color:rgba(249,78,26,.25);}
   .agent-pill button{border:none;background:none;color:var(--ink-soft);cursor:pointer;padding:0;font-size:12px;}
   .agent-login-overlay{position:fixed;inset:0;z-index:120;background:rgba(31,20,10,.58);display:none;align-items:center;justify-content:center;padding:20px;}
   .agent-login-overlay.show{display:flex;}
   .agent-login-modal{width:min(430px,100%);background:var(--white);border-radius:18px;padding:24px;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.2);}
   .agent-login-modal h3{font-size:20px;margin:0 0 5px;color:var(--forest-dark);}
   .agent-login-modal p{font-size:12px;color:var(--ink-soft);line-height:1.55;margin:0 0 16px;}
-  .prototype-chip{display:inline-block;background:rgba(255,101,55,.1);color:#b8431f;border-radius:999px;padding:4px 8px;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;}
+  .prototype-chip{display:inline-block;background:#FFF1E0;color:var(--danger);border-radius:999px;padding:4px 8px;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;}
   @media(max-width:900px){.agent-grid{grid-template-columns:1fr}.rate-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
   @media(max-width:640px){.agent-shell{padding:20px 16px 60px}.agent-form-grid,.agent-form-grid.three{grid-template-columns:1fr}.rate-grid{grid-template-columns:1fr 1fr}.agent-hero{padding:24px 20px}.agent-hero h1{font-size:25px}.agent-panel{padding:16px}}
   @media(max-width:480px){.enquiry-modal{padding:18px 14px 22px}.compare-choice{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.compare-choice label{padding:9px 10px;font-size:11.5px;min-height:46px;grid-template-columns:16px minmax(0,auto);column-gap:7px}.enquiry-field>label{line-height:1.4}}
@@ -645,8 +650,8 @@
   .package-add-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
   .package-add-copy strong{display:block;font-size:13px;color:var(--ink);margin-bottom:2px;}
   .package-add-copy span{display:block;font-size:11px;color:var(--ink-soft);}
-  .package-add-btn{border:1.5px solid var(--renti-orange);background:#fff;color:var(--forest-dark);border-radius:9px;padding:9px 13px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
-  .package-add-btn:hover{background:rgba(255,101,55,.07);}
+  .package-add-btn{border:1.5px solid var(--renti-orange);background:#fff;color:var(--forest-dark);border-radius:9px;padding:9px 13px;font-family:'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
+  .package-add-btn:hover{background:rgba(249,78,26,.07);}
   .package-add-btn.active{background:var(--forest);border-color:var(--forest);color:#fff;}
   .bb-package{display:none;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,#fff 0%,#faf8f3 100%);padding:14px;}
   .bb-package.show{display:block;}
@@ -658,7 +663,7 @@
   .package-total span{font-size:11px;color:rgba(255,255,255,.72);display:block;margin-bottom:2px;}
   .package-total strong{font-size:22px;color:var(--clay);}
   .package-breakdown{font-size:11px;line-height:1.5;color:rgba(255,255,255,.78);text-align:right;}
-  .email-package-total{margin-top:10px;padding:10px 12px;border-radius:9px;background:rgba(74,25,66,.07);border-left:3px solid var(--renti-orange);}
+  .email-package-total{margin-top:10px;padding:10px 12px;border-radius:9px;background:rgba(74,21,78,.07);border-left:3px solid var(--renti-orange);}
   .email-package-total strong{color:var(--forest-dark);}
 
   .agent-shell.products-mode .agent-hero, .agent-shell.products-mode .agent-grid{display:none!important;}
@@ -684,8 +689,8 @@
   .daily-sales-message .daily-flourish{font-size:14px;font-weight:700;color:var(--renti-orange);white-space:nowrap;font-style:italic;}
   @media(max-width:640px){.daily-sales-message{grid-template-columns:1fr;gap:8px}.daily-sales-message .daily-flourish{white-space:normal;text-align:right;font-size:12.5px;}}
 
-  .auth-error{color:#b8431f!important;font-weight:600;}
-  .auth-ok{color:#3f7d2c!important;font-weight:600;}
+  .auth-error{color:var(--danger)!important;font-weight:600;}
+  .auth-ok{color:var(--success-text)!important;font-weight:600;}
   .admin-roster{margin-top:14px;}
   .me-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;}
   .me-coffee-note{display:flex;align-items:center;gap:9px;color:var(--forest);font-size:12px;font-weight:700;white-space:nowrap;transform:rotate(-1deg);}
@@ -694,12 +699,12 @@
   .admin-roster-table{margin-top:14px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;}
   .admin-roster-row{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(90px,.6fr) minmax(92px,.65fr) auto;gap:10px;align-items:center;padding:10px 12px;border-top:1px solid var(--line);font-size:11px;}
   .admin-roster-row:first-child{border-top:0}.admin-roster-head{background:var(--paper-2);font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:800;color:var(--ink-soft);}
-  .access-badge,.status-badge{display:inline-block;border-radius:999px;padding:4px 8px;font-size:9.5px;font-weight:800;width:max-content}.access-badge.admin{background:rgba(255,101,55,.12);color:#a53b1d}.access-badge.user{background:#f0ede5;color:#4b5a4e}.status-badge.active{background:#e6f4e2;color:#37722c}.status-badge.invited{background:#fff3df;color:#946416}.status-badge.pending{background:#fff3df;color:#946416}.status-badge.reviewing{background:#e8f0fe;color:#2451a3}.status-badge.resolved{background:#e6f4e2;color:#37722c}.status-badge.declined{background:#f0ede5;color:#4b5a4e}.roster-actions{display:flex;gap:6px;justify-content:flex-end}.roster-actions button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font:600 9.5px 'Poppins',sans-serif;color:var(--forest-dark);cursor:pointer}.roster-actions button.danger{color:#a53b1d}.roster-actions button:disabled{opacity:.45;cursor:not-allowed}
+  .access-badge,.status-badge{display:inline-block;border-radius:999px;padding:4px 8px;font-size:9.5px;font-weight:800;width:max-content}.access-badge.admin{background:#FFF1E0;color:var(--danger)}.access-badge.user{background:#EDF2F7;color:var(--ink-soft)}.status-badge.active{background:var(--success-bg);color:var(--success-text)}.status-badge.invited{background:#FAF59F;color:#344660}.status-badge.pending{background:#FAF59F;color:#344660}.status-badge.reviewing{background:var(--info-bg);color:var(--info-text)}.status-badge.resolved{background:var(--success-bg);color:var(--success-text)}.status-badge.declined{background:#EDF2F7;color:var(--ink-soft)}.roster-actions{display:flex;gap:6px;justify-content:flex-end}.roster-actions button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font:600 9.5px 'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--forest-dark);cursor:pointer}.roster-actions button.danger{color:var(--danger)}.roster-actions button:disabled{opacity:.45;cursor:not-allowed}
   .suggestion-item{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fff;}
   .suggestion-item-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--ink-soft);margin-bottom:6px;}
   .suggestion-item-body{font-size:13px;color:var(--ink);line-height:1.5;margin-bottom:8px;}
   .suggestion-item-actions{display:flex;gap:6px;flex-wrap:wrap;}
-  .suggestion-item-actions button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 10px;font:600 10.5px 'Poppins',sans-serif;color:var(--forest-dark);cursor:pointer;}
+  .suggestion-item-actions button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 10px;font:600 10.5px 'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--forest-dark);cursor:pointer;}
   .suggestion-item-actions button:disabled{opacity:.4;cursor:default;}
   .suggestion-heading-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
   .suggestion-count-badge{
@@ -750,7 +755,7 @@
     <div class="consent-block">
       <strong>💡 Need a hand choosing?</strong> Not sure which provider or plan is right for you? Our Connections team is here to help. We can talk you through the options, explain the differences and help you work out what suits your home and needs.
     </div>
-    <button class="enquiry-cta" id="enquiryOpenGeneral">Get in touch about a deal</button>
+    <button class="enquiry-cta" id="enquiryOpenGeneral">Please email connectionsinfo@renti.co</button>
   </div>
 
 </div>
@@ -820,12 +825,12 @@
         <p class="panel-sub">Spotted a rate that's changed, a feature worth adding, anything else worth a look — send it straight through.</p>
         <div class="agent-field"><label>What do you want the admin to look at?</label><textarea id="suggestionMessage" style="min-height:90px;" placeholder="e.g. Powershop's credit might have changed — a customer mentioned $180 not $150. Worth double checking?"></textarea></div>
         <div class="preview-tools"><button type="button" class="agent-btn primary" id="sendSuggestionBtn">Send suggestion</button><span class="preview-edit-note" id="suggestionSendNote"></span></div>
-        <div class="prototype-note" style="margin-top:9px;">Shows your name and when you sent it — Sent directly to Sontary for review.</div>
+        <div class="prototype-note" style="margin-top:9px;">Shows your name and when you sent it — this always goes to the primary admin.</div>
       </section>
 
       <section class="agent-panel" id="suggestionAdminPanel" style="display:none;">
         <div class="suggestion-heading-row"><h2 style="margin:0;">Suggestions</h2><span class="suggestion-count-badge" id="suggestionPendingBadge" aria-label="Pending suggestions"></span></div>
-        <p class="panel-sub">What agents have flagged, newest first. Only Sontary, as Primary Admin, can view and manage these.</p>
+        <p class="panel-sub">What agents have flagged, newest first.</p>
         <div class="admin-roster" id="suggestionList"></div>
       </section>
 
@@ -938,7 +943,7 @@
     <div class="compare-title" id="compareModalTitle">Side by side</div>
     <div class="compare-grid" id="compareGrid"></div>
     <div class="compare-note" id="compareModalNote"></div>
-    <button class="compare-inline-cta" id="enquiryOpenFromCompare">Get in touch about all of these</button>
+    <button class="compare-inline-cta" id="enquiryOpenFromCompare">Please email connectionsinfo@renti.co</button>
   </div>
 </div>
 
@@ -947,11 +952,10 @@
     <button class="compare-close" id="enquiryClose">✕</button>
 
     <div id="enquiryFormWrap">
-      <h3>Get in touch</h3>
-      <p class="sub">Leave your details and we'll arrange the connection or have an agent follow up — no need to draft an email.</p>
+      <h3>Email Connections</h3>
+      <p class="sub">Please email <a href="mailto:connectionsinfo@renti.co">connectionsinfo@renti.co</a>.</p>
 
-      <form name="renti-enquiry" method="POST" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" id="enquiryForm">
-        <input type="hidden" name="form-name" value="renti-enquiry">
+      <form enctype="multipart/form-data" id="enquiryForm">
         <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
 
         <div class="enquiry-field">
@@ -1467,8 +1471,8 @@ const PROVIDERS = [
       <h4>Fibre</h4>
       <ul>
         <li>100/20Mbps — $70/mo (+$5/mo optional modem)</li>
-        <li>500/100Mbps — $101/mo (+$5/mo optional modem) — $100 joining credit</li>
-        <li>900/500Mbps — $116/mo (+$5/mo optional modem) — $100 joining credit</li>
+        <li>500/100Mbps — $101/mo (+$5/mo optional modem) — $10/month off broadband</li>
+        <li>900/500Mbps — $116/mo (+$5/mo optional modem) — $10/month off broadband</li>
         <li>$15 one-off delivery fee</li>
       </ul>
       <h4>Bundle with power</h4>
@@ -1989,8 +1993,8 @@ function resolveComboPlan(provider, idA, idB, idC){
       'w-essential':["Unlimited, 44/17Mbps","Free modem rental for 12-month term"],
       'w-max':["Unlimited 5G","Free modem rental for 12-month term"],
       'f-100':["100/20Mbps"],
-      'f-500':["500/100Mbps","$100 joining credit"],
-      'f-900':["900/500Mbps","$100 joining credit"]
+      'f-500':["500/100Mbps","$10/month off broadband"],
+      'f-900':["900/500Mbps","$10/month off broadband"]
     }[idA];
     const isFibre = idA.startsWith('f-');
     const modemBullets = isFibre
@@ -2359,7 +2363,7 @@ function renderCompareModal(){
     : (sharedCategory ? 'Side by side' : 'Your combo');
   document.getElementById('compareModalNote').textContent =
     groups.length === 1
-    ? `Here's everything on this plan — hit "Get in touch" below when you're ready.`
+    ? `Here's everything on this plan. If you have any questions, please email connectionsinfo@renti.co.`
     : hasPackage
     ? `Each option below adds up to a full setup on its own — some are one provider's bundle, others are a few providers stitched together — so they're genuinely comparable side by side.`
     : sharedCategory
@@ -2429,13 +2433,13 @@ function updateModalCTA(groupCount){
   bottomBtn.style.display = 'block';
   if(groupCount === 1){
     bottomBtn.disabled = false;
-    bottomBtn.textContent = 'Get in touch about this';
+    bottomBtn.textContent = 'Please email connectionsinfo@renti.co';
   } else if(modalTicks.size === 0){
     bottomBtn.disabled = true;
     bottomBtn.textContent = 'Tick an option above to continue';
   } else {
     bottomBtn.disabled = false;
-    bottomBtn.textContent = `Get in touch about ${modalTicks.size===1 ? 'this' : 'these'} (${modalTicks.size})`;
+    bottomBtn.textContent = 'Please email connectionsinfo@renti.co';
   }
 }
 
@@ -2612,21 +2616,12 @@ function openEnquiry(prefillProviders){
   enquiryOverlay.classList.add('show');
 }
 
-document.getElementById('enquiryOpenGeneral').addEventListener('click', ()=> openEnquiry(''));
+document.getElementById('enquiryOpenGeneral').addEventListener('click', ()=>{
+  window.location.href='mailto:connectionsinfo@renti.co?subject=Renti%20Connections%20deal%20enquiry';
+});
 
 document.getElementById('enquiryOpenFromCompare').addEventListener('click', ()=>{
-  const groups = groupComparePicks(comparePicks);
-  let idsToUse;
-  if(groups.length === 1){
-    idsToUse = groups[0].pickIds;
-  } else if(modalTicks.size > 0){
-    idsToUse = [...modalTicks].flatMap(key => key.split(','));
-  } else {
-    return;
-  }
-  const names = idsToUse.map(pickLabel).join(', ');
-  document.getElementById('compareOverlay').classList.remove('show');
-  openEnquiry(names);
+  window.location.href='mailto:connectionsinfo@renti.co?subject=Renti%20Connections%20deal%20enquiry';
 });
 
 document.getElementById('enquiryClose').addEventListener('click', ()=>{
@@ -2899,8 +2894,8 @@ const AGENT_BROADBAND_PLANS={
     {label:'Wireless Essential',price:60,modem:'Free modem rental on a 12-month term'},
     {label:'Wireless 5G Max',price:65,modem:'Free modem rental on a 12-month term'},
     {label:'Fibre 100/20',price:70},
-    {label:'Fibre 500/100',price:101,benefit:'$100 joining credit'},
-    {label:'Fibre 900/500',price:116,benefit:'$100 joining credit'}
+    {label:'Fibre 500/100',price:101,benefit:'$10/month off broadband'},
+    {label:'Fibre 900/500',price:116,benefit:'$10/month off broadband'}
   ],
   onenz:[
     {label:'5G Wireless',price:65,benefit:'$120 one-off credit',modem:'Modem included'},
@@ -3086,7 +3081,7 @@ function powerBreakdownHtml(card){
   const rowHtml=rows.map((r,i)=>`<tr><td style="padding:7px 8px;border-top:${i?'1px solid #e5dfd2':'0'};color:#243128;font-size:11px;line-height:1.3;">${r.label}</td><td style="padding:7px 8px;border-top:${i?'1px solid #e5dfd2':'0'};color:#243128;font-size:11px;line-height:1.3;overflow-wrap:anywhere;">$${r.rate.toFixed(4)} ${r.rateUnit}</td><td style="padding:7px 8px;border-top:${i?'1px solid #e5dfd2':'0'};color:#243128;font-size:11px;line-height:1.3;">${r.usage}</td><td style="padding:7px 8px;border-top:${i?'1px solid #e5dfd2':'0'};color:#243128;font-size:11px;line-height:1.3;text-align:right;white-space:nowrap;">$${r.cost.toFixed(2)}</td></tr>`).join('');
   const totals=gstMode==='exclusive'
     ? `<tr style="background:#faf8f3;"><td colspan="3" style="padding:7px 8px;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;">Subtotal excl. GST</td><td style="padding:7px 8px;text-align:right;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;white-space:nowrap;">$${subtotal.toFixed(2)}</td></tr><tr style="background:#faf8f3;"><td colspan="3" style="padding:7px 8px;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;">GST 15%</td><td style="padding:7px 8px;text-align:right;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;white-space:nowrap;">$${gst.toFixed(2)}</td></tr><tr style="background:#fff3e9;"><td colspan="3" style="padding:8px;font-size:11px;font-weight:800;color:#35152f;border-top:1px solid #ead7c5;">Estimated total incl. GST</td><td style="padding:8px;text-align:right;font-size:12px;font-weight:800;color:#35152f;border-top:1px solid #ead7c5;white-space:nowrap;">$${finalTotal.toFixed(2)}</td></tr>`
-    : `<tr style="background:#fff3e9;"><td colspan="3" style="padding:8px;font-size:11px;font-weight:700;color:#35152f;border-top:1px solid #ead7c5;">Estimated power total</td><td style="padding:8px;text-align:right;font-size:12px;font-weight:800;color:#35152f;border-top:1px solid #ead7c5;white-space:nowrap;">$${finalTotal.toFixed(2)}</td></tr>`;
+    : `<tr style="background:#fff3e9;"><td colspan="3" style="padding:8px;font-size:11px;font-weight:700;color:#10141B;border-top:1px solid #ead7c5;">Estimated power total</td><td style="padding:8px;text-align:right;font-size:12px;font-weight:800;color:#10141B;border-top:1px solid #ead7c5;white-space:nowrap;">$${finalTotal.toFixed(2)}</td></tr>`;
   return `<div style="margin-top:10px;"><div style="font-size:12px;font-weight:700;color:#35152f;margin-bottom:6px;">Power estimate breakdown</div><div style="width:100%;"><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;border:1px solid #e5dfd2;border-radius:9px;overflow:hidden;background:#ffffff;"><thead><tr style="background:#f2efe8;"><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">Charge type</th><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">${rateLabel}</th><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">Estimated usage</th><th style="padding:7px 8px;text-align:right;color:#4b5a4e;font-size:10px;line-height:1.25;">${costLabel}</th></tr></thead><tbody>${rowHtml}${totals}</tbody></table></div><div style="font-size:10.5px;color:#657267;margin-top:5px;">${gstMode==='exclusive'?'Rates entered are GST exclusive. GST is added after the usage and daily-charge subtotal, matching the way the estimate is calculated.':'Rates entered as GST inclusive.'}</div></div>`;
 }
 
@@ -3621,8 +3616,8 @@ function quotePreviewHtml(card,index,emailType,totalOptions=1){
   let body='';
   if(emailType==='full' && hasPower){
     const powerInfo=quotePowerAfterPromo(card);
-    const percentLine=(powerInfo.discount>0)?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:6px;line-height:1.6;">Power before discount: $${powerInfo.before.toFixed(2)}<br>Promotional discount: −$${powerInfo.discount.toFixed(2)}<br><strong style="color:#35152f;">Estimated power after discount: $${powerInfo.after.toFixed(2)}</strong></div>`:'';
-    body += `<div style="margin-top:12px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">Power — estimated cost: <span style="font-size:18px;color:#35152f;">$${powerInfo.after.toFixed(2)}</span></div>${percentLine}${powerBreakdownHtml(card)}</div>`;
+    const percentLine=(powerInfo.discount>0)?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:6px;line-height:1.6;">Power before discount: $${powerInfo.before.toFixed(2)}<br>Promotional discount: −$${powerInfo.discount.toFixed(2)}<br><strong style="color:#10141B;">Estimated power after discount: $${powerInfo.after.toFixed(2)}</strong></div>`:'';
+    body += `<div style="margin-top:12px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#10141B;">Power — estimated cost: <span style="font-size:18px;color:#10141B;">$${powerInfo.after.toFixed(2)}</span></div>${percentLine}${powerBreakdownHtml(card)}</div>`;
   }
   if(card.dataset.hasLpg==='true'||service==='lpg'){ body += lpgBreakdownHtml(card); const combined=(hasPower?quotePowerTotal(card):0)+quoteLpgTotal(card); body += `<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:#fff1e7;border:1px solid #ffd6c7;"><div style="font-size:12px;font-weight:700;color:#ff6537;">${hasPower?'Estimated power + LPG total':'Estimated LPG total'}</div><div style="font-size:24px;line-height:1.2;font-weight:800;color:#ff6537;margin-top:2px;">$${combined.toFixed(2)}</div></div>`; }
   if(service==='mobile'){
@@ -3959,9 +3954,9 @@ function showAgentTab(tab){
   gmail.style.display=tab==='me'?'block':'none';
   signature.style.display=tab==='me'?'block':'none';
   admin.style.display=(tab==='me'&&isAdmin)?'block':'none';
-  // Every signed-in agent can submit suggestions.
-  // Only the Primary Admin can view and manage the tracked list.
-  suggestionSubmit.style.display=tab==='me'?'block':'none';
+  // The primary admin sees the tracked list. Other agents, including regular
+  // admins, see the submission box instead.
+  suggestionSubmit.style.display=(tab==='me'&&!isPrimary)?'block':'none';
   suggestionAdmin.style.display=(tab==='me'&&isPrimary)?'block':'none';
   if(tab==='products') customerShell.classList.remove('agent-hidden');
   else customerShell.classList.add('agent-hidden');
@@ -4101,7 +4096,7 @@ async function sendSuggestion(){
     const res=await fetch('/.netlify/functions/submit-suggestion',{method:'POST',credentials:'include',headers:{'content-type':'application/json'},body:JSON.stringify({message})});
     const data=await readFunctionJson(res,'Suggestions service');
     if(!res.ok) throw new Error(data.error||'Could not send suggestion');
-    note.style.color='#3f7d2c'; note.textContent='Sent — Sontary will see this.';
+    note.style.color='#3f7d2c'; note.textContent='Sent — the primary admin will see this.';
     textarea.value='';
   }catch(err){ note.style.color='#b8431f'; note.textContent=err.message; }
   finally{ button.disabled=false; button.textContent='Send suggestion'; }
