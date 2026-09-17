@@ -3132,8 +3132,17 @@ function powerBreakdownHtml(card){
   const totals=gstMode==='exclusive'
     ? `<tr style="background:#faf8f3;"><td colspan="3" style="padding:7px 8px;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;">Subtotal excl. GST</td><td style="padding:7px 8px;text-align:right;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;white-space:nowrap;">$${subtotal.toFixed(2)}</td></tr><tr style="background:#faf8f3;"><td colspan="3" style="padding:7px 8px;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;">GST 15%</td><td style="padding:7px 8px;text-align:right;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;white-space:nowrap;">$${gst.toFixed(2)}</td></tr><tr style="background:#fff3e9;"><td colspan="3" style="padding:8px;font-size:11px;font-weight:800;color:#35152f;border-top:1px solid #ead7c5;">Estimated total incl. GST</td><td style="padding:8px;text-align:right;font-size:12px;font-weight:800;color:#35152f;border-top:1px solid #ead7c5;white-space:nowrap;">$${finalTotal.toFixed(2)}</td></tr>`
     : `<tr style="background:#fff3e9;"><td colspan="3" style="padding:8px;font-size:11px;font-weight:700;color:#10141B;border-top:1px solid #ead7c5;">Estimated power total</td><td style="padding:8px;text-align:right;font-size:12px;font-weight:800;color:#10141B;border-top:1px solid #ead7c5;white-space:nowrap;">$${finalTotal.toFixed(2)}</td></tr>`;
+  const promo=quotePromo(card);
+  let creditRows='';
+  if(promo&&promo.type==='credit'&&promo.shape==='spread'){
+    const monthlyCredit=promo.amount/promo.months;
+    const promotionalTotal=Math.max(0,quotePowerAfterPromo(card).after-monthlyCredit);
+    creditRows=`<tr style="background:#fffaf5;"><td colspan="3" style="padding:8px;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;">Account credit — first ${promo.months} month${promo.months===1?'':'s'}</td><td style="padding:8px;text-align:right;font-size:11px;font-weight:800;color:#159a3f;border-top:1px solid #ead7c5;white-space:nowrap;">−$${monthlyCredit.toFixed(2)}/month</td></tr><tr style="background:#ebfebf;"><td colspan="3" style="padding:8px;font-size:11px;font-weight:800;color:#10141b;border-top:1px solid #d7eab2;">Estimated promotional monthly total</td><td style="padding:8px;text-align:right;font-size:12px;font-weight:800;color:#10141b;border-top:1px solid #d7eab2;white-space:nowrap;">$${promotionalTotal.toFixed(2)}</td></tr>`;
+  } else if(promo&&promo.type==='credit'&&promo.shape==='upfront'){
+    creditRows=`<tr style="background:#fffaf5;"><td colspan="3" style="padding:8px;font-size:11px;font-weight:700;color:#4b5a4e;border-top:1px solid #ead7c5;">One-off account credit</td><td style="padding:8px;text-align:right;font-size:11px;font-weight:800;color:#159a3f;border-top:1px solid #ead7c5;white-space:nowrap;">$${promo.amount.toFixed(2)}</td></tr><tr style="background:#fffaf5;"><td colspan="4" style="padding:8px;font-size:10.5px;color:#5c675e;border-top:1px solid #ead7c5;">This credit will be applied to the first bill. It does not reduce the ongoing monthly estimate.</td></tr>`;
+  }
   const userClass=card.dataset.powerUserClass==='low'?'Low user':'Standard user';
-  return `<div style="margin-top:10px;"><div style="font-size:12px;font-weight:700;color:#35152f;margin-bottom:3px;">Power estimate breakdown</div><div style="font-size:11.5px;color:#4b5a4e;margin-bottom:7px;"><strong>User class:</strong> ${userClass}</div><div style="width:100%;"><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;border:1px solid #e5dfd2;border-radius:9px;overflow:hidden;background:#ffffff;"><thead><tr style="background:#f2efe8;"><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">Charge type</th><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">${rateLabel}</th><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">Estimated usage</th><th style="padding:7px 8px;text-align:right;color:#4b5a4e;font-size:10px;line-height:1.25;">${costLabel}</th></tr></thead><tbody>${rowHtml}${totals}</tbody></table></div><div style="font-size:10.5px;color:#657267;margin-top:5px;">${gstMode==='exclusive'?'Rates entered are GST exclusive. GST is added after the usage and daily-charge subtotal, matching the way the estimate is calculated.':'Rates entered as GST inclusive.'}</div></div>`;
+  return `<div style="margin-top:10px;"><div style="font-size:12px;font-weight:700;color:#35152f;margin-bottom:3px;">Power estimate breakdown</div><div style="font-size:11.5px;color:#4b5a4e;margin-bottom:7px;"><strong>User class:</strong> ${userClass}</div><div style="width:100%;"><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;border:1px solid #e5dfd2;border-radius:9px;overflow:hidden;background:#ffffff;"><thead><tr style="background:#f2efe8;"><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">Charge type</th><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">${rateLabel}</th><th style="padding:7px 8px;text-align:left;color:#4b5a4e;font-size:10px;line-height:1.25;">Estimated usage</th><th style="padding:7px 8px;text-align:right;color:#4b5a4e;font-size:10px;line-height:1.25;">${costLabel}</th></tr></thead><tbody>${rowHtml}${totals}${creditRows}</tbody></table></div><div style="font-size:10.5px;color:#657267;margin-top:5px;">${gstMode==='exclusive'?'Rates entered are GST exclusive. GST is added after the usage and daily-charge subtotal, matching the way the estimate is calculated.':'Rates entered as GST inclusive.'}</div></div>`;
 }
 
 function addAgentQuote(providerId='powershop'){
@@ -3193,7 +3202,7 @@ function addAgentQuote(providerId='powershop'){
             <option value="none">No broadband promotion</option><option value="credit">Account credit</option><option value="percent">Percentage discount</option><option value="free">Free broadband period</option><option value="appliance">Appliance / device</option><option value="other">Other offer</option>
           </select></div>
         </div>
-        <div class="agent-form-grid q-bb-promo-fields q-bb-promo-credit" style="display:none;"><div class="agent-field"><label>Total broadband credit ($)</label><input class="q-bb-promo-credit-amount" type="number" step="0.01" min="0"></div><div class="agent-field"><label>Credit shape</label><select class="q-bb-promo-credit-shape"><option value="spread">Spread over months</option><option value="upfront">One-off upfront credit</option></select></div><div class="agent-field q-bb-promo-credit-months-wrap"><label>Spread over how many months?</label><input class="q-bb-promo-credit-months" type="number" step="1" min="1" value="12"></div></div>
+        <div class="agent-form-grid q-bb-promo-fields q-bb-promo-credit" style="display:none;"><div class="agent-field"><label>Total broadband credit ($) <span class="required-mark">*</span></label><input class="q-bb-promo-credit-amount" type="number" step="0.01" min="0"></div><div class="agent-field"><label>Credit shape <span class="required-mark">*</span></label><select class="q-bb-promo-credit-shape"><option value="">Select credit shape</option><option value="spread">Spread over months</option><option value="upfront">One-off credit — first bill</option></select></div><div class="agent-field q-bb-promo-credit-months-wrap" style="display:none;"><label>Spread over how many months? <span class="required-mark">*</span></label><input class="q-bb-promo-credit-months" type="number" step="1" min="1" value="12"></div></div>
         <div class="agent-form-grid q-bb-promo-fields q-bb-promo-percent" style="display:none;"><div class="agent-field"><label>Broadband discount (%)</label><input class="q-bb-promo-percent" type="number" step="0.1" min="0" max="100"></div></div>
         <div class="agent-form-grid q-bb-promo-fields q-bb-promo-free" style="display:none;"><div class="agent-field"><label>Free broadband period (months)</label><input class="q-bb-promo-free-months" type="number" step="1" min="1"></div></div>
         <div class="agent-form-grid q-bb-promo-fields q-bb-promo-appliance" style="display:none;"><div class="agent-field"><label>Appliance / device name</label><input class="q-bb-promo-appliance-name"></div><div class="agent-field"><label>Provider-stated value ($)</label><input class="q-bb-promo-appliance-provider-value" type="number" step="0.01" min="0"></div><div class="agent-field"><label>Comparable retail price ($)</label><input class="q-bb-promo-appliance-comparable-price" type="number" step="0.01" min="0"></div><div class="agent-field"><label>Required term (months)</label><input class="q-bb-promo-appliance-term" type="number" step="1" min="1" value="24"></div></div>
@@ -3233,9 +3242,9 @@ function addAgentQuote(providerId='powershop'){
         </select></div>
       </div>
       <div class="agent-form-grid q-promo-fields q-promo-credit" style="display:none;">
-        <div class="agent-field"><label>Total credit ($)</label><input class="q-promo-credit-amount" type="number" step="0.01" min="0" placeholder="120.00"></div>
-        <div class="agent-field"><label>Credit shape</label><select class="q-promo-credit-shape"><option value="spread">Spread over months (e.g. $10/mo)</option><option value="upfront">One-off upfront credit</option></select></div>
-        <div class="agent-field q-promo-credit-months-wrap"><label>Spread over how many months?</label><input class="q-promo-credit-months" type="number" step="1" min="1" placeholder="12"></div>
+        <div class="agent-field"><label>Total credit ($) <span class="required-mark">*</span></label><input class="q-promo-credit-amount" type="number" step="0.01" min="0" placeholder="120.00"></div>
+        <div class="agent-field"><label>Credit shape <span class="required-mark">*</span></label><select class="q-promo-credit-shape"><option value="">Select credit shape</option><option value="spread">Spread over months (e.g. $10/mo)</option><option value="upfront">One-off credit — first bill</option></select></div>
+        <div class="agent-field q-promo-credit-months-wrap" style="display:none;"><label>Spread over how many months? <span class="required-mark">*</span></label><input class="q-promo-credit-months" type="number" step="1" min="1" placeholder="12"></div>
         <div class="agent-field full"><label>What makes up this credit? (optional)</label><textarea class="q-promo-credit-breakdown" placeholder="e.g. Meridian: $120 credit&#10;One NZ: $120 credit" rows="2"></textarea><div style="font-size:10.5px;color:var(--ink-soft);margin-top:4px;">One item per line — shown to the customer as a breakdown under the total. Leave blank for a single-provider credit.</div></div>
         <div class="agent-field full" style="font-size:10.5px;color:var(--ink-soft);">Enter the total benefit — e.g. Powershop's $150 over 12 months (25/10.../25) is still $150 total. The exact month-by-month shape doesn't change the first-year value shown to the customer.</div>
       </div>
@@ -3325,7 +3334,11 @@ function quotePromo(card){
   if(type==='credit'){
     const amount=numberValue(card,'.q-promo-credit-amount');
     if(!amount) return null;
-    return {type, amount, shape:card.querySelector('.q-promo-credit-shape')?.value||'spread', months:numberValue(card,'.q-promo-credit-months')||12, breakdown:card.querySelector('.q-promo-credit-breakdown')?.value.trim()||''};
+    const shape=card.querySelector('.q-promo-credit-shape')?.value||'';
+    if(!shape) return null;
+    const months=shape==='spread'?numberValue(card,'.q-promo-credit-months'):0;
+    if(shape==='spread'&&!months) return null;
+    return {type, amount, shape, months, breakdown:card.querySelector('.q-promo-credit-breakdown')?.value.trim()||''};
   }
   if(type==='percent'){
     const percent=numberValue(card,'.q-promo-percent');
@@ -3359,7 +3372,7 @@ function quotePromo(card){
 function quoteBroadbandPromo(card){
   const type=card.querySelector('.q-bb-promo-type')?.value||'none';
   if(type==='none') return null;
-  if(type==='credit'){const amount=numberValue(card,'.q-bb-promo-credit-amount');return amount?{type,amount,shape:card.querySelector('.q-bb-promo-credit-shape')?.value||'spread',months:numberValue(card,'.q-bb-promo-credit-months')||12}:null;}
+  if(type==='credit'){const amount=numberValue(card,'.q-bb-promo-credit-amount'),shape=card.querySelector('.q-bb-promo-credit-shape')?.value||'',months=shape==='spread'?numberValue(card,'.q-bb-promo-credit-months'):0;return amount&&shape&&(shape!=='spread'||months)?{type,amount,shape,months}:null;}
   if(type==='percent'){const percent=numberValue(card,'.q-bb-promo-percent');return percent?{type,percent}:null;}
   if(type==='free'){const freeMonths=numberValue(card,'.q-bb-promo-free-months');return freeMonths?{type,freeMonths}:null;}
   if(type==='appliance'){const name=card.querySelector('.q-bb-promo-appliance-name')?.value.trim()||'';return name?{type,name,providerValue:numberValue(card,'.q-bb-promo-appliance-provider-value'),comparablePrice:numberValue(card,'.q-bb-promo-appliance-comparable-price'),term:numberValue(card,'.q-bb-promo-appliance-term')||24}:null;}
@@ -3422,10 +3435,45 @@ function quoteFirstYearInfo(card){
     creditValue=bbMonthly*monthsInFirstYear;
     creditNote=`${promo.freeMonths} month${promo.freeMonths===1?'':'s'} free broadband`;
   }
-  if(bbPromo && bbPromo.type==='credit') creditValue += bbPromo.shape==='upfront'?bbPromo.amount:bbPromo.amount*(Math.min(bbPromo.months,12)/bbPromo.months);
+  if(bbPromo && bbPromo.type==='credit'){
+    creditValue += bbPromo.shape==='upfront'?bbPromo.amount:bbPromo.amount*(Math.min(bbPromo.months,12)/bbPromo.months);
+    const bbCreditNote=bbPromo.shape==='upfront'?`$${bbPromo.amount.toFixed(2)} one-off broadband credit`:`$${bbPromo.amount.toFixed(2)} broadband credit over ${bbPromo.months} months`;
+    creditNote=creditNote?`${creditNote}, plus ${bbCreditNote}`:bbCreditNote;
+  }
   if(bbPromo && bbPromo.type==='free') creditValue += quoteBroadbandMonthly(card)*Math.min(bbPromo.freeMonths,12);
   const firstYearCost=Math.max(0,ongoing*12-creditValue);
   return {ongoing, creditValue, firstYearCost, creditNote};
+}
+
+// Promotion-aware totals used everywhere a customer sees a comparison.
+// Percentage discounts are already included in quoteOngoingMonthly(). Credits
+// are then deducted only for the months in which they apply, and one-off
+// credits are counted once.
+function quoteCreditValueForPeriod(card,months){
+  const promos=[quotePromo(card)];
+  if(card.querySelector('.q-service').value!=='broadband') promos.push(quoteBroadbandPromo(card));
+  let value=0;
+  promos.filter(Boolean).forEach(p=>{
+    if(p.type==='credit') value+=p.shape==='upfront'?p.amount:p.amount*(Math.min(months,p.months)/p.months);
+    if(p.type==='free') value+=quoteBroadbandMonthly(card)*Math.min(months,p.freeMonths);
+  });
+  return value;
+}
+function quotePeriodCost(card,months){
+  return Math.max(0,quoteOngoingMonthly(card)*months-quoteCreditValueForPeriod(card,months));
+}
+function quoteSpreadCreditInfo(card){
+  const promos=[quotePromo(card)];
+  if(card.querySelector('.q-service').value!=='broadband') promos.push(quoteBroadbandPromo(card));
+  const spread=promos.filter(p=>p&&p.type==='credit'&&p.shape==='spread'&&p.months>0);
+  return {monthly:spread.reduce((sum,p)=>sum+p.amount/p.months,0),months:spread.length?Math.max(...spread.map(p=>p.months)):0};
+}
+function quotePromotionalMonthly(card){
+  const spread=quoteSpreadCreditInfo(card);
+  return Math.max(0,quoteOngoingMonthly(card)-spread.monthly);
+}
+function optionHas24MonthTerm(metric){
+  return metric.terms.some(t=>t.months===24)||(metric.promo&&metric.promo.type==='appliance'&&metric.promo.term===24);
 }
 
 // Simple monthly/12-month/24-month projection of an ongoing cost difference —
@@ -3442,7 +3490,7 @@ function updatePromoFieldVisibility(card){
     if(el) el.style.display=(t===type)?'grid':'none';
   });
   if(type==='credit'){
-    const shape=card.querySelector('.q-promo-credit-shape')?.value||'spread';
+    const shape=card.querySelector('.q-promo-credit-shape')?.value||'';
     const monthsWrap=card.querySelector('.q-promo-credit-months-wrap');
     if(monthsWrap) monthsWrap.style.display=shape==='spread'?'block':'none';
   }
@@ -3462,7 +3510,7 @@ function promoDisplayHtml(card){
   if(!promo) return '';
   const wrap=(title,inner)=>`<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#f2edff;color:#3c2a8a;font-size:11.5px;"><strong style="display:block;margin-bottom:4px;">${title}</strong>${inner}</div>`;
   if(promo.type==='credit'){
-    const label=promo.shape==='upfront' ? `$${promo.amount.toFixed(2)} one-off account credit` : `$${promo.amount.toFixed(2)} credit over ${promo.months} month${promo.months===1?'':'s'}`;
+    const label=promo.shape==='upfront' ? `$${promo.amount.toFixed(2)} one-off account credit — applied to your first bill` : `$${promo.amount.toFixed(2)} credit over ${promo.months} month${promo.months===1?'':'s'} ($${(promo.amount/promo.months).toFixed(2)} per month)`;
     const breakdownLines=promo.breakdown?promo.breakdown.split('\n').map(l=>l.trim()).filter(Boolean):[];
     const breakdownHtml=breakdownLines.length?`<ul style="margin:6px 0 0;padding-left:16px;">${breakdownLines.map(l=>`<li>${l}</li>`).join('')}</ul>`:'';
     return wrap('Promotional offer — Account credit', label+breakdownHtml);
@@ -3485,7 +3533,7 @@ function promoDisplayHtml(card){
 function broadbandPromoDisplayHtml(card){
   const promo=quoteBroadbandPromo(card);if(!promo)return '';
   const wrap=inner=>`<div style="margin-top:9px;padding:8px 10px;border-radius:8px;background:#f2edff;color:#3c2a8a;font-size:11.5px;"><strong style="display:block;margin-bottom:4px;">Broadband promotional offer</strong>${inner}</div>`;
-  if(promo.type==='credit')return wrap(promo.shape==='upfront'?`$${promo.amount.toFixed(2)} one-off account credit`:`$${promo.amount.toFixed(2)} credit over ${promo.months} months`);
+  if(promo.type==='credit')return wrap(promo.shape==='upfront'?`$${promo.amount.toFixed(2)} one-off account credit — applied to your first bill`:`$${promo.amount.toFixed(2)} credit over ${promo.months} months ($${(promo.amount/promo.months).toFixed(2)} per month)`);
   if(promo.type==='percent')return wrap(`${promo.percent}% off broadband charges`);
   if(promo.type==='free')return wrap(`${promo.freeMonths} month${promo.freeMonths===1?'':'s'} free broadband, then the standard rate applies.`);
   if(promo.type==='appliance')return wrap(`${promo.name}${promo.providerValue?` — provider-stated value $${promo.providerValue.toFixed(2)}`:''}${promo.comparablePrice?`; comparable retail price $${promo.comparablePrice.toFixed(2)}`:''}. Required term: ${promo.term} months.`);
@@ -3519,10 +3567,12 @@ function recalcQuote(card){
   if(card.querySelector('.q-provider')?.value==='genesis') addRow.style.display='none';
   result.style.display=hasPower?'flex':'none';
   if(hasPower){
-    const total=quotePowerTotal(card);
     const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);
+    const powerAfterDiscount=quotePowerAfterPromo(card).after;
+    const promo=quotePromo(card),spreadCredit=promo&&promo.type==='credit'&&promo.shape==='spread'?promo.amount/promo.months:0;
+    const total=Math.max(0,powerAfterDiscount-spreadCredit*(days/30));
     result.querySelector('strong').textContent=`$${total.toFixed(2)}`;
-    result.querySelector('.calc-breakdown').innerHTML=`${days} days · ${gstMode==='exclusive'?'15% GST added':'GST already included'}<br>Daily charge + entered kWh usage`;
+    result.querySelector('.calc-breakdown').innerHTML=`${days} days · ${gstMode==='exclusive'?'15% GST added':'GST already included'}<br>${spreadCredit?`Includes $${spreadCredit.toFixed(2)}/month account credit for ${promo.months} months`:'Daily charge + entered kWh usage'}`;
   }
   const providerId=card.querySelector('.q-provider')?.value||'';
   const lpgActive=card.dataset.hasLpg==='true'||service==='lpg';
@@ -3533,10 +3583,11 @@ function recalcQuote(card){
   packageTotal.classList.toggle('show',packageActive||lpgActive||gasActive);
   if(packageActive||lpgActive||gasActive){
     const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);
-    const power=hasPower?quotePowerTotal(card):0, bb=packageActive?quoteBroadbandPeriod(card):0, lpg=lpgActive?quoteLpgTotal(card):0, gas=gasActive?quoteNaturalGasTotal(card):0, total=power+bb+lpg+gas;
+    const power=hasPower?quotePowerAfterPromo(card).after:0, bb=packageActive?quoteBroadbandPeriod(card):0, lpg=lpgActive?quoteLpgTotal(card):0, gas=gasActive?quoteNaturalGasTotal(card):0;
+    const standardTotal=power+bb+lpg+gas,spread=quoteSpreadCreditInfo(card),total=Math.max(0,standardTotal-spread.monthly*(days/30));
     packageTotal.querySelector('span').textContent='Estimated package total';
     packageTotal.querySelector('strong').textContent=`$${total.toFixed(2)}`;
-    packageTotal.querySelector('.package-breakdown').innerHTML=`${power?`Power $${power.toFixed(2)}`:''}${bb?`${power?' + ':''}broadband $${bb.toFixed(2)}`:''}${gas?`${(power||bb)?' + ':''}natural gas $${gas.toFixed(2)}`:''}${lpg?`${(power||bb||gas)?' + ':''}LPG $${lpg.toFixed(2)}`:''}<br>${days}-day estimate${bb?' (broadband prorated from monthly price)':''}`;
+    packageTotal.querySelector('.package-breakdown').innerHTML=`${power?`Power $${power.toFixed(2)}`:''}${bb?`${power?' + ':''}broadband $${bb.toFixed(2)}`:''}${gas?`${(power||bb)?' + ':''}natural gas $${gas.toFixed(2)}`:''}${lpg?`${(power||bb||gas)?' + ':''}LPG $${lpg.toFixed(2)}`:''}<br>${days}-day estimate${spread.monthly?` · includes $${spread.monthly.toFixed(2)}/month spread credit`:''}${bb?' (broadband prorated from monthly price)':''}`;
   }
 }
 function wireQuoteCard(card){
@@ -3746,8 +3797,10 @@ function quotePreviewHtml(card,index,emailType,totalOptions=1){
   let body='';
   if(emailType==='full' && hasPower){
     const powerInfo=quotePowerAfterPromo(card);
+    const mainPromo=quotePromo(card),spreadCredit=mainPromo&&mainPromo.type==='credit'&&mainPromo.shape==='spread'?mainPromo.amount/mainPromo.months:0;
+    const displayedPower=Math.max(0,powerInfo.after-spreadCredit);
     const percentLine=(powerInfo.discount>0)?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:6px;line-height:1.6;">Power before discount: $${powerInfo.before.toFixed(2)}<br>Promotional discount: −$${powerInfo.discount.toFixed(2)}<br><strong style="color:#10141B;">Estimated power after discount: $${powerInfo.after.toFixed(2)}</strong></div>`:'';
-    body += `<div style="margin-top:12px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#10141B;">Power — estimated cost: <span style="font-size:18px;color:#10141B;">$${powerInfo.after.toFixed(2)}</span></div>${termSummaryHtml('Power',termDetails(card))}${percentLine}${powerBreakdownHtml(card)}</div>`;
+    body += `<div style="margin-top:12px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#10141B;">Power — ${spreadCredit?'promotional ':''}estimated cost: <span style="font-size:18px;color:#10141B;">$${displayedPower.toFixed(2)}</span>${spreadCredit?` <span style="font-size:10.5px;color:#5c675e;">for ${mainPromo.months} months; then $${powerInfo.after.toFixed(2)}</span>`:''}</div>${termSummaryHtml('Power',termDetails(card))}${percentLine}${powerBreakdownHtml(card)}</div>`;
   }
   if(emailType==='full' && card.dataset.hasNaturalGas==='true') body += termSummaryHtml('Natural gas',termDetails(card,'q-gas'))+naturalGasBreakdownHtml(card);
   if(card.dataset.hasLpg==='true'||service==='lpg'){ body += termSummaryHtml('LPG',service==='lpg'?termDetails(card):termDetails(card,'q-lpg'))+lpgBreakdownHtml(card); const combined=(hasPower?quotePowerTotal(card):0)+quoteLpgTotal(card); body += `<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:#fff1e7;border:1px solid #ffd6c7;"><div style="font-size:12px;font-weight:700;color:#ff6537;">${hasPower?'Estimated power + LPG total':'Estimated LPG total'}</div><div style="font-size:24px;line-height:1.2;font-weight:800;color:#ff6537;margin-top:2px;">$${combined.toFixed(2)}</div></div>`; }
@@ -3760,11 +3813,14 @@ function quotePreviewHtml(card,index,emailType,totalOptions=1){
     const displayName=packageActive?(broadbandName||'Broadband'):providerName;
     const displayPlan=packageActive?(broadbandPlan||'Broadband plan'):plan;
     const modemText=modemSummary(card,packageActive); const oneOffModem=modemOneOff(card,packageActive);
-    body += `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">Broadband — <span style="color:#35152f;">$${bbMonthly.toFixed(2)}/month</span></div><div style="font-size:11.5px;color:#4b5a4e;margin-top:3px;">${displayName} · ${displayPlan}</div>${termSummaryHtml('Broadband',packageActive?termDetails(card,'q-bb'):termDetails(card))}${modemText?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:5px;"><strong>Modem:</strong> ${modemText}</div>`:''}${oneOffModem?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:3px;"><strong>One-off modem cost:</strong> $${oneOffModem.toFixed(2)} <span style="color:#7a857b;">(not included in the monthly/package total)</span></div>`:''}${broadbandPromoDisplayHtml(card)}${keyInfoHtml(bbInfo)}</div>`;
+    const bbPromo=packageActive?quoteBroadbandPromo(card):quotePromo(card),bbSpread=bbPromo&&bbPromo.type==='credit'&&bbPromo.shape==='spread'?bbPromo.amount/bbPromo.months:0;
+    const bbPercent=bbPromo&&bbPromo.type==='percent'?bbMonthly*(bbPromo.percent/100):0,bbShown=Math.max(0,bbMonthly-bbPercent-bbSpread);
+    body += `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">Broadband — <span style="color:#35152f;">$${bbShown.toFixed(2)}/month</span>${bbSpread?` <span style="font-size:10.5px;color:#5c675e;">for ${bbPromo.months} months; then $${(bbMonthly-bbPercent).toFixed(2)}</span>`:''}</div><div style="font-size:11.5px;color:#4b5a4e;margin-top:3px;">${displayName} · ${displayPlan}</div>${termSummaryHtml('Broadband',packageActive?termDetails(card,'q-bb'):termDetails(card))}${modemText?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:5px;"><strong>Modem:</strong> ${modemText}</div>`:''}${oneOffModem?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:3px;"><strong>One-off modem cost:</strong> $${oneOffModem.toFixed(2)} <span style="color:#7a857b;">(not included in the monthly/package total)</span></div>`:''}${broadbandPromoDisplayHtml(card)}${keyInfoHtml(bbInfo)}</div>`;
   }
   if(emailType==='full' && (packageActive||card.dataset.hasNaturalGas==='true')){
     const included=['Power'];if(packageActive)included.push('broadband');if(card.dataset.hasNaturalGas==='true')included.push('natural gas');
-    body += `<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:#fff1e7;border:1px solid #ffd6c7;"><div style="font-size:12px;font-weight:700;color:#ff6537;">Estimated package total</div><div style="font-size:24px;line-height:1.2;font-weight:800;color:#ff6537;margin-top:2px;">$${quotePackageTotal(card).toFixed(2)}</div><div style="font-size:10.5px;color:#5c675e;margin-top:4px;">${included.join(' + ')} for ${document.getElementById('agDays').value||30} days.${packageActive?' Broadband is prorated from the monthly price.':''}</div></div>`;
+    const spread=quoteSpreadCreditInfo(card),standard=quoteOngoingMonthly(card),shown=quotePromotionalMonthly(card);
+    body += `<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:#fff1e7;border:1px solid #ffd6c7;"><div style="font-size:12px;font-weight:700;color:#ff6537;">${spread.monthly?'Estimated promotional package total':'Estimated package total'}</div><div style="font-size:24px;line-height:1.2;font-weight:800;color:#ff6537;margin-top:2px;">$${shown.toFixed(2)}/month</div><div style="font-size:10.5px;color:#5c675e;margin-top:4px;">${included.join(' + ')}.${spread.monthly?` Includes $${spread.monthly.toFixed(2)}/month in spread credits for the promotional period; then $${standard.toFixed(2)}/month.`:''}</div></div>`;
   }
   const mainBenefit=promoDisplayHtml(card);
   const mainInfo=keyInfoHtml(keyInfo);
@@ -3798,7 +3854,7 @@ function quoteMetrics(card){
   if(card.dataset.hasNaturalGas==='true')terms.push({service:'Natural gas',...termDetails(card,'q-gas')});
   if(service!=='lpg'&&card.dataset.hasLpg==='true')terms.push({service:'LPG',...termDetails(card,'q-lpg')});
   const fixedTerms=terms.filter(t=>t.months>0);
-  return {card,name,providerId,keyInfo,terms,hasOpenTerm:terms.some(t=>t.value==='open'),hasFixedTerm:fixedTerms.length>0,hasPower,hasBB,hasMobile,hasLpg,power:hasPower?quotePowerTotal(card):null,broadband:hasBB?quoteBroadbandMonthly(card):null,packageTotal:packageActive?quotePackageTotal(card):null,lpgBottle,lpgRental,promo,ongoingMonthly:firstYearInfo.ongoing,firstYearCost:firstYearInfo.firstYearCost,creditValue:firstYearInfo.creditValue,creditNote:firstYearInfo.creditNote,contractTerm:fixedTerms[0]?.months||(promo&&promo.type==='appliance'?promo.term:null)};
+  return {card,name,providerId,keyInfo,terms,hasOpenTerm:terms.some(t=>t.value==='open'),hasFixedTerm:fixedTerms.length>0,hasPower,hasBB,hasMobile,hasLpg,power:hasPower?quotePowerTotal(card):null,broadband:hasBB?quoteBroadbandMonthly(card):null,packageTotal:packageActive?quotePackageTotal(card):null,lpgBottle,lpgRental,promo,ongoingMonthly:firstYearInfo.ongoing,promotionalMonthly:quotePromotionalMonthly(card),firstYearCost:quotePeriodCost(card,12),twentyFourMonthCost:quotePeriodCost(card,24),creditValue:quoteCreditValueForPeriod(card,12),creditNote:firstYearInfo.creditNote,contractTerm:fixedTerms[0]?.months||(promo&&promo.type==='appliance'?promo.term:null)};
 }
 function priceComparisonHtml(){
   const metrics=[...quoteStack.children].map(quoteMetrics);
@@ -3806,20 +3862,18 @@ function priceComparisonHtml(){
   const recurring=metrics.filter(m=>(m.hasPower||m.hasBB||m.hasMobile||(m.hasLpg&&m.lpgRental)) && m.ongoingMonthly>0);
   let recurringHtml='';
   if(recurring.length>=2){
-    const sorted=[...recurring].sort((a,b)=>a.ongoingMonthly-b.ongoingMonthly);
-    const low=sorted[0], high=sorted[sorted.length-1], diff=high.ongoingMonthly-low.ongoingMonthly;
-    const rows=sorted.map(m=>`<tr><td style="padding:9px 4px;border-bottom:1px solid #eee8dc;color:#35443a;">${m.name}</td><td style="padding:9px 4px;border-bottom:1px solid #eee8dc;text-align:right;"><strong style="color:#35152f;white-space:nowrap;">$${m.ongoingMonthly.toFixed(2)}/month</strong></td></tr>`).join('');
-    recurringHtml=`<div style="font-size:12px;font-weight:800;color:#35152f;margin-bottom:5px;">Estimated ongoing monthly cost</div><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;table-layout:fixed;"><tbody>${rows}</tbody></table>`;
+    const sorted=[...recurring].sort((a,b)=>a.promotionalMonthly-b.promotionalMonthly);
+    const low=sorted[0],high=sorted[sorted.length-1],monthlyDiff=high.promotionalMonthly-low.promotionalMonthly;
+    const rows=sorted.map(m=>{const spread=quoteSpreadCreditInfo(m.card),promo=spread.monthly>0;return `<tr><td style="padding:9px 4px;border-bottom:1px solid #eee8dc;color:#35443a;">${m.name}</td><td style="padding:9px 4px;border-bottom:1px solid #eee8dc;text-align:right;"><strong style="color:#35152f;white-space:nowrap;">$${m.promotionalMonthly.toFixed(2)}/month</strong>${promo?`<div style="font-size:10px;color:#68746b;">for ${spread.months} months; then $${m.ongoingMonthly.toFixed(2)}</div>`:''}</td></tr>`;}).join('');
+    recurringHtml=`<div style="font-size:12px;font-weight:800;color:#35152f;margin-bottom:5px;">Estimated monthly cost</div><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;table-layout:fixed;"><tbody>${rows}</tbody></table>`;
 
-    // Monthly / 12-month / 24-month projection — always shown together, always
-    // just the existing ongoing difference multiplied out at the two standard
-    // contract checkpoints. Not a separate "pick one period" calculation.
-    if(diff>0.005){
-      const proj=savingsProjection(diff);
-      recurringHtml += `<div style="margin-top:12px;padding:13px 14px;border-radius:9px;background:#fff1e7;color:#35443a;line-height:1.5;border:1px solid #f3c8b5;"><div><strong style="color:#35152f;">${low.name}</strong> has the lower estimated ongoing cost.</div><div style="margin-top:5px;font-size:16px;"><strong style="color:#f94e1a;">Save approximately $${proj.monthly.toFixed(2)} per month</strong></div><div style="margin-top:7px;font-size:11.5px;color:#5c675e;"><strong style="color:#35152f;">$${proj.twelveMonth.toFixed(2)} over 12 months</strong><span style="padding:0 7px;color:#b88772;">·</span><strong style="color:#35152f;">$${proj.twentyFourMonth.toFixed(2)} over 24 months</strong></div></div>`;
-    } else {
-      recurringHtml += `<div style="margin-top:12px;padding:13px 14px;border-radius:9px;background:#fff1e7;color:#35443a;line-height:1.5;border:1px solid #f3c8b5;"><div><strong style="color:#35152f;">These options have the same estimated ongoing cost.</strong></div><div style="margin-top:5px;font-size:16px;color:#35152f;"><strong>$0.00 difference per month</strong></div><div style="margin-top:7px;font-size:11.5px;color:#5c675e;"><strong style="color:#35152f;">$0.00 over 12 months</strong><span style="padding:0 7px;color:#b88772;">·</span><strong style="color:#35152f;">$0.00 over 24 months</strong></div></div>`;
-    }
+    const by12=[...recurring].sort((a,b)=>a.firstYearCost-b.firstYearCost),low12=by12[0],high12=by12[by12.length-1],diff12=high12.firstYearCost-low12.firstYearCost;
+    const show24=recurring.some(optionHas24MonthTerm);
+    const by24=[...recurring].sort((a,b)=>a.twentyFourMonthCost-b.twentyFourMonthCost),low24=by24[0],high24=by24[by24.length-1],diff24=high24.twentyFourMonthCost-low24.twentyFourMonthCost;
+    const monthlyLine=monthlyDiff>0.005?`<div><strong style="color:#35152f;">${low.name}</strong> has the lower promotional monthly estimate.</div><div style="margin-top:5px;font-size:16px;"><strong style="color:#f94e1a;">Save approximately $${monthlyDiff.toFixed(2)} per month</strong></div>`:`<div><strong style="color:#35152f;">These options have the same promotional monthly estimate.</strong></div><div style="margin-top:5px;font-size:16px;color:#35152f;"><strong>$0.00 difference per month</strong></div>`;
+    const twelveLine=diff12>0.005?`<strong style="color:#35152f;">${low12.name} saves approximately $${diff12.toFixed(2)} over the first 12 months</strong>`:`<strong style="color:#35152f;">$0.00 difference over the first 12 months</strong>`;
+    const twentyFourLine=show24?(diff24>0.005?`<div style="margin-top:4px;"><strong style="color:#35152f;">${low24.name} saves approximately $${diff24.toFixed(2)} over 24 months</strong></div>`:`<div style="margin-top:4px;"><strong style="color:#35152f;">$0.00 difference over 24 months</strong></div>`):'';
+    recurringHtml += `<div style="margin-top:12px;padding:13px 14px;border-radius:9px;background:#fff1e7;color:#35443a;line-height:1.5;border:1px solid #f3c8b5;">${monthlyLine}<div style="margin-top:7px;font-size:11.5px;color:#5c675e;">${twelveLine}${twentyFourLine}<div style="margin-top:4px;font-size:10.5px;">Period totals include account credits and percentage discounts.</div></div></div>`;
 
   }
   const lpg=metrics.filter(m=>m.hasLpg && m.lpgBottle>0);
@@ -3859,9 +3913,10 @@ function generateRecommendationDetail(){
   const priority=document.getElementById('agPriority').value;
   const priorityLabel=document.getElementById('agPriority').selectedOptions[0].textContent.toLowerCase();
   const recurring=metrics.filter(m=>m.ongoingMonthly>0).sort((a,b)=>a.ongoingMonthly-b.ongoingMonthly);
-  const cheapest=recurring.length>=2?recurring[0]:null;
-  const next=recurring.length>=2?recurring[1]:null;
-  const diff=cheapest&&next?next.ongoingMonthly-cheapest.ongoingMonthly:0;
+  const valueOptions=metrics.filter(m=>m.ongoingMonthly>0).sort((a,b)=>a.firstYearCost-b.firstYearCost);
+  const cheapest=valueOptions.length>=2?valueOptions[0]:null;
+  const next=valueOptions.length>=2?valueOptions[1]:null;
+  const diff=cheapest&&next?(next.firstYearCost-cheapest.firstYearCost)/12:0;
   // A price gap under $5/month (or under 3% of the cheaper option, whichever is
   // larger) reads as noise, not a real difference — say so honestly rather than
   // mechanically crowning a winner over a couple of dollars.
@@ -3880,10 +3935,11 @@ function generateRecommendationDetail(){
       const term=applianceOption.promo.term||24;
       const applianceOngoing=recurring.find(m=>m.name===applianceOption.name)?.ongoingMonthly ?? applianceOption.ongoingMonthly;
       const costAdvantage=(applianceOngoing-alt.ongoingMonthly)*term; // positive = alt saves money over the term
-      const altTotalAdvantage=costAdvantage+alt.creditValue;
+      const periodCredits=quoteCreditValueForPeriod(alt.card,term);
+      const altTotalAdvantage=costAdvantage+periodCredits;
       const applianceValue=applianceOption.promo.comparablePrice;
       const netDiff=altTotalAdvantage-applianceValue; // positive = alt ahead, negative = appliance ahead
-      const creditPhrase=alt.creditValue>0?` It also includes approximately $${alt.creditValue.toFixed(2)} in account credits.`:'';
+      const creditPhrase=periodCredits>0?` It also includes approximately $${periodCredits.toFixed(2)} in account credits over that period.`:'';
       const verdict=Math.abs(netDiff)<Math.max(20,applianceValue*0.05)
         ? `The two options come out very close overall, so it really depends on whether receiving the appliance now is more useful to you than keeping your ongoing costs lower.`
         : (netDiff<0
@@ -3898,7 +3954,7 @@ function generateRecommendationDetail(){
     if(isClose){
       return `${cheapest.name} and ${next.name} are only around $${diff.toFixed(2)} per month apart, so there isn’t a meaningful price difference. The better choice comes down to which benefits and terms suit you best.`;
     }
-    const saving=diff>0.005?` That works out to roughly $${diff.toFixed(2)} less per month, or $${(diff*12).toFixed(2)} a year, than the next lowest option here.`:'';
+    const saving=diff>0.005?` Including promotions, that works out to roughly $${diff.toFixed(2)} less per month on average, or $${(diff*12).toFixed(2)} over the first year.`:'';
     return `Because keeping costs down matters most to you, ${cheapest.name} looks like the best fit.${saving}`;
   }
 
@@ -3907,7 +3963,7 @@ function generateRecommendationDetail(){
     if(isClose){
       return `${cheapest.name} and ${next.name} are very close—only around $${diff.toFixed(2)} per month apart. The better choice comes down to which promotion and terms are more useful to you.`;
     }
-    const saving=diff>0.005?` roughly $${diff.toFixed(2)} less per month`:'';
+    const saving=diff>0.005?` roughly $${diff.toFixed(2)} less per month on average over the first year`:'';
     return `Looking at the ongoing cost and promotions, ${cheapest.name} offers the strongest overall value${saving?` at ${saving.trim()}`:''}.${creditNote}`;
   }
 
@@ -3929,7 +3985,7 @@ function generateRecommendationDetail(){
     if(isClose){
       return `${cheapest.name} and ${next.name} are only around $${diff.toFixed(2)} per month apart, so there isn’t a clear winner on price. The better choice comes down to which benefits and terms suit you best.`;
     }
-    const saving=diff>0.005?` That's roughly $${diff.toFixed(2)} less per month, or $${(diff*12).toFixed(2)} a year, than the next lowest option shown.`:'';
+    const saving=diff>0.005?` Including promotions, that's roughly $${diff.toFixed(2)} less per month on average, or $${(diff*12).toFixed(2)} over the first year.`:'';
     return `${cheapest.name} has the lowest estimated ongoing cost.${saving}`;
   }
 
@@ -3942,7 +3998,7 @@ function recommendedOptionText(){
   const priority=document.getElementById('agPriority').value;
   let chosen=null;
   if(priority!=='overall'&&priority!=='cost') chosen=metrics.find(m=>providerStrength(m,priority));
-  if(!chosen) chosen=[...metrics].filter(m=>m.ongoingMonthly>0).sort((a,b)=>a.ongoingMonthly-b.ongoingMonthly)[0]||metrics[0];
+  if(!chosen) chosen=[...metrics].filter(m=>m.ongoingMonthly>0).sort((a,b)=>a.firstYearCost-b.firstYearCost)[0]||metrics[0];
   const card=chosen.card, service=card.querySelector('.q-service').value;
   const powerName=service==='power'?(card.querySelector('.q-provider').value==='custom'?(card.querySelector('.q-custom-provider').value.trim()||'the selected provider'):(PROVIDERS.find(p=>p.id===card.querySelector('.q-provider').value)?.name||'the selected provider')):'';
   const hasPackage=service==='power'&&card.dataset.hasBroadbandPackage==='true';
@@ -4036,6 +4092,15 @@ function comparisonRequirements(){
     if(service==='power'&&card.dataset.hasBroadbandPackage==='true')requireTerm('.q-bb-term','.q-bb-custom-term','broadband');
     if(card.dataset.hasNaturalGas==='true')requireTerm('.q-gas-term','.q-gas-custom-term','natural gas');
     if(service!=='lpg'&&card.dataset.hasLpg==='true')requireTerm('.q-lpg-term','.q-lpg-custom-term','LPG');
+    const requireCredit=(typeSelector,amountSelector,shapeSelector,monthsSelector,promoLabel)=>{
+      if(card.querySelector(typeSelector)?.value!=='credit')return;
+      const amount=card.querySelector(amountSelector),shape=card.querySelector(shapeSelector),months=card.querySelector(monthsSelector);
+      if(!(parseFloat(amount?.value)>0)){issues.push(`${label}: add the ${promoLabel} credit amount.`);setFieldInvalid(amount,true)}
+      if(!shape?.value){issues.push(`${label}: select whether the ${promoLabel} credit is spread over months or applied once.`);setFieldInvalid(shape,true)}
+      if(shape?.value==='spread'&&!(parseFloat(months?.value)>0)){issues.push(`${label}: add how many months the ${promoLabel} credit is spread over.`);setFieldInvalid(months,true)}
+    };
+    requireCredit('.q-promo-type','.q-promo-credit-amount','.q-promo-credit-shape','.q-promo-credit-months',service==='broadband'?'broadband':'power');
+    if(service==='power'&&card.dataset.hasBroadbandPackage==='true')requireCredit('.q-bb-promo-type','.q-bb-promo-credit-amount','.q-bb-promo-credit-shape','.q-bb-promo-credit-months','broadband');
     if(emailType==='full' && service==='power'){
       if(!(parseFloat(days.value)>0)){issues.push('Add the power estimate period in days.');setFieldInvalid(days,true)}
       const daily=card.querySelector('.q-daily'); if(daily.value===''){issues.push(`${label}: add the daily charge.`);setFieldInvalid(daily,true)}
