@@ -3805,8 +3805,6 @@ function priceComparisonHtml(){
   if(metrics.length<2) return '';
   const recurring=metrics.filter(m=>(m.hasPower||m.hasBB||m.hasMobile||(m.hasLpg&&m.lpgRental)) && m.ongoingMonthly>0);
   let recurringHtml='';
-  let extraRowsHtml='';
-  let termsHtml='';
   if(recurring.length>=2){
     const sorted=[...recurring].sort((a,b)=>a.ongoingMonthly-b.ongoingMonthly);
     const low=sorted[0], high=sorted[sorted.length-1], diff=high.ongoingMonthly-low.ongoingMonthly;
@@ -3821,30 +3819,6 @@ function priceComparisonHtml(){
       recurringHtml += `<div style="margin-top:12px;padding:13px 14px;border-radius:9px;background:#fff1e7;color:#35443a;line-height:1.5;border:1px solid #f3c8b5;"><div><strong style="color:#35152f;">${low.name}</strong> has the lower estimated ongoing cost.</div><div style="margin-top:5px;font-size:16px;color:#35152f;"><strong>Save approximately $${proj.monthly.toFixed(2)} per month</strong></div><div style="margin-top:7px;font-size:11.5px;color:#5c675e;"><strong style="color:#35152f;">$${proj.twelveMonth.toFixed(2)} over 12 months</strong><span style="padding:0 7px;color:#b88772;">·</span><strong style="color:#35152f;">$${proj.twentyFourMonth.toFixed(2)} over 24 months</strong></div></div>`;
     }
 
-    // First-year cost / credit / contract term / promotional benefit — only
-    // shown when at least one option actually has something to say here, so a
-    // plain no-promo comparison doesn't get cluttered with empty rows.
-    const anyCredit=recurring.some(m=>m.creditValue>0);
-    const anyPromo=recurring.some(m=>m.promo);
-    if(anyCredit||anyPromo){
-      const promoLabel=(m)=>{
-        if(!m.promo) return '—';
-        if(m.promo.type==='credit') return 'Account credit';
-        if(m.promo.type==='percent') return 'Percentage discount';
-        if(m.promo.type==='free') return 'Free broadband';
-        if(m.promo.type==='appliance') return 'Appliance / device';
-        return 'Other offer';
-      };
-      const header=sorted.map(m=>`<th style="padding:7px 4px;text-align:right;color:#68746b;font-size:10px;">${m.name}</th>`).join('');
-      const detailRow=(label,fn)=>`<tr><td style="padding:8px 4px;border-bottom:1px solid #eee8dc;color:#35443a;">${label}</td>${sorted.map(m=>`<td style="padding:8px 4px;border-bottom:1px solid #eee8dc;text-align:right;"><strong style="color:#35152f;">${fn(m)}</strong></td>`).join('')}</tr>`;
-      extraRowsHtml=`<div style="margin-top:14px;"><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;"><thead><tr><th></th>${header}</tr></thead><tbody>${anyCredit?detailRow('First-year estimated cost',m=>`$${m.firstYearCost.toFixed(2)}`):''}${anyCredit?detailRow('Account credits',m=>m.creditValue>0?`$${m.creditValue.toFixed(2)}`:'—'):''}${anyPromo?detailRow('Promotional benefit',m=>promoLabel(m)):''}</tbody></table></div>`;
-    }
-    const services=[...new Set(sorted.flatMap(m=>m.terms.map(t=>t.service)))];
-    if(services.length){
-      const termHeader=services.map(service=>`<th style="padding:7px 4px;text-align:left;color:#68746b;font-size:10px;">${service}</th>`).join('');
-      const termRows=sorted.map(m=>`<tr><td style="padding:8px 4px;border-bottom:1px solid #eee8dc;color:#35443a;">${m.name}</td>${services.map(service=>{const t=m.terms.find(x=>x.service===service);return `<td style="padding:8px 4px;border-bottom:1px solid #eee8dc;"><strong style="color:#35152f;">${t?.label||'—'}</strong>${t?.exitFee?`<div style="font-size:10px;color:#68746b;">$${t.exitFee.toFixed(2)} exit fee</div>`:''}</td>`;}).join('')}</tr>`).join('');
-      termsHtml=`<div style="margin-top:15px;"><div style="font-size:12px;font-weight:800;color:#35152f;margin-bottom:5px;">Contract terms</div><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;"><thead><tr><th style="padding:7px 4px;text-align:left;color:#68746b;font-size:10px;">Option</th>${termHeader}</tr></thead><tbody>${termRows}</tbody></table></div>`;
-    }
   }
   const lpg=metrics.filter(m=>m.hasLpg && m.lpgBottle>0);
   let lpgHtml='';
@@ -3855,7 +3829,7 @@ function priceComparisonHtml(){
     lpgHtml=`${recurringHtml?'<div style="height:12px;"></div>':''}<div style="font-size:12px;font-weight:800;color:#35152f;margin-bottom:5px;">LPG price comparison</div>${rows}${diff>0.005?`<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#f7f4ed;color:#35443a;line-height:1.5;"><strong>${low.name}</strong> is <strong>$${diff.toFixed(2)} lower per bottle</strong>.</div>`:''}<div style="margin-top:8px;font-size:11px;color:#68746b;line-height:1.5;">LPG usage varies by household, so the per-bottle difference is not converted into a monthly or annual saving. Bottle rental is included in the recurring monthly comparison above where applicable.</div>`;
   }
   if(!recurringHtml && !lpgHtml) return '';
-  return `<div style="margin:16px 0;padding:16px;border:1px solid #efc7b7;border-left:4px solid #ff6537;border-radius:14px;background:#fff4ec;box-shadow:0 6px 18px rgba(53,21,47,.06);"><div style="font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#a05a45;margin-bottom:3px;">At a glance</div><strong style="display:block;color:#35152f;font-size:17px;margin-bottom:10px;">Price comparison</strong>${recurringHtml}${extraRowsHtml}${termsHtml}${lpgHtml}<div style="margin-top:10px;padding-top:9px;border-top:1px solid #efd8ca;font-size:10.5px;color:#7a857b;line-height:1.45;">Estimates use the figures entered above. Account credits and appliance/device values are shown separately above, not folded into the ongoing monthly cost.</div></div>`;
+  return `<div style="margin:16px 0;padding:16px;border:1px solid #efc7b7;border-left:4px solid #ff6537;border-radius:14px;background:#fff4ec;box-shadow:0 6px 18px rgba(53,21,47,.06);"><div style="font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#a05a45;margin-bottom:3px;">At a glance</div><strong style="display:block;color:#35152f;font-size:17px;margin-bottom:10px;">Price comparison</strong>${recurringHtml}${lpgHtml}<div style="margin-top:10px;padding-top:9px;border-top:1px solid #efd8ca;font-size:10.5px;color:#7a857b;line-height:1.45;">Estimates use the figures entered for this comparison. Promotions and other plan details are shown in the breakdown below.</div></div>`;
 }
 function providerStrength(metric,priority){
   const text=metric.keyInfo;
@@ -4110,7 +4084,7 @@ function refreshAgentPreview(){
     const confirmationBody=encodeURIComponent(`Hi ${currentAgent||'there'},\n\nI'd like to go ahead with ${recommendedChoice}${address?` for ${address}`:''}. Please let me know what you need from me next.\n\nThanks,\n${name||''}`);
     const confirmationLink=`mailto:${currentAgentEmail}?subject=${confirmationSubject}&body=${confirmationBody}`;
     const confirmationBox=`<div style="margin:16px 0;padding:16px;border:1px solid #efc7b7;border-radius:12px;background:#fff4ec;text-align:center;"><strong style="display:block;color:#35152f;font-size:16px;margin-bottom:5px;">Ready to go ahead?</strong><span style="display:block;color:#5c675e;font-size:12px;margin-bottom:5px;">Confirm that you'd like to proceed with:</span><strong style="display:block;color:#35152f;font-size:13px;margin-bottom:12px;">${recommendedChoice}</strong><a href="${confirmationLink}" style="display:inline-block;background:#ff6537;color:#ffffff;text-decoration:none;font-weight:700;padding:10px 18px;border-radius:8px;">Yes, count me in</a></div>`;
-    document.getElementById('previewBody').innerHTML=`<div class="renti-email" style="max-width:680px;margin:0 auto;font-family:Arial,'Helvetica Neue',sans-serif;color:#243128;font-size:13px;line-height:1.6;"><div style="font-size:11px;color:#8b8478;margin:0 0 14px;">Comparison prepared: ${preparedWhen}</div><p style="margin:0 0 12px;">${intro}</p>${address?`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for <strong style="color:#35152f;">${address}</strong>${moveDate?` for your move on <strong style="color:#35152f;">${moveDate}</strong>`:''}.</p>`:`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for you.</p>`}<p style="margin:0 0 16px;color:#4b5a4e;">${emailType==='full'?'The estimated costs below use the rates and consumption discussed with you. Actual bills may vary depending on your usage and final provider pricing.':'Here are the product options we discussed.'}</p><div style="font-size:18px;font-weight:800;color:#35152f;margin:0 0 8px;">Your options</div>${options}${priceComparisonHtml()}${recommendation?`<div class="recommend-box" style="margin:14px 0;padding:12px 14px;border:1px solid #ddd5c4;border-left:3px solid #ff6537;border-radius:10px;background:#fffaf5;color:#35443a;"><strong style="display:block;color:#35152f;margin-bottom:8px;">Our take</strong>${recommendationHtml(recommendation)}</div>`:''}${confirmationBox}<p style="margin:16px 0 0;font-size:10.5px;color:#8b8478;line-height:1.5;">Rates, offers and third-party retail prices shown are based on information available and entered when this comparison was prepared. Prices, promotions and availability may change.${powerDisclaimer}</p>${signatureHtml(true)}</div>`;
+    document.getElementById('previewBody').innerHTML=`<div class="renti-email" style="max-width:680px;margin:0 auto;font-family:Arial,'Helvetica Neue',sans-serif;color:#243128;font-size:13px;line-height:1.6;"><div style="font-size:11px;color:#8b8478;margin:0 0 14px;">Comparison prepared: ${preparedWhen}</div><p style="margin:0 0 12px;">${intro}</p>${address?`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for <strong style="color:#35152f;">${address}</strong>${moveDate?` for your move on <strong style="color:#35152f;">${moveDate}</strong>`:''}.</p>`:`<p style="margin:0 0 12px;">As discussed, below are the utility options we've put together for you.</p>`}<p style="margin:0 0 16px;color:#4b5a4e;">${emailType==='full'?'The estimated costs below use the rates and consumption discussed with you. Actual bills may vary depending on your usage and final provider pricing.':'Here are the product options we discussed.'}</p>${priceComparisonHtml()}<p style="margin:16px 0 8px;color:#4b5a4e;">Please see the full breakdown of each option below.</p><div style="font-size:18px;font-weight:800;color:#35152f;margin:0 0 8px;">Your options</div>${options}${recommendation?`<div class="recommend-box" style="margin:14px 0;padding:12px 14px;border:1px solid #ddd5c4;border-left:3px solid #ff6537;border-radius:10px;background:#fffaf5;color:#35443a;"><strong style="display:block;color:#35152f;margin-bottom:8px;">Our take</strong>${recommendationHtml(recommendation)}</div>`:''}${confirmationBox}<p style="margin:16px 0 0;font-size:10.5px;color:#8b8478;line-height:1.5;">Rates, offers and third-party retail prices shown are based on information available and entered when this comparison was prepared. Prices, promotions and availability may change.${powerDisclaimer}</p>${signatureHtml(true)}</div>`;
   }
 }
 
