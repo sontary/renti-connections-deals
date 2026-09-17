@@ -3872,14 +3872,10 @@ function contractTermCommentary(){
   const summaries=metrics.map(m=>`${m.name}: ${m.terms.map(t=>`${t.service} ${t.label}${t.exitFee?` with a $${t.exitFee.toFixed(2)} exit fee`:''}`).join(', ')}`);
   const open=metrics.filter(m=>m.hasOpenTerm),fixed=metrics.filter(m=>m.hasFixedTerm);
   let guidance='';
-  if(open.length&&fixed.length)guidance=`The open-term option gives you more flexibility, while a fixed term can still offer good value when the discount, modem or other benefit is useful enough to justify the commitment.`;
-  else if(fixed.length)guidance=`A fixed term can be worthwhile when the included discount or benefit is valuable to you, but it is important to be comfortable with the commitment and any exit costs.`;
-  else guidance=`These options are open term, which gives you more flexibility if your needs change later.`;
-  const hasFixedPower=metrics.some(m=>m.terms.some(t=>t.service==='Power'&&t.months));
-  const hasFixedBroadband=metrics.some(m=>m.terms.some(t=>t.service==='Broadband'&&t.months));
-  if(hasFixedPower)guidance+=` For power, it is worth checking that the promotion provides enough value before giving up that flexibility.`;
-  if(hasFixedBroadband)guidance+=` For broadband, a 12- or 24-month term may be reasonable when it secures a better monthly price, installation or modem benefit.`;
-  return `The plan terms are also worth considering: ${summaries.join('; ')}.\n\n${guidance}`;
+  if(open.length&&fixed.length) guidance=`The open-term option gives you more flexibility; the fixed term may still suit you if its promotion is worth the commitment.`;
+  else if(fixed.length) guidance=`Please make sure you’re comfortable with the fixed term and any exit costs.`;
+  else guidance=`Both options are open term, giving you flexibility if your needs change.`;
+  return `Plan terms: ${summaries.join('; ')}. ${guidance}`;
 }
 function generateRecommendationDetail(){
   const metrics=[...quoteStack.children].map(quoteMetrics);
@@ -3918,25 +3914,25 @@ function generateRecommendationDetail(){
           ? `Once the comparable retail price is taken into account, ${applianceOption.name} still comes out approximately $${Math.abs(netDiff).toFixed(2)} ahead over the ${term}-month period.`
           : `Once the comparable retail price is taken into account, you would still be approximately $${Math.abs(netDiff).toFixed(2)} better off with ${alt.name} over the ${term}-month period.`);
       const costSentence=costAdvantage>=0?`${alt.name} is estimated to save you approximately $${costAdvantage.toFixed(2)} in ongoing utility costs over those ${term} months.`:`${applianceOption.name} is estimated to save you approximately $${Math.abs(costAdvantage).toFixed(2)} in ongoing utility costs over those ${term} months.`;
-      return `I can completely understand why ${applianceOption.name}’s ${applianceOption.promo.name} offer may be tempting—especially if it’s something you need for the move. ${costSentence}${creditPhrase} The appliance has a provider-stated value of $${applianceOption.promo.providerValue.toFixed(2)}, and we’ve used a comparable retail price of approximately $${applianceValue.toFixed(2)} to make the comparison fair. ${verdict} For that reason, ${netDiff>0?`${alt.name} offers the better overall value`:`${applianceOption.name} may be the more valuable option`} based on the figures entered, although what matters most is which benefit is more useful to you right now.`;
+      return `I understand why ${applianceOption.name}’s ${applianceOption.promo.name} offer may be tempting. ${costSentence}${creditPhrase}\n\nThe appliance is advertised at $${applianceOption.promo.providerValue.toFixed(2)}; we used the comparable retail price of $${applianceValue.toFixed(2)} for a fair comparison. ${verdict}`;
     }
   }
 
   if(priority==='cost' && cheapest){
     if(isClose){
-      return `I know keeping your costs down is important. ${cheapest.name} and ${next.name} are only around $${diff.toFixed(2)} per month apart, so there isn’t a meaningful price difference between them. In this case, I’d look at which plan’s features, terms and benefits would make life easier for you.`;
+      return `${cheapest.name} and ${next.name} are only around $${diff.toFixed(2)} per month apart, so there isn’t a meaningful price difference. The better choice comes down to which benefits and terms suit you best.`;
     }
     const saving=diff>0.005?` That works out to roughly $${diff.toFixed(2)} less per month, or $${(diff*12).toFixed(2)} a year, than the next lowest option here.`:'';
-    return `Because keeping the cost down matters most to you, ${cheapest.name} looks like the best fit based on the figures entered.${saving} That is a meaningful difference, so it should give you better value without paying extra for benefits you may not need.`;
+    return `Because keeping costs down matters most to you, ${cheapest.name} looks like the best fit.${saving}`;
   }
 
   if(priority==='overall' && cheapest){
     const creditNote=cheapest.creditValue>0?` You’ll also receive ${cheapest.creditNote}, which makes the first-year value even stronger.`:'';
     if(isClose){
-      return `For overall value, ${cheapest.name} and ${next.name} are very close—only around $${diff.toFixed(2)} per month apart. Because the cost difference is small, I’d focus on which promotion, plan features and terms will actually be more useful for your household.`;
+      return `${cheapest.name} and ${next.name} are very close—only around $${diff.toFixed(2)} per month apart. The better choice comes down to which promotion and terms are more useful to you.`;
     }
     const saving=diff>0.005?` roughly $${diff.toFixed(2)} less per month`:'';
-    return `Looking at both the ongoing cost and the promotional benefits, ${cheapest.name} offers the strongest overall value${saving?` at ${saving.trim()}`:''}.${creditNote} This gives you a clear view of why it stands out, while still allowing you to decide whether its benefits suit your household best.`;
+    return `Looking at the ongoing cost and promotions, ${cheapest.name} offers the strongest overall value${saving?` at ${saving.trim()}`:''}.${creditNote}`;
   }
 
   if(priority!=='overall' && strengthCandidate){
@@ -3950,15 +3946,15 @@ function generateRecommendationDetail(){
       costContext = ` It also compares well on price, so you aren’t having to make a major cost trade-off to get what matters to you.`;
     }
     const priorityOpening={service:`You mentioned that dependable customer service is important to you, especially if you need help after the connection is completed.`,flexibility:`I understand that keeping your options open is important, particularly when you’re moving and may not want to be tied into a long contract.`,speed:`You mentioned that speed and performance matter most for your household, so it makes sense to choose the plan that can comfortably support how you use the internet.`,sustainability:`You mentioned that sustainability is important to you, so I’ve given extra weight to the provider’s renewable-energy credentials.`}[priority]||`You mentioned that ${priorityLabel} is particularly important to you.`;
-    return `${priorityOpening} ${strengthCandidate.name} is the option that best reflects that priority.${costContext} This makes it a strong match for what you’ve told us matters most, while leaving the final decision with you.`;
+    return `${priorityOpening} ${strengthCandidate.name} best reflects that priority.${costContext}`;
   }
 
   if(cheapest){
     if(isClose){
-      return `${cheapest.name} and ${next.name} are only around $${diff.toFixed(2)} per month apart, so there isn’t a clear winner on price alone. I’d choose the option whose benefits and terms feel more useful for your household, rather than letting such a small difference decide it for you.`;
+      return `${cheapest.name} and ${next.name} are only around $${diff.toFixed(2)} per month apart, so there isn’t a clear winner on price. The better choice comes down to which benefits and terms suit you best.`;
     }
     const saving=diff>0.005?` That's roughly $${diff.toFixed(2)} less per month, or $${(diff*12).toFixed(2)} a year, than the next lowest option shown.`:'';
-    return `${cheapest.name} comes out lowest on ongoing cost based on the figures entered.${saving} That makes it the stronger choice on price, while the details above show what you may be giving up or gaining through the other options. On balance, ${cheapest.name} appears to offer the better value.`;
+    return `${cheapest.name} has the lowest estimated ongoing cost.${saving}`;
   }
 
   return `The options entered don’t have enough like-for-like pricing information for us to make a fair cost comparison. I’ve still included the features, terms and benefits above so you can see what each option offers. If you tell us what matters most for your household, we’ll be happy to help you work through the difference.`;
@@ -3982,7 +3978,7 @@ function recommendedOptionText(){
   return chosen.name;
 }
 function generateRecommendation(){
-  return `Based on what we’ve compared, ${recommendedOptionText()} appears to be the strongest match for what matters most to you.\n\n${generateRecommendationDetail()}\n\n${contractTermCommentary()}\n\nThe final choice is completely yours, and we’re happy to help with whichever option works best for you. If you have any questions, would like us to talk you through the options, or want us to run another comparison, simply reply to this email or give us a call.`;
+  return `Based on what we’ve compared, ${recommendedOptionText()} appears to be the strongest match for what matters most to you.\n\n${generateRecommendationDetail()}\n\n${contractTermCommentary()}\n\nThe final choice is yours. If you have any questions or would like another comparison, simply reply to this email or give us a call.`;
 }
 
 function recommendationHtml(text){
