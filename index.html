@@ -625,7 +625,7 @@
   .preview-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;}
   .preview-edit-note{font-size:10.5px;color:var(--ink-soft);}
   .recommend-box{margin-top:12px;padding:13px 14px;border:1px solid var(--line);border-left:3px solid var(--renti-orange);border-radius:10px;background:linear-gradient(180deg,#fff,#fffaf5);}
-  .recommend-box strong{display:block;color:var(--forest-dark);margin-bottom:4px;}
+  .recommend-box > strong{display:block;color:var(--forest-dark);margin-bottom:8px;}
   .custom-provider-fields{display:none;margin-top:10px;}
   .custom-provider-fields.show{display:grid;}
   .email-option{border:1px solid var(--line);border-radius:10px;padding:10px 11px;margin:9px 0;background:var(--paper);}
@@ -3183,7 +3183,6 @@ function addAgentQuote(providerId='powershop'){
         <div class="plan-terms"><div class="plan-terms-title">Broadband plan terms</div><div class="agent-field"><label>Contract term <span class="required-mark">*</span></label><select class="q-bb-term"><option value="">Select term</option><option value="open">Open term</option><option value="12">12 months</option><option value="24">24 months</option><option value="custom">Other fixed term</option></select></div><div class="agent-field"><label>Exit fee ($, optional)</label><input class="q-bb-exit-fee" type="number" step="0.01" min="0"></div><div class="agent-field"><label>Important term note (optional)</label><input class="q-bb-term-note" placeholder="e.g. Modem repayment may apply"></div><div class="agent-field q-bb-custom-term-wrap" style="display:none;"><label>Custom term (months) <span class="required-mark">*</span></label><input class="q-bb-custom-term" type="number" min="1" step="1"></div></div>
         <div class="agent-form-grid" style="margin-top:10px;">
           <div class="agent-field full q-bb-custom-name-wrap" style="display:none;"><label>External broadband provider name</label><input class="q-bb-custom-provider" placeholder="e.g. Slingshot, Orcon"></div>
-          <div class="agent-field"><label>Broadband benefit / offer</label><input class="q-bb-benefit" placeholder="e.g. $120 one-off credit"></div>
           <div class="agent-field"><label>Modem option</label><select class="q-bb-type"><option value="included">Included / free</option><option value="rental">Monthly rental</option><option value="instalment">Monthly instalment</option><option value="purchase">Buy outright (one-off)</option><option value="byo">Bring your own</option><option value="none">Not applicable</option></select></div>
           <div class="agent-field q-bb-monthly-wrap"><label>Modem monthly cost ($)</label><input class="q-bb-monthly" type="number" step="0.01" min="0" placeholder="5.00"></div>
           <div class="agent-field q-bb-oneoff-wrap" style="display:none;"><label>Modem one-off cost ($)</label><input class="q-bb-oneoff" type="number" step="0.01" min="0" placeholder="199.00"></div>
@@ -3222,6 +3221,7 @@ function addAgentQuote(providerId='powershop'){
         <div style="font-size:10.5px;color:var(--ink-soft);margin-top:7px;">Genesis Power + Genesis LPG uses $155 per bottle. LPG by itself or with another power provider uses $175 per bottle. Rental remains $11.50/month for two bottles.</div>
         <div class="calc-result q-lpg-result" style="display:flex;margin-top:10px;"><div><span>Estimated LPG cost</span><strong>$0.00</strong></div><div class="calc-breakdown">Bottle quantity + prorated monthly rental</div></div>
       </div>
+      <div class="q-main-promo-block">
       <div class="agent-form-grid">
         <div class="agent-field"><label class="q-main-promo-label">Power promotion type</label><select class="q-promo-type">
           <option value="none">No promotional offer</option>
@@ -3257,6 +3257,7 @@ function addAgentQuote(providerId='powershop'){
       </div>
       <div class="agent-form-grid q-promo-fields q-promo-other" style="display:none;">
         <div class="agent-field full"><label>Describe the offer</label><input class="q-promo-other" placeholder="e.g. Free installation, valued at $99"></div>
+      </div>
       </div>
       <div class="agent-form-grid" style="margin-top:12px;">
         <div class="agent-field q-broadband-field" style="display:none;"><label>Broadband monthly price ($)</label><input class="q-bbprice-legacy" type="number" step="0.01" min="0" placeholder="85.00"></div>
@@ -3503,9 +3504,11 @@ function recalcQuote(card){
   const powerFields=card.querySelector('.q-power-fields');
   const legacyBB=[...card.querySelectorAll('.q-broadband-field')];
   const addRow=card.querySelector('.q-package-add-row');
+  const mainPromo=card.querySelector('.q-main-promo-block');
   const packageTotal=card.querySelector('.q-package-total');
   const hasPower=service==='power';
   const broadbandOnly=service==='broadband';
+  if(mainPromo && addRow && mainPromo.nextElementSibling!==addRow) addRow.parentNode.insertBefore(mainPromo,addRow);
   const promoLabel=card.querySelector('.q-main-promo-label');if(promoLabel)promoLabel.textContent=hasPower?'Power promotion type':(broadbandOnly?'Broadband promotion type':'Promotion type');
   const termTitle=card.querySelector('.q-main-term-title');if(termTitle)termTitle.textContent=hasPower?'Power plan terms':(broadbandOnly?'Broadband plan terms':service==='mobile'?'Mobile plan terms':service==='lpg'?'LPG plan terms':'Plan terms');
   const nestedLpgTerms=card.querySelector('.q-lpg-package .plan-terms');if(nestedLpgTerms)nestedLpgTerms.style.display=service==='lpg'?'none':'grid';
@@ -3584,7 +3587,6 @@ function wireQuoteCard(card){
       let price=chosen?.price;
       if(chosen?.prices) price=(bbProvider.value==='contact' && mainPlanId==='') ? null : (chosen.prices[mainPlanId] ?? Object.values(chosen.prices)[0]);
       if(price!=null) card.querySelector('.q-bbprice').value=Number(price).toFixed(2);
-      if(chosen?.benefit) card.querySelector('.q-bb-benefit').value=chosen.benefit;
       if(chosen?.modem) card.querySelector('.q-bb-keyinfo').value=[card.querySelector('.q-bb-keyinfo').value,chosen.modem].filter(Boolean).join('\n');
       setDefaultBroadbandModem(card,id,bbPlan.value); updateModemFieldVisibility(true);
     } else { bbPlan.innerHTML=''; card.querySelector('.q-bb-keyinfo').value=''; }
@@ -3653,7 +3655,7 @@ function wireQuoteCard(card){
   removeLpg.addEventListener('click',()=>{ if(card.querySelector('.q-service').value==='lpg') return; card.dataset.hasLpg='false'; lpgBox.classList.remove('show'); addLpg.classList.remove('active'); addLpg.textContent='+ Add LPG';addLpg.title='Add LPG';recalcQuote(card); markRecommendationAuto(); refreshAgentPreview(); });
   removeBB.addEventListener('click',()=>{ const mid=card.querySelector('.q-provider').value; if(AGENT_SERVICE_RULES[mid]?.forceBroadbandWithPower && card.querySelector('.q-service').value==='power') return; card.dataset.hasBroadbandPackage='false'; bbPackage.classList.remove('show'); addBB.classList.remove('active','required'); addBB.textContent='+ Add broadband';addBB.title='Add broadband';recalcQuote(card); markRecommendationAuto(); refreshAgentPreview(); });
   bbProvider.addEventListener('change',()=>{ fillBBProvider(); markRecommendationAuto(); refreshAgentPreview(); });
-  bbPlan.addEventListener('change',()=>{ const p=PROVIDERS.find(x=>x.id===bbProvider.value); if(p){ card.querySelector('.q-bb-keyinfo').value=providerKeyInfo(p,bbPlan.value); const plans=broadbandAgentPlans(bbProvider.value); const chosen=plans.find(x=>x.label===bbPlan.value); let price=chosen?.price; if(chosen?.prices){ const mainPlanId=agentProviderPlanId(card); price=(bbProvider.value==='contact' && mainPlanId==='') ? null : (chosen.prices[mainPlanId] ?? Object.values(chosen.prices)[0]); } if(price!=null) card.querySelector('.q-bbprice').value=Number(price).toFixed(2); if(chosen?.benefit) card.querySelector('.q-bb-benefit').value=chosen.benefit; setDefaultBroadbandModem(card,bbProvider.value,bbPlan.value); updateModemFieldVisibility(true); } markRecommendationAuto(); recalcQuote(card); refreshAgentPreview(); });
+  bbPlan.addEventListener('change',()=>{ const p=PROVIDERS.find(x=>x.id===bbProvider.value); if(p){ card.querySelector('.q-bb-keyinfo').value=providerKeyInfo(p,bbPlan.value); const plans=broadbandAgentPlans(bbProvider.value); const chosen=plans.find(x=>x.label===bbPlan.value); let price=chosen?.price; if(chosen?.prices){ const mainPlanId=agentProviderPlanId(card); price=(bbProvider.value==='contact' && mainPlanId==='') ? null : (chosen.prices[mainPlanId] ?? Object.values(chosen.prices)[0]); } if(price!=null) card.querySelector('.q-bbprice').value=Number(price).toFixed(2); setDefaultBroadbandModem(card,bbProvider.value,bbPlan.value); updateModemFieldVisibility(true); } markRecommendationAuto(); recalcQuote(card); refreshAgentPreview(); });
   card.querySelector('.q-provider').addEventListener('change',e=>{
     const isCustom=e.target.value==='custom';
     const p=PROVIDERS.find(x=>x.id===e.target.value);
@@ -3754,12 +3756,11 @@ function quotePreviewHtml(card,index,emailType,totalOptions=1){
     body += `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">Mobile — <span style="color:#35152f;">$${mp.toFixed(2)}/month</span></div>${termSummaryHtml('Mobile',termDetails(card))}${mb?`<div style="margin-top:9px;padding:8px 10px;border-radius:8px;background:#f2edff;color:#3c2a8a;font-size:11.5px;font-weight:700;">Benefit: ${mb}</div>`:''}${keyInfoHtml(mi)}</div>`;
   }
   if((broadbandOnly||packageActive) && bbMonthly){
-    const bbBenefit=packageActive?card.querySelector('.q-bb-benefit').value.trim():'';
     const bbInfo=packageActive?card.querySelector('.q-bb-keyinfo').value.trim():'';
     const displayName=packageActive?(broadbandName||'Broadband'):providerName;
     const displayPlan=packageActive?(broadbandPlan||'Broadband plan'):plan;
     const modemText=modemSummary(card,packageActive); const oneOffModem=modemOneOff(card,packageActive);
-    body += `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">Broadband — <span style="color:#35152f;">$${bbMonthly.toFixed(2)}/month</span></div><div style="font-size:11.5px;color:#4b5a4e;margin-top:3px;">${displayName} · ${displayPlan}</div>${termSummaryHtml('Broadband',packageActive?termDetails(card,'q-bb'):termDetails(card))}${modemText?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:5px;"><strong>Modem:</strong> ${modemText}</div>`:''}${oneOffModem?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:3px;"><strong>One-off modem cost:</strong> $${oneOffModem.toFixed(2)} <span style="color:#7a857b;">(not included in the monthly/package total)</span></div>`:''}${bbBenefit?`<div style="margin-top:9px;padding:8px 10px;border-radius:8px;background:#f2edff;color:#3c2a8a;font-size:11.5px;font-weight:700;">Benefit: ${bbBenefit}</div>`:''}${broadbandPromoDisplayHtml(card)}${keyInfoHtml(bbInfo)}</div>`;
+    body += `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">Broadband — <span style="color:#35152f;">$${bbMonthly.toFixed(2)}/month</span></div><div style="font-size:11.5px;color:#4b5a4e;margin-top:3px;">${displayName} · ${displayPlan}</div>${termSummaryHtml('Broadband',packageActive?termDetails(card,'q-bb'):termDetails(card))}${modemText?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:5px;"><strong>Modem:</strong> ${modemText}</div>`:''}${oneOffModem?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:3px;"><strong>One-off modem cost:</strong> $${oneOffModem.toFixed(2)} <span style="color:#7a857b;">(not included in the monthly/package total)</span></div>`:''}${broadbandPromoDisplayHtml(card)}${keyInfoHtml(bbInfo)}</div>`;
   }
   if(emailType==='full' && (packageActive||card.dataset.hasNaturalGas==='true')){
     const included=['Power'];if(packageActive)included.push('broadband');if(card.dataset.hasNaturalGas==='true')included.push('natural gas');
