@@ -1650,6 +1650,7 @@ function plainProvider(provider){
   return copy;
 }
 function defaultEditableCatalog(){return {schemaVersion:1,providers:DEFAULT_PROVIDERS.map(plainProvider),promotions:[]};}
+function validEditableCatalog(catalog){return Array.isArray(catalog?.providers)&&catalog.providers.length>0;}
 function materializeProvider(record){
   const base=DEFAULT_PROVIDERS.find(p=>p.id===record.id)||{};
   const result={...base,...record,categories:[...(record.categories||[])],archived:!!record.archived};
@@ -1690,8 +1691,8 @@ async function loadPublishedProviderCatalog(){
     if(!response.ok)return;
     const data=await response.json();
     providerCatalogRevision=Number(data.revision||0);
-    providerCatalogPublished=data.catalog||null;
-    if(data.catalog)applyCatalog(data.catalog);
+    providerCatalogPublished=validEditableCatalog(data.catalog)?data.catalog:null;
+    if(providerCatalogPublished)applyCatalog(providerCatalogPublished);
   }catch(error){console.warn('Using the built-in provider catalogue.',error);}
 }
 
@@ -4433,13 +4434,53 @@ async function saveProviderPermissions(){
   try{const response=await fetch('/.netlify/functions/manage-provider-catalog',{method:'POST',credentials:'include',headers:{'content-type':'application/json'},body:JSON.stringify({action:'access',editors})});const data=await readFunctionJson(response,'Provider permission service');if(!response.ok)throw new Error(data.error||'Could not update permissions.');providerAdminEditors=data.editors||[];providerAdminSetStatus('Editing permissions updated.');}catch(error){providerAdminSetStatus(error.message,true);}
 }
 async function loadProviderAdminAccess(){
-  try{const response=await fetch('/.netlify/functions/manage-provider-catalog',{credentials:'include'});const data=await readFunctionJson(response,'Provider update service');if(!response.ok)throw new Error(data.error||'Could not check provider update access.');providerAdminCanEdit=!!data.canEdit;providerAdminIsPrimary=!!data.isPrimary;document.getElementById('agentProviderUpdatesTab').style.display=providerAdminCanEdit?'':'none';if(!providerAdminCanEdit)return;providerAdminEditors=data.editors||[];providerCatalogRevision=Number(data.published?.revision||providerCatalogRevision||0);providerAdminCatalog=structuredClone(data.draft?.catalog||data.published?.catalog||providerCatalogPublished||defaultEditableCatalog());providerAdminSelected=providerAdminCatalog.providers.find(p=>!p.archived)?.id||providerAdminCatalog.providers[0]?.id||'';renderProviderAdmin();providerAdminSetStatus(data.draft&&data.draft.updatedAt!==data.published?.updatedAt?'Draft loaded':'Catalogue ready');await loadProviderPermissions();}catch(error){if(isPrimaryAdmin()){providerAdminCanEdit=true;providerAdminIsPrimary=true;document.getElementById('agentProviderUpdatesTab').style.display='';providerAdminCatalog=providerAdminCatalog||structuredClone(providerCatalogPublished||defaultEditableCatalog());providerAdminSelected=providerAdminSelected||providerAdminCatalog.providers.find(p=>!p.archived)?.id||providerAdminCatalog.providers[0]?.id||'';renderProviderAdmin();providerAdminSetStatus(`Provider update service needs attention: ${error.message}`,true);}else document.getElementById('agentProviderUpdatesTab').style.display='none';console.warn(error);}
+  const primary=isPrimaryAdmin();
+  if(primary){
+    providerAdminCanEdit=true;
+    providerAdminIsPrimary=true;
+    document.getElementById('agentProviderUpdatesTab').style.display='';
+    providerAdminCatalog=validEditableCatalog(providerAdminCatalog)?providerAdminCatalog:structuredClone(validEditableCatalog(providerCatalogPublished)?providerCatalogPublished:defaultEditableCatalog());
+    providerAdminSelected=providerAdminSelected||providerAdminCatalog.providers.find(p=>!p.archived)?.id||providerAdminCatalog.providers[0]?.id||'';
+    renderProviderAdmin();
+    providerAdminSetStatus('Existing providers loaded. Checking the shared catalogue…');
+  }
+  const initialSnapshot=primary?JSON.stringify(providerAdminCatalog):'';
+  const controller=new AbortController();
+  const timer=window.setTimeout(()=>controller.abort(),8000);
+  try{
+    const response=await fetch('/.netlify/functions/manage-provider-catalog',{credentials:'include',signal:controller.signal});
+    const data=await readFunctionJson(response,'Provider update service');
+    if(!response.ok)throw new Error(data.error||'Could not check provider update access.');
+    providerAdminCanEdit=!!data.canEdit;
+    providerAdminIsPrimary=!!data.isPrimary;
+    document.getElementById('agentProviderUpdatesTab').style.display=providerAdminCanEdit?'':'none';
+    if(!providerAdminCanEdit)return;
+    providerAdminEditors=data.editors||[];
+    providerCatalogRevision=Number(data.revision??data.published?.revision??providerCatalogRevision??0);
+    const storedCatalog=[data.draft?.catalog,data.published?.catalog,providerCatalogPublished].find(validEditableCatalog);
+    const unchanged=!primary||JSON.stringify(providerAdminCatalog)===initialSnapshot;
+    if(unchanged){
+      providerAdminCatalog=structuredClone(storedCatalog||defaultEditableCatalog());
+      providerAdminSelected=providerAdminCatalog.providers.find(p=>p.id===providerAdminSelected)?.id||providerAdminCatalog.providers.find(p=>!p.archived)?.id||providerAdminCatalog.providers[0]?.id||'';
+      renderProviderAdmin();
+    }
+    if(!storedCatalog)providerAdminSetStatus('Existing providers restored. Review them, then publish once to repair the shared catalogue.',true);
+    else providerAdminSetStatus(data.draft&&data.draft.updatedAt!==data.published?.updatedAt?'Draft loaded':'Catalogue ready');
+    loadProviderPermissions();
+  }catch(error){
+    if(primary){
+      providerAdminSetStatus(error.name==='AbortError'?'Existing providers are ready. The shared catalogue service timed out; you can still review and add providers.':`Existing providers are ready. The shared catalogue service needs attention: ${error.message}`,true);
+    }else{
+      document.getElementById('agentProviderUpdatesTab').style.display='none';
+      console.warn(error);
+    }
+  }finally{window.clearTimeout(timer);}
 }
 
 document.getElementById('providerAdminContent').addEventListener('input',providerAdminInput);
 document.getElementById('providerAdminContent').addEventListener('change',event=>{providerAdminInput(event);if(event.target.matches('[data-provider-editor]'))saveProviderPermissions();});
 document.getElementById('providerAdminContent').addEventListener('click',providerAdminClick);
-document.getElementById('providerAdd').addEventListener('click',()=>{const id=`new-provider-${Date.now()}`;providerAdminCatalog.providers.push({id,name:'New provider',color:'#4A1942',initials:'NEW',categories:['power'],recommended:false,exclusive:false,term:'Open term',termType:'open',validity:'Valid until further notice',headline:'Add the plan headline',details:'<h4>Plan details</h4><ul><li>Add product information</li></ul>',archived:false,plans:[]});providerAdminSelected=id;renderProviderAdmin();providerAdminSetStatus('Unsaved changes');});
+document.getElementById('providerAdd').addEventListener('click',()=>{if(!validEditableCatalog(providerAdminCatalog))providerAdminCatalog=structuredClone(defaultEditableCatalog());if(!Array.isArray(providerAdminCatalog.promotions))providerAdminCatalog.promotions=[];const id=`new-provider-${Date.now()}`;providerAdminCatalog.providers.push({id,name:'New provider',color:'#4A1942',initials:'NEW',categories:['power'],recommended:false,exclusive:false,term:'Open term',termType:'open',validity:'Valid until further notice',headline:'Add the plan headline',details:'<h4>Plan details</h4><ul><li>Add product information</li></ul>',archived:false,plans:[]});providerAdminSelected=id;renderProviderAdmin();providerAdminSetStatus('New provider added — complete the details, then save a draft or publish.');});
 document.getElementById('providerSaveDraft').addEventListener('click',()=>saveProviderAdmin('draft'));
 document.getElementById('providerPublish').addEventListener('click',()=>saveProviderAdmin('publish'));
 

@@ -9,7 +9,8 @@ export default async (req) => {
   try {
     const store = getStore('provider-catalog');
     const published = await store.get('published', { type: 'json' });
-    return json({ catalog: published?.catalog || null, revision: published?.revision || 0, publishedAt: published?.publishedAt || null });
+    const valid = Array.isArray(published?.catalog?.providers) && published.catalog.providers.length > 0;
+    return json({ catalog: valid ? published.catalog : null, revision: published?.revision || 0, publishedAt: valid ? published?.publishedAt || null : null });
   } catch (error) {
     console.error('provider-catalog failed', error);
     return json({ error: 'Could not load the provider catalogue.' }, 500);

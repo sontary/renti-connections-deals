@@ -9,6 +9,7 @@ function json(data, status = 200) { return Response.json(data, { status, headers
 function sameOrigin(req) { const origin = req.headers.get('origin'); return !origin || origin === new URL(req.url).origin; }
 function emailOf(user) { return String(user?.email || '').trim().toLowerCase(); }
 function rolesOf(user) { return Array.isArray(user?.roles) ? user.roles : []; }
+function validCatalogRecord(record) { return Array.isArray(record?.catalog?.providers) && record.catalog.providers.length > 0; }
 function isPrimary(user) { return emailOf(user) === PRIMARY_ADMIN_EMAIL; }
 function isAdmin(user) { return isPrimary(user) || rolesOf(user).includes('admin'); }
 function cleanText(value, max = 5000) { return String(value ?? '').trim().slice(0, max); }
@@ -137,9 +138,10 @@ export default async (req) => {
     return json({
       canEdit: true,
       isPrimary: isPrimary(user),
+      revision: Number(published?.revision || 0),
       editors: isPrimary(user) ? access.editors || [] : undefined,
-      published: published || null,
-      draft: draft || null,
+      published: validCatalogRecord(published) ? published : null,
+      draft: validCatalogRecord(draft) ? draft : null,
       historyCount: historyList?.blobs?.length || 0,
     });
   }
