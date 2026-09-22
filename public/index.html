@@ -1119,7 +1119,7 @@ let PROVIDERS = [
   {
     id:"genesis", name:"Genesis Energy", color:"#F26B21", initials:"GEGE",
     categories:["power","gas","bundle"], recommended:false, exclusive:true,
-    plans:[{id:"lpg-only",label:"LPG only — $175/bottle",category:"gas",bullets:["45kg LPG bottles — $175 each","$11.50/month rental for two bottles"]},{id:"power-lpg",label:"Power + LPG — $155/bottle",category:"bundle",bullets:["45kg LPG bottles — $155 each when bundled with Genesis power","$11.50/month rental for two bottles"]}],
+    plans:[{id:"lpg-only",label:"LPG only — $170/bottle",category:"gas",bullets:["45kg LPG bottles — $170 each","$11.50/month rental for two bottles"]},{id:"power-lpg",label:"Power + LPG — $155/bottle",category:"bundle",bullets:["45kg LPG bottles — $155 each when bundled with Genesis power ($15 bundle discount)","$11.50/month rental for two bottles"]}],
     term:"Open term", termType:"open",
     validity:"Valid until further notice",
     headline:"PowerHome Bundle — Power + LPG",
@@ -1129,7 +1129,7 @@ let PROVIDERS = [
         <li>Power + LPG — only for properties with electricity plus two 45kg LPG bottles</li>
         <li>Open term plan</li>
         <li>50 Power Shout Hours free</li>
-        <li>45kg LPG bottle: $155 each when bundled with power (LPG-only price $175 per bottle)</li>
+        <li>45kg LPG bottle: $170 standard price, with a $15 per-bottle discount when bundled with Genesis power ($155 effective price)</li>
         <li>Bottle rental: $11.50/month for two bottles, incl. GST</li>
         <li>Track usage and pay bills via the app</li>
         <li>Renti exclusive deal</li>
@@ -1587,6 +1587,10 @@ function materializeProvider(record){
   if(record.planA)result.planA={...base.planA,...record.planA,options:(record.planA.options||[]).filter(p=>!p.archived).map(p=>({...p,bullets:[...(p.bullets||[])]}))};
   if(record.planB)result.planB={...base.planB,...record.planB,options:(record.planB.options||[]).filter(p=>!p.archived).map(p=>({...p,bullets:[...(p.bullets||[])]}))};
   if(record.modemAxis)result.modemAxis={...base.modemAxis,...record.modemAxis,options:(record.modemAxis.options||[]).filter(p=>!p.archived).map(p=>({...p,bullets:[...(p.bullets||[])]})),appliesTo:base.modemAxis?.appliesTo||(()=>true)};
+  if(result.id==='genesis'){
+    result.plans=(result.plans||[]).map(plan=>plan.id==='lpg-only'?{...plan,label:String(plan.label||'').replace('$175/bottle','$170/bottle'),bullets:(plan.bullets||[]).map(item=>String(item).replace('$175 each','$170 each'))}:plan.id==='power-lpg'?{...plan,bullets:(plan.bullets||[]).map(item=>String(item).includes('$15 bundle discount')?String(item):String(item).replace('when bundled with Genesis power','when bundled with Genesis power ($15 bundle discount)'))}:plan);
+    result.details=String(result.details||'').replace('45kg LPG bottle: $155 each when bundled with power (LPG-only price $175 per bottle)','45kg LPG bottle: $170 standard price, with a $15 per-bottle discount when bundled with Genesis power ($155 effective price)');
+  }
   return result;
 }
 function applyPublishedCatalog(catalog){
@@ -2939,7 +2943,7 @@ function planOptions(provider){
 const AGENT_SERVICE_RULES={
   contact:{power:true,broadband:false,powerBroadband:true},
   electrickiwi:{power:true,broadband:true,powerBroadband:true},
-  pulse:{power:true,broadband:false,powerBroadband:true},
+  pulse:{power:true,broadband:false,powerBroadband:true,lpg:true},
   '2degrees':{power:false,broadband:true,powerBroadband:true,forceBroadbandWithPower:true},
   genesis:{power:true,broadband:false,powerBroadband:false,lpg:true},
   'onenz-mobile':{power:false,broadband:false,powerBroadband:false,mobile:true},
@@ -3053,32 +3057,105 @@ function setDefaultBroadbandModem(card,providerId,planLabel){
   else if(providerId==='pulse'){type.value='included';}
   else if(providerId==='electrickiwi'){type.value='none';}
 }
+function servicePromoConditionLabel(value,service){
+  if(value==='bundle')return 'when bundled with power';
+  if(value==='gas')return 'when taking natural gas';
+  if(value==='lpg')return 'when taking LPG';
+  if(value==='other')return 'subject to the stated eligibility conditions';
+  return service==='gas'?'for natural gas':'for LPG';
+}
+function quoteNaturalGasPromo(card){
+  const type=card.querySelector('.q-gas-promo-type')?.value||'none';
+  if(type==='none')return null;
+  const condition=card.querySelector('.q-gas-promo-condition')?.value||'';
+  if(type==='daily')return {type,condition,daily:numberValue(card,'.q-gas-promo-daily-amount')};
+  if(type==='usage')return {type,condition,usage:numberValue(card,'.q-gas-promo-usage-amount')};
+  if(type==='both')return {type,condition,daily:numberValue(card,'.q-gas-promo-both-daily'),usage:numberValue(card,'.q-gas-promo-both-usage')};
+  if(type==='percent')return {type,condition,percent:numberValue(card,'.q-gas-promo-percent-amount')};
+  if(type==='credit')return {type,condition,amount:numberValue(card,'.q-gas-promo-credit-amount'),shape:card.querySelector('.q-gas-promo-credit-shape')?.value||'',months:numberValue(card,'.q-gas-promo-credit-months')};
+  if(type==='other')return {type,condition,description:card.querySelector('.q-gas-promo-other')?.value.trim()||''};
+  return null;
+}
+function quoteLpgPromo(card){
+  const type=card.querySelector('.q-lpg-promo-type')?.value||'none';
+  if(type==='none')return null;
+  const condition=card.querySelector('.q-lpg-promo-condition')?.value||'';
+  if(type==='bottle_discount')return {type,condition,discount:numberValue(card,'.q-lpg-promo-bottle-discount')};
+  if(type==='bottle_price')return {type,condition,price:numberValue(card,'.q-lpg-promo-bottle-price')};
+  if(type==='rental_discount')return {type,condition,discount:numberValue(card,'.q-lpg-promo-rental-discount')};
+  if(type==='percent')return {type,condition,percent:numberValue(card,'.q-lpg-promo-percent-amount')};
+  if(type==='credit')return {type,condition,amount:numberValue(card,'.q-lpg-promo-credit-amount'),shape:card.querySelector('.q-lpg-promo-credit-shape')?.value||'',months:numberValue(card,'.q-lpg-promo-credit-months')};
+  if(type==='other')return {type,condition,description:card.querySelector('.q-lpg-promo-other')?.value.trim()||''};
+  return null;
+}
+function quoteNaturalGasRates(card){
+  const standardDaily=numberValue(card,'.q-gas-daily'),standardUsage=numberValue(card,'.q-gas-rate');
+  const promo=quoteNaturalGasPromo(card);let daily=standardDaily,usage=standardUsage;
+  if(promo?.type==='daily')daily-=promo.daily;
+  if(promo?.type==='usage')usage-=promo.usage;
+  if(promo?.type==='both'){daily-=promo.daily;usage-=promo.usage;}
+  if(promo?.type==='percent'){daily*=1-promo.percent/100;usage*=1-promo.percent/100;}
+  return {standardDaily,standardUsage,daily:Math.max(0,daily),usage:Math.max(0,usage),promo};
+}
+function quoteLpgRates(card){
+  const standardBottle=numberValue(card,'.q-lpg-bottle'),standardRental=numberValue(card,'.q-lpg-rental');
+  const promo=quoteLpgPromo(card);let bottle=standardBottle,rental=standardRental;
+  if(promo?.type==='bottle_discount')bottle-=promo.discount;
+  if(promo?.type==='bottle_price')bottle=promo.price;
+  if(promo?.type==='rental_discount')rental-=promo.discount;
+  if(promo?.type==='percent')bottle*=1-promo.percent/100;
+  return {standardBottle,standardRental,bottle:Math.max(0,bottle),rental:Math.max(0,rental),promo};
+}
 function quoteLpgTotal(card){
   const qty=numberValue(card,'.q-lpg-qty');
-  const bottle=numberValue(card,'.q-lpg-bottle');
-  const rental=numberValue(card,'.q-lpg-rental');
+  const {bottle,rental}=quoteLpgRates(card);
   const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);
   return bottle*qty + rental*(days/30);
 }
 function quoteNaturalGasTotal(card){
   const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);
-  const subtotal=numberValue(card,'.q-gas-daily')*days+numberValue(card,'.q-gas-rate')*numberValue(card,'.q-gas-kwh');
+  const rates=quoteNaturalGasRates(card);
+  const subtotal=rates.daily*days+rates.usage*numberValue(card,'.q-gas-kwh');
   return gstMode==='exclusive'?subtotal*1.15:subtotal;
+}
+function naturalGasPromoDisplayHtml(card){
+  const rates=quoteNaturalGasRates(card),promo=rates.promo;if(!promo)return '';
+  const condition=servicePromoConditionLabel(promo.condition,'gas');
+  let text='';
+  if(promo.type==='daily')text=`$${promo.daily.toFixed(4)}/day off the daily charge ${condition}. Effective daily charge: $${rates.daily.toFixed(4)}/day.`;
+  if(promo.type==='usage')text=`$${promo.usage.toFixed(4)}/kWh off gas usage ${condition}. Effective usage rate: $${rates.usage.toFixed(4)}/kWh.`;
+  if(promo.type==='both')text=`$${promo.daily.toFixed(4)}/day off the daily charge and $${promo.usage.toFixed(4)}/kWh off usage ${condition}. Effective rates: $${rates.daily.toFixed(4)}/day and $${rates.usage.toFixed(4)}/kWh.`;
+  if(promo.type==='percent')text=`${promo.percent}% off eligible natural gas charges ${condition}.`;
+  if(promo.type==='credit')text=promo.shape==='upfront'?`$${promo.amount.toFixed(2)} one-off natural gas credit applied to the first bill ${condition}.`:`$${promo.amount.toFixed(2)} natural gas credit spread over ${promo.months} months ($${(promo.amount/Math.max(1,promo.months)).toFixed(2)}/month) ${condition}.`;
+  if(promo.type==='other'){const description=escapeHtml(promo.description);text=`${description}${description&&!/[.!?]$/.test(description)?'.':''} ${condition}.`;}
+  return text?`<div style="margin-top:9px;padding:8px 10px;border-radius:8px;background:#f2edff;color:#3c2a8a;font-size:11.5px;"><strong style="display:block;margin-bottom:4px;">Natural gas promotional offer</strong>${text}</div>`:'';
+}
+function lpgPromoDisplayHtml(card){
+  const rates=quoteLpgRates(card),promo=rates.promo;if(!promo)return '';
+  const condition=servicePromoConditionLabel(promo.condition,'lpg');
+  let text='';
+  if(promo.type==='bottle_discount')text=`$${promo.discount.toFixed(2)} off each 45kg bottle ${condition}. Standard price $${rates.standardBottle.toFixed(2)} → effective price $${rates.bottle.toFixed(2)} per bottle.`;
+  if(promo.type==='bottle_price')text=`Promotional bottle price of $${rates.bottle.toFixed(2)} ${condition} (standard price $${rates.standardBottle.toFixed(2)}).`;
+  if(promo.type==='rental_discount')text=`$${promo.discount.toFixed(2)}/month off bottle rental ${condition}. Effective rental: $${rates.rental.toFixed(2)}/month for two bottles.`;
+  if(promo.type==='percent')text=`${promo.percent}% off each 45kg bottle ${condition}. Standard price $${rates.standardBottle.toFixed(2)} → effective price $${rates.bottle.toFixed(2)}.`;
+  if(promo.type==='credit')text=promo.shape==='upfront'?`$${promo.amount.toFixed(2)} one-off LPG credit applied to the first bill ${condition}.`:`$${promo.amount.toFixed(2)} LPG credit spread over ${promo.months} months ($${(promo.amount/Math.max(1,promo.months)).toFixed(2)}/month) ${condition}.`;
+  if(promo.type==='other'){const description=escapeHtml(promo.description);text=`${description}${description&&!/[.!?]$/.test(description)?'.':''} ${condition}.`;}
+  return text?`<div style="margin-top:9px;padding:8px 10px;border-radius:8px;background:#f2edff;color:#3c2a8a;font-size:11.5px;"><strong style="display:block;margin-bottom:4px;">LPG promotional offer</strong>${text}</div>`:'';
 }
 function naturalGasBreakdownHtml(card){
   const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);
-  const daily=numberValue(card,'.q-gas-daily'),rate=numberValue(card,'.q-gas-rate'),kwh=numberValue(card,'.q-gas-kwh');
+  const rates=quoteNaturalGasRates(card),daily=rates.daily,rate=rates.usage,kwh=numberValue(card,'.q-gas-kwh');
   const userClass=card.dataset.gasUserClass==='low'?'Low user':'Standard user';
   const subtotal=daily*days+rate*kwh, gst=subtotal*.15, total=gstMode==='exclusive'?subtotal+gst:subtotal;
   const rateLabel=gstMode==='exclusive'?'Rate (excl. GST)':'Rate (incl. GST)';
-  return `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#10141B;">Natural gas — estimated cost: <span style="font-size:18px;color:#10141B;">$${total.toFixed(2)}</span></div><div style="font-size:11.5px;color:#4b5a4e;margin-top:5px;"><strong>User class:</strong> ${userClass}</div><div style="margin-top:9px;width:100%;"><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;border-collapse:collapse;border:1px solid #e5dfd2;background:#fff;"><thead><tr style="background:#f2efe8;"><th style="padding:7px;text-align:left;font-size:10px;">Charge type</th><th style="padding:7px;text-align:left;font-size:10px;">${rateLabel}</th><th style="padding:7px;text-align:left;font-size:10px;">Estimated usage</th><th style="padding:7px;text-align:right;font-size:10px;">Estimated cost</th></tr></thead><tbody><tr><td style="padding:7px;font-size:11px;">Daily charge</td><td style="padding:7px;font-size:11px;">$${daily.toFixed(4)} / day</td><td style="padding:7px;font-size:11px;">${days} days</td><td style="padding:7px;text-align:right;font-size:11px;">$${(daily*days).toFixed(2)}</td></tr><tr><td style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;">Gas usage</td><td style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;">$${rate.toFixed(4)} / kWh</td><td style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;">${kwh} kWh</td><td style="padding:7px;border-top:1px solid #e5dfd2;text-align:right;font-size:11px;">$${(rate*kwh).toFixed(2)}</td></tr>${gstMode==='exclusive'?`<tr><td colspan="3" style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;font-weight:700;">GST 15%</td><td style="padding:7px;border-top:1px solid #e5dfd2;text-align:right;font-size:11px;font-weight:700;">$${gst.toFixed(2)}</td></tr>`:''}</tbody></table></div></div>`;
+  const adjusted=rates.promo&&['daily','usage','both','percent'].includes(rates.promo.type);
+  return `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#10141B;">Natural gas — estimated cost: <span style="font-size:18px;color:#10141B;">$${total.toFixed(2)}</span></div><div style="font-size:11.5px;color:#4b5a4e;margin-top:5px;"><strong>User class:</strong> ${userClass}${adjusted?' · Promotional rates included':''}</div><div style="margin-top:9px;width:100%;"><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;border-collapse:collapse;border:1px solid #e5dfd2;background:#fff;"><thead><tr style="background:#f2efe8;"><th style="padding:7px;text-align:left;font-size:10px;">Charge type</th><th style="padding:7px;text-align:left;font-size:10px;">${rateLabel}</th><th style="padding:7px;text-align:left;font-size:10px;">Estimated usage</th><th style="padding:7px;text-align:right;font-size:10px;">Estimated cost</th></tr></thead><tbody><tr><td style="padding:7px;font-size:11px;">Daily charge</td><td style="padding:7px;font-size:11px;">${daily!==rates.standardDaily?`<span style="color:#7a857b;text-decoration:line-through;">$${rates.standardDaily.toFixed(4)}</span> `:''}$${daily.toFixed(4)} / day</td><td style="padding:7px;font-size:11px;">${days} days</td><td style="padding:7px;text-align:right;font-size:11px;">$${(daily*days).toFixed(2)}</td></tr><tr><td style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;">Gas usage</td><td style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;">${rate!==rates.standardUsage?`<span style="color:#7a857b;text-decoration:line-through;">$${rates.standardUsage.toFixed(4)}</span> `:''}$${rate.toFixed(4)} / kWh</td><td style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;">${kwh} kWh</td><td style="padding:7px;border-top:1px solid #e5dfd2;text-align:right;font-size:11px;">$${(rate*kwh).toFixed(2)}</td></tr>${gstMode==='exclusive'?`<tr><td colspan="3" style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;font-weight:700;">GST 15%</td><td style="padding:7px;border-top:1px solid #e5dfd2;text-align:right;font-size:11px;font-weight:700;">$${gst.toFixed(2)}</td></tr>`:''}</tbody></table></div>${naturalGasPromoDisplayHtml(card)}</div>`;
 }
 function lpgBreakdownHtml(card){
   const qty=numberValue(card,'.q-lpg-qty');
-  const bottle=numberValue(card,'.q-lpg-bottle');
-  const rental=numberValue(card,'.q-lpg-rental');
+  const rates=quoteLpgRates(card),bottle=rates.bottle,rental=rates.rental;
   if(!(qty||rental)) return '';
-  return `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">LPG estimate: <span style="font-size:18px;color:#ff6537;">$${quoteLpgTotal(card).toFixed(2)}</span></div><div style="font-size:11.5px;color:#4b5a4e;margin-top:5px;line-height:1.55;">45kg LPG bottles: ${qty||0} × $${bottle.toFixed(2)}<br>Bottle rental: $${rental.toFixed(2)}/month for two bottles</div><div style="margin-top:9px;padding:9px 10px;border-radius:8px;background:#f7f4ed;border:1px solid #e5dfd2;font-size:11.5px;color:#4b5a4e;line-height:1.5;"><strong style="color:#35152f;">First delivery:</strong> includes two full LPG bottles. Future refills are normally ordered one bottle at a time, so ongoing LPG costs will differ from this initial estimate.</div></div>`;
+  return `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">LPG estimate: <span style="font-size:18px;color:#ff6537;">$${quoteLpgTotal(card).toFixed(2)}</span></div><div style="font-size:11.5px;color:#4b5a4e;margin-top:5px;line-height:1.55;">45kg LPG bottles: ${qty||0} × ${bottle!==rates.standardBottle?`<span style="color:#7a857b;text-decoration:line-through;">$${rates.standardBottle.toFixed(2)}</span> `:''}$${bottle.toFixed(2)}<br>Bottle rental: ${rental!==rates.standardRental?`<span style="color:#7a857b;text-decoration:line-through;">$${rates.standardRental.toFixed(2)}</span> `:''}$${rental.toFixed(2)}/month for two bottles</div>${lpgPromoDisplayHtml(card)}<div style="margin-top:9px;padding:9px 10px;border-radius:8px;background:#f7f4ed;border:1px solid #e5dfd2;font-size:11.5px;color:#4b5a4e;line-height:1.5;"><strong style="color:#35152f;">First delivery:</strong> includes two full LPG bottles. Future refills are normally ordered one bottle at a time, so ongoing LPG costs will differ from this initial estimate.</div></div>`;
 }
 
 function providerKeyInfo(provider, planLabel=''){
@@ -3266,17 +3343,31 @@ function addAgentQuote(providerId='powershop'){
           <div class="agent-field full"><label>Natural gas user class</label><div class="segmented q-gas-user-class"><button type="button" data-user-class="low">Low user</button><button type="button" data-user-class="standard" class="on">Standard user</button></div></div>
         </div>
         <div class="plan-terms"><div class="plan-terms-title">Natural gas plan terms</div><div class="agent-field"><label>Contract term <span class="required-mark">*</span></label><select class="q-gas-term"><option value="">Select term</option><option value="open">Open term</option><option value="12">12 months</option><option value="24">24 months</option><option value="custom">Other fixed term</option></select></div><div class="agent-field"><label>Exit fee ($, optional)</label><input class="q-gas-exit-fee" type="number" step="0.01" min="0"></div><div class="agent-field"><label>Important term note (optional)</label><input class="q-gas-term-note"></div><div class="agent-field q-gas-custom-term-wrap" style="display:none;"><label>Custom term (months) <span class="required-mark">*</span></label><input class="q-gas-custom-term" type="number" min="1" step="1"></div></div>
+        <div class="agent-form-grid" style="margin-top:12px;"><div class="agent-field"><label>Natural gas promotion type</label><select class="q-gas-promo-type"><option value="none">No natural gas promotion</option><option value="daily">Discount on daily charge</option><option value="usage">Discount on usage rate</option><option value="both">Discount on both rates</option><option value="percent">Percentage discount</option><option value="credit">Account credit</option><option value="other">Other gas offer</option></select></div><div class="agent-field q-gas-promo-condition-wrap" style="display:none;"><label>Promotion applies when <span class="required-mark">*</span></label><select class="q-gas-promo-condition"><option value="">Select condition</option><option value="gas">Taking natural gas</option><option value="bundle">Bundled with power</option><option value="other">Other eligibility condition</option></select></div></div>
+        <div class="agent-form-grid q-gas-promo-fields q-gas-promo-daily" style="display:none;"><div class="agent-field"><label>Daily charge discount ($/day) <span class="required-mark">*</span></label><input class="q-gas-promo-daily-amount" type="number" step="0.0001" min="0" placeholder="0.2000"></div></div>
+        <div class="agent-form-grid q-gas-promo-fields q-gas-promo-usage" style="display:none;"><div class="agent-field"><label>Usage discount ($/kWh) <span class="required-mark">*</span></label><input class="q-gas-promo-usage-amount" type="number" step="0.0001" min="0" placeholder="0.0200"></div></div>
+        <div class="agent-form-grid q-gas-promo-fields q-gas-promo-both" style="display:none;"><div class="agent-field"><label>Daily charge discount ($/day) <span class="required-mark">*</span></label><input class="q-gas-promo-both-daily" type="number" step="0.0001" min="0" placeholder="0.2000"></div><div class="agent-field"><label>Usage discount ($/kWh) <span class="required-mark">*</span></label><input class="q-gas-promo-both-usage" type="number" step="0.0001" min="0" placeholder="0.0200"></div></div>
+        <div class="agent-form-grid q-gas-promo-fields q-gas-promo-percent" style="display:none;"><div class="agent-field"><label>Natural gas discount (%) <span class="required-mark">*</span></label><input class="q-gas-promo-percent-amount" type="number" step="0.1" min="0" max="100" placeholder="10"></div></div>
+        <div class="agent-form-grid q-gas-promo-fields q-gas-promo-credit" style="display:none;"><div class="agent-field"><label>Total gas credit ($) <span class="required-mark">*</span></label><input class="q-gas-promo-credit-amount" type="number" step="0.01" min="0"></div><div class="agent-field"><label>Credit shape <span class="required-mark">*</span></label><select class="q-gas-promo-credit-shape"><option value="">Select credit shape</option><option value="spread">Spread over months</option><option value="upfront">One-off credit — first bill</option></select></div><div class="agent-field q-gas-promo-credit-months-wrap" style="display:none;"><label>Spread over how many months? <span class="required-mark">*</span></label><input class="q-gas-promo-credit-months" type="number" step="1" min="1" value="12"></div></div>
+        <div class="agent-form-grid q-gas-promo-fields q-gas-promo-other" style="display:none;"><div class="agent-field full"><label>Describe the natural gas offer <span class="required-mark">*</span></label><input class="q-gas-promo-other"></div></div>
         <div class="calc-result q-gas-result" style="display:flex;margin-top:10px;"><div><span>Estimated natural gas cost</span><strong>$0.00</strong></div><div class="calc-breakdown">Daily charge + entered kWh usage</div></div>
       </div>
       <div class="bb-package q-lpg-package">
-        <div class="bb-package-head"><strong>Genesis LPG</strong><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:11px;color:var(--ink-soft);">45kg bottles</span><button type="button" class="q-remove-lpg" title="Remove LPG">×</button></div></div>
+        <div class="bb-package-head"><strong class="q-lpg-heading">Genesis LPG</strong><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:11px;color:var(--ink-soft);">45kg bottles</span><button type="button" class="q-remove-lpg" title="Remove LPG">×</button></div></div>
         <div class="agent-form-grid three">
-          <div class="agent-field"><label>Price per bottle ($)</label><input class="q-lpg-bottle" type="number" step="0.01" min="0" value="155"></div>
+          <div class="agent-field"><label>Standard price per bottle ($)</label><input class="q-lpg-bottle" type="number" step="0.01" min="0" value="170"></div>
           <div class="agent-field"><label>Bottles in estimate</label><input class="q-lpg-qty" type="number" step="1" min="0" value="2"></div>
           <div class="agent-field"><label>Rental ($/month for two bottles)</label><input class="q-lpg-rental" type="number" step="0.01" min="0" value="11.50"></div>
         </div>
         <div class="plan-terms"><div class="plan-terms-title">LPG plan terms</div><div class="agent-field"><label>Contract term <span class="required-mark">*</span></label><select class="q-lpg-term"><option value="">Select term</option><option value="open">Open term</option><option value="12">12 months</option><option value="24">24 months</option><option value="custom">Other fixed term</option></select></div><div class="agent-field"><label>Exit fee ($, optional)</label><input class="q-lpg-exit-fee" type="number" step="0.01" min="0"></div><div class="agent-field"><label>Important term note (optional)</label><input class="q-lpg-term-note"></div><div class="agent-field q-lpg-custom-term-wrap" style="display:none;"><label>Custom term (months) <span class="required-mark">*</span></label><input class="q-lpg-custom-term" type="number" min="1" step="1"></div></div>
-        <div style="font-size:10.5px;color:var(--ink-soft);margin-top:7px;">Genesis Power + Genesis LPG uses $155 per bottle. LPG by itself or with another power provider uses $175 per bottle. Rental remains $11.50/month for two bottles.</div>
+        <div class="agent-form-grid" style="margin-top:12px;"><div class="agent-field"><label>LPG promotion type</label><select class="q-lpg-promo-type"><option value="none">No LPG promotion</option><option value="bottle_discount">Discount per bottle</option><option value="bottle_price">Promotional bottle price</option><option value="rental_discount">Discount on monthly rental</option><option value="percent">Percentage off bottle price</option><option value="credit">Account credit</option><option value="other">Other LPG offer</option></select></div><div class="agent-field q-lpg-promo-condition-wrap" style="display:none;"><label>Promotion applies when <span class="required-mark">*</span></label><select class="q-lpg-promo-condition"><option value="">Select condition</option><option value="lpg">Taking LPG</option><option value="bundle">Bundled with power</option><option value="other">Other eligibility condition</option></select></div></div>
+        <div class="agent-form-grid q-lpg-promo-fields q-lpg-promo-bottle_discount" style="display:none;"><div class="agent-field"><label>Discount per bottle ($) <span class="required-mark">*</span></label><input class="q-lpg-promo-bottle-discount" type="number" step="0.01" min="0" placeholder="15.00"></div></div>
+        <div class="agent-form-grid q-lpg-promo-fields q-lpg-promo-bottle_price" style="display:none;"><div class="agent-field"><label>Promotional price per bottle ($) <span class="required-mark">*</span></label><input class="q-lpg-promo-bottle-price" type="number" step="0.01" min="0" placeholder="155.00"></div></div>
+        <div class="agent-form-grid q-lpg-promo-fields q-lpg-promo-rental_discount" style="display:none;"><div class="agent-field"><label>Monthly rental discount ($) <span class="required-mark">*</span></label><input class="q-lpg-promo-rental-discount" type="number" step="0.01" min="0" placeholder="11.50"></div></div>
+        <div class="agent-form-grid q-lpg-promo-fields q-lpg-promo-percent" style="display:none;"><div class="agent-field"><label>Bottle price discount (%) <span class="required-mark">*</span></label><input class="q-lpg-promo-percent-amount" type="number" step="0.1" min="0" max="100" placeholder="10"></div></div>
+        <div class="agent-form-grid q-lpg-promo-fields q-lpg-promo-credit" style="display:none;"><div class="agent-field"><label>Total LPG credit ($) <span class="required-mark">*</span></label><input class="q-lpg-promo-credit-amount" type="number" step="0.01" min="0"></div><div class="agent-field"><label>Credit shape <span class="required-mark">*</span></label><select class="q-lpg-promo-credit-shape"><option value="">Select credit shape</option><option value="spread">Spread over months</option><option value="upfront">One-off credit — first bill</option></select></div><div class="agent-field q-lpg-promo-credit-months-wrap" style="display:none;"><label>Spread over how many months? <span class="required-mark">*</span></label><input class="q-lpg-promo-credit-months" type="number" step="1" min="1" value="12"></div></div>
+        <div class="agent-form-grid q-lpg-promo-fields q-lpg-promo-other" style="display:none;"><div class="agent-field full"><label>Describe the LPG offer <span class="required-mark">*</span></label><input class="q-lpg-promo-other"></div></div>
+        <div class="q-lpg-guidance" style="font-size:10.5px;color:var(--ink-soft);margin-top:7px;">Genesis LPG is $170 per 45kg bottle. When bundled with Genesis power, the $15 per-bottle discount makes it $155. Rental remains $11.50/month for two bottles.</div>
         <div class="calc-result q-lpg-result" style="display:flex;margin-top:10px;"><div><span>Estimated LPG cost</span><strong>$0.00</strong></div><div class="calc-breakdown">Bottle quantity + prorated monthly rental</div></div>
       </div>
       <div class="q-main-promo-block">
@@ -3455,7 +3546,7 @@ function quoteOngoingMonthly(card){
   if(hasPower) monthly += quotePowerAfterPromo(card).after*(30/days);
   if(hasBB){const bb=quoteBroadbandMonthly(card),bp=service==='broadband'?quotePromo(card):quoteBroadbandPromo(card);monthly += bp&&bp.type==='percent'?bb*(1-bp.percent/100):bb;}
   if(service==='mobile') monthly += numberValue(card,'.q-mobile-price');
-  if(card.dataset.hasLpg==='true'||service==='lpg') monthly += numberValue(card,'.q-lpg-rental');
+  if(card.dataset.hasLpg==='true'||service==='lpg') monthly += quoteLpgRates(card).rental;
   if(card.dataset.hasNaturalGas==='true'){const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);monthly += quoteNaturalGasTotal(card)*(30/days);}
   return monthly;
 }
@@ -3490,6 +3581,15 @@ function quoteFirstYearInfo(card){
     creditNote=creditNote?`${creditNote}, plus ${bbCreditNote}`:bbCreditNote;
   }
   if(bbPromo && bbPromo.type==='free') creditValue += quoteBroadbandMonthly(card)*Math.min(bbPromo.freeMonths,12);
+  const serviceCredits=[];
+  if(card.dataset.hasNaturalGas==='true'){const gasPromo=quoteNaturalGasPromo(card);if(gasPromo?.type==='credit')serviceCredits.push({...gasPromo,label:'natural gas'});}
+  if(card.dataset.hasLpg==='true'||card.querySelector('.q-service').value==='lpg'){const lpgPromo=quoteLpgPromo(card);if(lpgPromo?.type==='credit')serviceCredits.push({...lpgPromo,label:'LPG'});}
+  serviceCredits.filter(servicePromo=>servicePromo.amount>0&&servicePromo.shape&&(servicePromo.shape!=='spread'||servicePromo.months>0)).forEach(servicePromo=>{
+    const value=servicePromo.shape==='upfront'?servicePromo.amount:servicePromo.amount*(Math.min(servicePromo.months,12)/Math.max(1,servicePromo.months));
+    creditValue+=value;
+    const note=servicePromo.shape==='upfront'?`$${servicePromo.amount.toFixed(2)} one-off ${servicePromo.label} credit`:`$${servicePromo.amount.toFixed(2)} ${servicePromo.label} credit over ${servicePromo.months} months`;
+    creditNote=creditNote?`${creditNote}, plus ${note}`:note;
+  });
   const firstYearCost=Math.max(0,ongoing*12-creditValue);
   return {ongoing, creditValue, firstYearCost, creditNote};
 }
@@ -3501,9 +3601,11 @@ function quoteFirstYearInfo(card){
 function quoteCreditValueForPeriod(card,months){
   const promos=[quotePromo(card)];
   if(card.querySelector('.q-service').value!=='broadband') promos.push(quoteBroadbandPromo(card));
+  if(card.dataset.hasNaturalGas==='true')promos.push(quoteNaturalGasPromo(card));
+  if(card.dataset.hasLpg==='true'||card.querySelector('.q-service').value==='lpg')promos.push(quoteLpgPromo(card));
   let value=0;
   promos.filter(Boolean).forEach(p=>{
-    if(p.type==='credit') value+=p.shape==='upfront'?p.amount:p.amount*(Math.min(months,p.months)/p.months);
+    if(p.type==='credit'&&p.amount>0&&p.shape&&(p.shape!=='spread'||p.months>0)) value+=p.shape==='upfront'?p.amount:p.amount*(Math.min(months,p.months)/p.months);
     if(p.type==='free') value+=quoteBroadbandMonthly(card)*Math.min(months,p.freeMonths);
   });
   return value;
@@ -3514,6 +3616,8 @@ function quotePeriodCost(card,months){
 function quoteSpreadCreditInfo(card){
   const promos=[quotePromo(card)];
   if(card.querySelector('.q-service').value!=='broadband') promos.push(quoteBroadbandPromo(card));
+  if(card.dataset.hasNaturalGas==='true')promos.push(quoteNaturalGasPromo(card));
+  if(card.dataset.hasLpg==='true'||card.querySelector('.q-service').value==='lpg')promos.push(quoteLpgPromo(card));
   const spread=promos.filter(p=>p&&p.type==='credit'&&p.shape==='spread'&&p.months>0);
   return {monthly:spread.reduce((sum,p)=>sum+p.amount/p.months,0),months:spread.length?Math.max(...spread.map(p=>p.months)):0};
 }
@@ -3548,6 +3652,18 @@ function updateBroadbandPromoFieldVisibility(card){
   const type=card.querySelector('.q-bb-promo-type')?.value||'none';
   ['credit','percent','free','appliance','other'].forEach(t=>{const el=card.querySelector('.q-bb-promo-'+t);if(el)el.style.display=t===type?'grid':'none';});
   const wrap=card.querySelector('.q-bb-promo-credit-months-wrap');if(wrap)wrap.style.display=type==='credit'&&card.querySelector('.q-bb-promo-credit-shape')?.value==='spread'?'block':'none';
+}
+function updateNaturalGasPromoFieldVisibility(card){
+  const type=card.querySelector('.q-gas-promo-type')?.value||'none';
+  ['daily','usage','both','percent','credit','other'].forEach(name=>{const el=card.querySelector('.q-gas-promo-'+name);if(el)el.style.display=name===type?'grid':'none';});
+  const condition=card.querySelector('.q-gas-promo-condition-wrap');if(condition)condition.style.display=type==='none'?'none':'block';
+  const months=card.querySelector('.q-gas-promo-credit-months-wrap');if(months)months.style.display=type==='credit'&&card.querySelector('.q-gas-promo-credit-shape')?.value==='spread'?'block':'none';
+}
+function updateLpgPromoFieldVisibility(card){
+  const type=card.querySelector('.q-lpg-promo-type')?.value||'none';
+  ['bottle_discount','bottle_price','rental_discount','percent','credit','other'].forEach(name=>{const el=card.querySelector('.q-lpg-promo-'+name);if(el)el.style.display=name===type?'grid':'none';});
+  const condition=card.querySelector('.q-lpg-promo-condition-wrap');if(condition)condition.style.display=type==='none'?'none':'block';
+  const months=card.querySelector('.q-lpg-promo-credit-months-wrap');if(months)months.style.display=type==='credit'&&card.querySelector('.q-lpg-promo-credit-shape')?.value==='spread'?'block':'none';
 }
 
 // Renders the customer-facing "Promotional offer" block for whichever type is
@@ -3614,7 +3730,6 @@ function recalcQuote(card){
   legacyBB.forEach(el=>{if(!el.classList.contains('q-legacy-modem-oneoff-wrap')&&!el.classList.contains('q-legacy-modem-monthly-wrap')) el.style.display=broadbandOnly?'block':'none';});
   if(broadbandOnly){const t=card.querySelector('.q-legacy-modem-type')?.value; const mw=card.querySelector('.q-legacy-modem-monthly-wrap'),ow=card.querySelector('.q-legacy-modem-oneoff-wrap'); if(mw)mw.style.display=(t==='rental'||t==='instalment')?'block':'none'; if(ow)ow.style.display=t==='purchase'?'block':'none';}
   addRow.style.display=hasPower?'flex':'none';
-  if(card.querySelector('.q-provider')?.value==='genesis') addRow.style.display='none';
   result.style.display=hasPower&&!productEmailOnly?'flex':'none';
   if(hasPower){
     const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);
@@ -3627,8 +3742,8 @@ function recalcQuote(card){
   const providerId=card.querySelector('.q-provider')?.value||'';
   const lpgActive=card.dataset.hasLpg==='true'||service==='lpg';
   const gasActive=card.dataset.hasNaturalGas==='true';
-  const lpgResult=card.querySelector('.q-lpg-result'); if(lpgResult){lpgResult.querySelector('strong').textContent=`$${quoteLpgTotal(card).toFixed(2)}`;}
-  const gasResult=card.querySelector('.q-gas-result');if(gasResult)gasResult.querySelector('strong').textContent=`$${quoteNaturalGasTotal(card).toFixed(2)}`;
+  const lpgResult=card.querySelector('.q-lpg-result'); if(lpgResult){const rates=quoteLpgRates(card);lpgResult.querySelector('strong').textContent=`$${quoteLpgTotal(card).toFixed(2)}`;lpgResult.querySelector('.calc-breakdown').textContent=rates.bottle!==rates.standardBottle?`Effective bottle price $${rates.bottle.toFixed(2)} after promotion + rental`:(rates.rental!==rates.standardRental?`Bottle price + discounted rental $${rates.rental.toFixed(2)}/month`:'Bottle quantity + prorated monthly rental');}
+  const gasResult=card.querySelector('.q-gas-result');if(gasResult){const rates=quoteNaturalGasRates(card);gasResult.querySelector('strong').textContent=`$${quoteNaturalGasTotal(card).toFixed(2)}`;gasResult.querySelector('.calc-breakdown').textContent=(rates.daily!==rates.standardDaily||rates.usage!==rates.standardUsage)?`Promotional rates: $${rates.daily.toFixed(4)}/day + $${rates.usage.toFixed(4)}/kWh`:'Daily charge + entered kWh usage';}
   const packageActive=card.dataset.hasBroadbandPackage==='true' && hasPower;
   packageTotal.classList.toggle('show',!productEmailOnly&&(packageActive||lpgActive||gasActive));
   if(packageActive||lpgActive||gasActive){
@@ -3650,12 +3765,22 @@ function wireQuoteCard(card){
   ['q','q-bb','q-gas','q-lpg'].forEach(prefix=>updateTermControls(card,prefix));
   updatePromoFieldVisibility(card);
   updateBroadbandPromoFieldVisibility(card);
+  updateNaturalGasPromoFieldVisibility(card);
+  updateLpgPromoFieldVisibility(card);
   card.querySelector('.q-promo-type').addEventListener('change',()=>{ updatePromoFieldVisibility(card); markRecommendationAuto(); refreshAgentPreview(); });
   card.querySelector('.q-promo-credit-shape')?.addEventListener('change',()=>{ updatePromoFieldVisibility(card); refreshAgentPreview(); });
   card.querySelectorAll('.q-promo-fields input').forEach(el=>el.addEventListener('input',()=>{ markRecommendationAuto(); refreshAgentPreview(); }));
   card.querySelector('.q-bb-promo-type').addEventListener('change',()=>{updateBroadbandPromoFieldVisibility(card);markRecommendationAuto();refreshAgentPreview();});
   card.querySelector('.q-bb-promo-credit-shape').addEventListener('change',()=>{updateBroadbandPromoFieldVisibility(card);refreshAgentPreview();});
   card.querySelectorAll('.q-bb-promo-fields input').forEach(el=>el.addEventListener('input',()=>{markRecommendationAuto();refreshAgentPreview();}));
+  card.querySelector('.q-gas-promo-type').addEventListener('change',()=>{updateNaturalGasPromoFieldVisibility(card);recalcQuote(card);markRecommendationAuto();refreshAgentPreview();});
+  card.querySelector('.q-gas-promo-condition').addEventListener('change',()=>{markRecommendationAuto();refreshAgentPreview();});
+  card.querySelector('.q-gas-promo-credit-shape').addEventListener('change',()=>{updateNaturalGasPromoFieldVisibility(card);recalcQuote(card);refreshAgentPreview();});
+  card.querySelectorAll('.q-gas-promo-fields input').forEach(el=>el.addEventListener('input',()=>{recalcQuote(card);markRecommendationAuto();refreshAgentPreview();}));
+  card.querySelector('.q-lpg-promo-type').addEventListener('change',()=>{updateLpgPromoFieldVisibility(card);recalcQuote(card);markRecommendationAuto();refreshAgentPreview();});
+  card.querySelector('.q-lpg-promo-condition').addEventListener('change',()=>{markRecommendationAuto();refreshAgentPreview();});
+  card.querySelector('.q-lpg-promo-credit-shape').addEventListener('change',()=>{updateLpgPromoFieldVisibility(card);recalcQuote(card);refreshAgentPreview();});
+  card.querySelectorAll('.q-lpg-promo-fields input').forEach(el=>el.addEventListener('input',()=>{recalcQuote(card);markRecommendationAuto();refreshAgentPreview();}));
   const bbPackage=card.querySelector('.q-bb-package');
   const addBB=card.querySelector('.q-add-broadband');
   const removeBB=card.querySelector('.q-remove-broadband');
@@ -3701,6 +3826,25 @@ function wireQuoteCard(card){
     monthlyWrap.style.display=monthly?'block':'none';
     oneoffWrap.style.display=typeSel.value==='purchase'?'block':'none';
   }
+  function setDefaultLpgOffer(mainId,service){
+    const provider=PROVIDERS.find(item=>item.id===mainId);
+    const ownLpg=mainId==='genesis'||mainId==='pulse';
+    card.querySelector('.q-lpg-heading').textContent=`${ownLpg?(provider?.name||'Provider'):'Genesis'} LPG`;
+    card.querySelector('.q-lpg-guidance').textContent=mainId==='pulse'?'Enter the current Pulse LPG bottle price, rental and any applicable promotion for this customer.':'Genesis LPG is $170 per 45kg bottle. When bundled with Genesis power, the $15 per-bottle discount makes it $155. Rental remains $11.50/month for two bottles.';
+    const bottle=card.querySelector('.q-lpg-bottle'),rental=card.querySelector('.q-lpg-rental');
+    const promoType=card.querySelector('.q-lpg-promo-type'),condition=card.querySelector('.q-lpg-promo-condition');
+    if(mainId==='pulse'){
+      bottle.value='';rental.value='';promoType.value='none';condition.value='';
+    }else{
+      bottle.value='170';rental.value='11.50';
+      if(mainId==='genesis'&&service==='power'){
+        promoType.value='bottle_discount';
+        card.querySelector('.q-lpg-promo-bottle-discount').value='15.00';
+        condition.value='bundle';
+      }else{promoType.value='none';condition.value='';}
+    }
+    updateLpgPromoFieldVisibility(card);
+  }
   function enforceProviderRules(){
     const mainId=card.querySelector('.q-provider').value;
     const serviceSel=card.querySelector('.q-service');
@@ -3719,7 +3863,7 @@ function wireQuoteCard(card){
     if(service==='lpg'){ card.dataset.hasLpg='true'; card.dataset.hasBroadbandPackage='false'; }
     if(card.dataset.hasLpg==='true'){
       lpgBox.classList.add('show'); addLpg.classList.add('active'); addLpg.textContent=service==='lpg'?'LPG selected':'✓ LPG added';addLpg.title=service==='lpg'?'LPG is the main service':'Click to remove LPG';
-      card.querySelector('.q-lpg-bottle').value=(mainId==='genesis' && service==='power')?'155':'175';
+      setDefaultLpgOffer(mainId,service);
     } else { lpgBox.classList.remove('show'); addLpg.classList.remove('active'); addLpg.textContent='+ Add LPG';addLpg.title='Add LPG'; }
     addBB.style.display=service==='mobile'||service==='lpg'?'none':'';
     addLpg.style.display=service==='mobile'?'none':'';
@@ -3752,7 +3896,7 @@ function wireQuoteCard(card){
     if(['contact','2degrees','pulse','electrickiwi'].includes(mainId)){ bbProvider.value=mainId; fillBBProvider(); }
     card.dataset.hasBroadbandPackage='true'; bbPackage.classList.add('show'); addBB.classList.add('active'); const required=AGENT_SERVICE_RULES[mainId]?.forceBroadbandWithPower;addBB.classList.toggle('required',!!required);addBB.textContent=required?'Broadband required':'✓ Broadband added';addBB.title=required?'Broadband is required for this plan':'Click to remove broadband';recalcQuote(card); markRecommendationAuto(); refreshAgentPreview();
   });
-  addLpg.addEventListener('click',()=>{if(card.dataset.hasLpg==='true'){removeLpg.click();return;}card.dataset.hasLpg='true';lpgBox.classList.add('show');addLpg.classList.add('active');addLpg.textContent='✓ LPG added';addLpg.title='Click to remove LPG';const mid=card.querySelector('.q-provider').value,svc=card.querySelector('.q-service').value;card.querySelector('.q-lpg-bottle').value=(mid==='genesis'&&svc==='power')?'155':'175';recalcQuote(card);markRecommendationAuto();refreshAgentPreview();});
+  addLpg.addEventListener('click',()=>{if(card.dataset.hasLpg==='true'){removeLpg.click();return;}card.dataset.hasLpg='true';lpgBox.classList.add('show');addLpg.classList.add('active');addLpg.textContent='✓ LPG added';addLpg.title='Click to remove LPG';const mid=card.querySelector('.q-provider').value,svc=card.querySelector('.q-service').value;setDefaultLpgOffer(mid,svc);recalcQuote(card);markRecommendationAuto();refreshAgentPreview();});
   removeLpg.addEventListener('click',()=>{ if(card.querySelector('.q-service').value==='lpg') return; card.dataset.hasLpg='false'; lpgBox.classList.remove('show'); addLpg.classList.remove('active'); addLpg.textContent='+ Add LPG';addLpg.title='Add LPG';recalcQuote(card); markRecommendationAuto(); refreshAgentPreview(); });
   removeBB.addEventListener('click',()=>{ const mid=card.querySelector('.q-provider').value; if(AGENT_SERVICE_RULES[mid]?.forceBroadbandWithPower && card.querySelector('.q-service').value==='power') return; card.dataset.hasBroadbandPackage='false'; bbPackage.classList.remove('show'); addBB.classList.remove('active','required'); addBB.textContent='+ Add broadband';addBB.title='Add broadband';recalcQuote(card); markRecommendationAuto(); refreshAgentPreview(); });
   bbProvider.addEventListener('change',()=>{ fillBBProvider(); markRecommendationAuto(); refreshAgentPreview(); });
@@ -3910,8 +4054,10 @@ function quoteMetrics(card){
   const hasBB=service==='broadband'||packageActive;
   const hasMobile=service==='mobile';
   const hasLpg=card.dataset.hasLpg==='true'||service==='lpg';
-  const lpgBottle=hasLpg?numberValue(card,'.q-lpg-bottle'):null;
-  const lpgRental=hasLpg?numberValue(card,'.q-lpg-rental'):null;
+  const lpgRates=hasLpg?quoteLpgRates(card):null;
+  const lpgBottle=lpgRates?.bottle??null;
+  const lpgStandardBottle=lpgRates?.standardBottle??null;
+  const lpgRental=lpgRates?.rental??null;
   const promo=quotePromo(card);
   const firstYearInfo=quoteFirstYearInfo(card);
   const terms=[];
@@ -3920,7 +4066,7 @@ function quoteMetrics(card){
   if(card.dataset.hasNaturalGas==='true')terms.push({service:'Natural gas',...termDetails(card,'q-gas')});
   if(service!=='lpg'&&card.dataset.hasLpg==='true')terms.push({service:'LPG',...termDetails(card,'q-lpg')});
   const fixedTerms=terms.filter(t=>t.months>0);
-  return {card,name,providerId,keyInfo,terms,hasOpenTerm:terms.some(t=>t.value==='open'),hasFixedTerm:fixedTerms.length>0,hasPower,hasBB,hasMobile,hasLpg,power:hasPower?quotePowerTotal(card):null,broadband:hasBB?quoteBroadbandMonthly(card):null,packageTotal:packageActive?quotePackageTotal(card):null,lpgBottle,lpgRental,promo,ongoingMonthly:firstYearInfo.ongoing,promotionalMonthly:quotePromotionalMonthly(card),firstYearCost:quotePeriodCost(card,12),twentyFourMonthCost:quotePeriodCost(card,24),creditValue:quoteCreditValueForPeriod(card,12),creditNote:firstYearInfo.creditNote,contractTerm:fixedTerms[0]?.months||(promo&&promo.type==='appliance'?promo.term:null)};
+  return {card,name,providerId,keyInfo,terms,hasOpenTerm:terms.some(t=>t.value==='open'),hasFixedTerm:fixedTerms.length>0,hasPower,hasBB,hasMobile,hasLpg,power:hasPower?quotePowerTotal(card):null,broadband:hasBB?quoteBroadbandMonthly(card):null,packageTotal:packageActive?quotePackageTotal(card):null,lpgBottle,lpgStandardBottle,lpgRental,promo,ongoingMonthly:firstYearInfo.ongoing,promotionalMonthly:quotePromotionalMonthly(card),firstYearCost:quotePeriodCost(card,12),twentyFourMonthCost:quotePeriodCost(card,24),creditValue:quoteCreditValueForPeriod(card,12),creditNote:firstYearInfo.creditNote,contractTerm:fixedTerms[0]?.months||(promo&&promo.type==='appliance'?promo.term:null)};
 }
 function priceComparisonHtml(){
   const metrics=[...quoteStack.children].map(quoteMetrics);
@@ -3939,7 +4085,7 @@ function priceComparisonHtml(){
     const monthlyLine=monthlyDiff>0.005?`<div><strong style="color:#35152f;">${low.name}</strong> has the lower promotional monthly estimate.</div><div style="margin-top:5px;font-size:16px;"><strong style="color:#f94e1a;">Save approximately $${monthlyDiff.toFixed(2)} per month</strong></div>`:`<div><strong style="color:#35152f;">These options have the same promotional monthly estimate.</strong></div><div style="margin-top:5px;font-size:16px;color:#35152f;"><strong>$0.00 difference per month</strong></div>`;
     const twelveLine=diff12>0.005?`<strong style="color:#35152f;">${low12.name} saves approximately $${diff12.toFixed(2)} over the first 12 months</strong>`:`<strong style="color:#35152f;">$0.00 difference over the first 12 months</strong>`;
     const twentyFourLine=show24?(diff24>0.005?`<div style="margin-top:4px;"><strong style="color:#35152f;">${low24.name} saves approximately $${diff24.toFixed(2)} over 24 months</strong></div>`:`<div style="margin-top:4px;"><strong style="color:#35152f;">$0.00 difference over 24 months</strong></div>`):'';
-    recurringHtml += `<div style="margin-top:12px;padding:13px 14px;border-radius:9px;background:#fff1e7;color:#35443a;line-height:1.5;border:1px solid #f3c8b5;">${monthlyLine}<div style="margin-top:7px;font-size:11.5px;color:#5c675e;">${twelveLine}${twentyFourLine}<div style="margin-top:4px;font-size:10.5px;">Period totals include account credits and percentage discounts.</div></div></div>`;
+    recurringHtml += `<div style="margin-top:12px;padding:13px 14px;border-radius:9px;background:#fff1e7;color:#35443a;line-height:1.5;border:1px solid #f3c8b5;">${monthlyLine}<div style="margin-top:7px;font-size:11.5px;color:#5c675e;">${twelveLine}${twentyFourLine}<div style="margin-top:4px;font-size:10.5px;">Period totals include the entered account credits, percentage discounts and service-rate promotions.</div></div></div>`;
 
   }
   const lpg=metrics.filter(m=>m.hasLpg && m.lpgBottle>0);
@@ -3947,7 +4093,7 @@ function priceComparisonHtml(){
   if(lpg.length>=2){
     const sorted=[...lpg].sort((a,b)=>a.lpgBottle-b.lpgBottle);
     const low=sorted[0], high=sorted[sorted.length-1], diff=high.lpgBottle-low.lpgBottle;
-    const rows=sorted.map(m=>`<div style="display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid #eee8dc;"><span style="color:#35443a;">${m.name}</span><strong style="color:#35152f;white-space:nowrap;">$${m.lpgBottle.toFixed(2)}/bottle</strong></div>`).join('');
+    const rows=sorted.map(m=>`<div style="display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid #eee8dc;"><span style="color:#35443a;">${m.name}</span><strong style="color:#35152f;white-space:nowrap;">${m.lpgStandardBottle!==null&&m.lpgBottle!==m.lpgStandardBottle?`<span style="color:#7a857b;text-decoration:line-through;font-weight:500;">$${m.lpgStandardBottle.toFixed(2)}</span> `:''}$${m.lpgBottle.toFixed(2)}/bottle</strong></div>`).join('');
     lpgHtml=`${recurringHtml?'<div style="height:12px;"></div>':''}<div style="font-size:12px;font-weight:800;color:#35152f;margin-bottom:5px;">LPG price comparison</div>${rows}${diff>0.005?`<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#f7f4ed;color:#35443a;line-height:1.5;"><strong>${low.name}</strong> is <strong>$${diff.toFixed(2)} lower per bottle</strong>.</div>`:''}<div style="margin-top:8px;font-size:11px;color:#68746b;line-height:1.5;">LPG usage varies by household, so the per-bottle difference is not converted into a monthly or annual saving. Bottle rental is included in the recurring monthly comparison above where applicable.</div>`;
   }
   if(!recurringHtml && !lpgHtml) return '';
@@ -4178,6 +4324,36 @@ function comparisonRequirements(){
     };
     requireCredit('.q-promo-type','.q-promo-credit-amount','.q-promo-credit-shape','.q-promo-credit-months',service==='broadband'?'broadband':'power');
     if(service==='power'&&card.dataset.hasBroadbandPackage==='true')requireCredit('.q-bb-promo-type','.q-bb-promo-credit-amount','.q-bb-promo-credit-shape','.q-bb-promo-credit-months','broadband');
+    const requirePositive=(selector,message)=>{const field=card.querySelector(selector);if(!(parseFloat(field?.value)>0)){issues.push(`${label}: ${message}`);setFieldInvalid(field,true)}};
+    const requireNotAbove=(selector,maximum,message)=>{const field=card.querySelector(selector),value=parseFloat(field?.value);if(Number.isFinite(value)&&value>maximum){issues.push(`${label}: ${message}`);setFieldInvalid(field,true)}};
+    if(card.dataset.hasNaturalGas==='true'){
+      const gasType=card.querySelector('.q-gas-promo-type')?.value||'none',condition=card.querySelector('.q-gas-promo-condition');
+      if(gasType!=='none'&&!condition?.value){issues.push(`${label}: select when the natural gas promotion applies.`);setFieldInvalid(condition,true)}
+      if(gasType==='daily')requirePositive('.q-gas-promo-daily-amount','add the natural gas daily-charge discount.');
+      if(gasType==='usage')requirePositive('.q-gas-promo-usage-amount','add the natural gas usage-rate discount.');
+      if(gasType==='both'){requirePositive('.q-gas-promo-both-daily','add the natural gas daily-charge discount.');requirePositive('.q-gas-promo-both-usage','add the natural gas usage-rate discount.');}
+      if(gasType==='percent')requirePositive('.q-gas-promo-percent-amount','add the natural gas discount percentage.');
+      if(gasType==='daily')requireNotAbove('.q-gas-promo-daily-amount',numberValue(card,'.q-gas-daily'),'the daily-charge discount cannot exceed the standard daily charge.');
+      if(gasType==='usage')requireNotAbove('.q-gas-promo-usage-amount',numberValue(card,'.q-gas-rate'),'the usage discount cannot exceed the standard usage rate.');
+      if(gasType==='both'){requireNotAbove('.q-gas-promo-both-daily',numberValue(card,'.q-gas-daily'),'the daily-charge discount cannot exceed the standard daily charge.');requireNotAbove('.q-gas-promo-both-usage',numberValue(card,'.q-gas-rate'),'the usage discount cannot exceed the standard usage rate.');}
+      if(gasType==='percent')requireNotAbove('.q-gas-promo-percent-amount',100,'the natural gas discount cannot exceed 100%.');
+      if(gasType==='other'&&!card.querySelector('.q-gas-promo-other')?.value.trim()){issues.push(`${label}: describe the natural gas offer.`);setFieldInvalid(card.querySelector('.q-gas-promo-other'),true)}
+      requireCredit('.q-gas-promo-type','.q-gas-promo-credit-amount','.q-gas-promo-credit-shape','.q-gas-promo-credit-months','natural gas');
+    }
+    if(card.dataset.hasLpg==='true'||service==='lpg'){
+      const lpgType=card.querySelector('.q-lpg-promo-type')?.value||'none',condition=card.querySelector('.q-lpg-promo-condition');
+      if(lpgType!=='none'&&!condition?.value){issues.push(`${label}: select when the LPG promotion applies.`);setFieldInvalid(condition,true)}
+      if(lpgType==='bottle_discount')requirePositive('.q-lpg-promo-bottle-discount','add the LPG discount per bottle.');
+      if(lpgType==='bottle_price')requirePositive('.q-lpg-promo-bottle-price','add the promotional LPG bottle price.');
+      if(lpgType==='rental_discount')requirePositive('.q-lpg-promo-rental-discount','add the LPG rental discount.');
+      if(lpgType==='percent')requirePositive('.q-lpg-promo-percent-amount','add the LPG discount percentage.');
+      if(lpgType==='bottle_discount')requireNotAbove('.q-lpg-promo-bottle-discount',numberValue(card,'.q-lpg-bottle'),'the LPG bottle discount cannot exceed the standard bottle price.');
+      if(lpgType==='bottle_price')requireNotAbove('.q-lpg-promo-bottle-price',numberValue(card,'.q-lpg-bottle'),'the promotional LPG price cannot exceed the standard bottle price.');
+      if(lpgType==='rental_discount')requireNotAbove('.q-lpg-promo-rental-discount',numberValue(card,'.q-lpg-rental'),'the LPG rental discount cannot exceed the standard rental.');
+      if(lpgType==='percent')requireNotAbove('.q-lpg-promo-percent-amount',100,'the LPG discount cannot exceed 100%.');
+      if(lpgType==='other'&&!card.querySelector('.q-lpg-promo-other')?.value.trim()){issues.push(`${label}: describe the LPG offer.`);setFieldInvalid(card.querySelector('.q-lpg-promo-other'),true)}
+      requireCredit('.q-lpg-promo-type','.q-lpg-promo-credit-amount','.q-lpg-promo-credit-shape','.q-lpg-promo-credit-months','LPG');
+    }
     if(emailType==='full' && service==='power'){
       if(!(parseFloat(days.value)>0)){issues.push('Add the power estimate period in days.');setFieldInvalid(days,true)}
       const daily=card.querySelector('.q-daily'); if(daily.value===''){issues.push(`${label}: add the daily charge.`);setFieldInvalid(daily,true)}
@@ -4187,6 +4363,12 @@ function comparisonRequirements(){
       if(!hasUsage){issues.push(`${label}: add at least one kWh consumption amount.`);setFieldInvalid(card.querySelector('.q-anykwh'),true)}
       if(card.classList.contains('package-active')){const bp=card.querySelector('.q-bb-provider'),bcp=card.querySelector('.q-bb-custom-provider'),bplan=card.querySelector('.q-bb-plan'),bcplan=card.querySelector('.q-bb-custom-plan'),price=card.querySelector('.q-bbprice');if(bp.value==='custom'&&!bcp.value.trim()){issues.push(`${label}: add the broadband provider name.`);setFieldInvalid(bcp,true)}if((bp.value==='custom'?!bcplan.value.trim():!bplan.value.trim())){issues.push(`${label}: add the broadband plan.`);setFieldInvalid(bp.value==='custom'?bcplan:bplan,true)}if(price.value===''){issues.push(`${label}: add the broadband monthly price.`);setFieldInvalid(price,true)}}
       if(card.dataset.hasNaturalGas==='true'){const gd=card.querySelector('.q-gas-daily'),gr=card.querySelector('.q-gas-rate'),gk=card.querySelector('.q-gas-kwh');if(gd.value===''){issues.push(`${label}: add the natural gas daily charge.`);setFieldInvalid(gd,true)}if(gr.value===''){issues.push(`${label}: add the natural gas usage rate.`);setFieldInvalid(gr,true)}if(gk.value===''){issues.push(`${label}: add the estimated natural gas kWh.`);setFieldInvalid(gk,true)}}
+    }
+    if(emailType==='full'&&(card.dataset.hasLpg==='true'||service==='lpg')){
+      const bottle=card.querySelector('.q-lpg-bottle'),qty=card.querySelector('.q-lpg-qty'),rental=card.querySelector('.q-lpg-rental');
+      if(bottle.value===''){issues.push(`${label}: add the standard LPG bottle price.`);setFieldInvalid(bottle,true)}
+      if(!(parseFloat(qty.value)>0)){issues.push(`${label}: add the LPG bottle quantity.`);setFieldInvalid(qty,true)}
+      if(rental.value===''){issues.push(`${label}: add the LPG bottle rental, or enter 0 if there is none.`);setFieldInvalid(rental,true)}
     }
     if(service==='broadband'){
       const price=card.querySelector('.q-bbprice-legacy'); if(price.value===''){issues.push(`${label}: add the broadband monthly price.`);setFieldInvalid(price,true)}
