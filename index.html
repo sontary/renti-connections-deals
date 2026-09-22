@@ -3149,13 +3149,17 @@ function naturalGasBreakdownHtml(card){
   const subtotal=daily*days+rate*kwh, gst=subtotal*.15, total=gstMode==='exclusive'?subtotal+gst:subtotal;
   const rateLabel=gstMode==='exclusive'?'Rate (excl. GST)':'Rate (incl. GST)';
   const adjusted=rates.promo&&['daily','usage','both','percent'].includes(rates.promo.type);
-  return `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#10141B;">Natural gas — estimated cost: <span style="font-size:18px;color:#10141B;">$${total.toFixed(2)}</span></div><div style="font-size:11.5px;color:#4b5a4e;margin-top:5px;"><strong>User class:</strong> ${userClass}${adjusted?' · Promotional rates included':''}</div><div style="margin-top:9px;width:100%;"><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;border-collapse:collapse;border:1px solid #e5dfd2;background:#fff;"><thead><tr style="background:#f2efe8;"><th style="padding:7px;text-align:left;font-size:10px;">Charge type</th><th style="padding:7px;text-align:left;font-size:10px;">${rateLabel}</th><th style="padding:7px;text-align:left;font-size:10px;">Estimated usage</th><th style="padding:7px;text-align:right;font-size:10px;">Estimated cost</th></tr></thead><tbody><tr><td style="padding:7px;font-size:11px;">Daily charge</td><td style="padding:7px;font-size:11px;">${daily!==rates.standardDaily?`<span style="color:#7a857b;text-decoration:line-through;">$${rates.standardDaily.toFixed(4)}</span> `:''}$${daily.toFixed(4)} / day</td><td style="padding:7px;font-size:11px;">${days} days</td><td style="padding:7px;text-align:right;font-size:11px;">$${(daily*days).toFixed(2)}</td></tr><tr><td style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;">Gas usage</td><td style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;">${rate!==rates.standardUsage?`<span style="color:#7a857b;text-decoration:line-through;">$${rates.standardUsage.toFixed(4)}</span> `:''}$${rate.toFixed(4)} / kWh</td><td style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;">${kwh} kWh</td><td style="padding:7px;border-top:1px solid #e5dfd2;text-align:right;font-size:11px;">$${(rate*kwh).toFixed(2)}</td></tr>${gstMode==='exclusive'?`<tr><td colspan="3" style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;font-weight:700;">GST 15%</td><td style="padding:7px;border-top:1px solid #e5dfd2;text-align:right;font-size:11px;font-weight:700;">$${gst.toFixed(2)}</td></tr>`:''}</tbody></table></div>${naturalGasPromoDisplayHtml(card)}</div>`;
+  const dailyDisplay=daily!==rates.standardDaily?`<span style="display:block;color:#7a857b;font-size:9.5px;">Standard: $${rates.standardDaily.toFixed(4)}/day</span><strong style="color:#35152f;">After discount: $${daily.toFixed(4)}/day</strong>`:`$${daily.toFixed(4)} / day`;
+  const usageDisplay=rate!==rates.standardUsage?`<span style="display:block;color:#7a857b;font-size:9.5px;">Standard: $${rates.standardUsage.toFixed(4)}/kWh</span><strong style="color:#35152f;">After discount: $${rate.toFixed(4)}/kWh</strong>`:`$${rate.toFixed(4)} / kWh`;
+  return `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#10141B;">Natural gas — estimated cost: <span style="font-size:18px;color:#10141B;">$${total.toFixed(2)}</span></div><div style="font-size:11.5px;color:#4b5a4e;margin-top:5px;"><strong>User class:</strong> ${userClass}${adjusted?' · Promotional rates included':''}</div><div style="margin-top:9px;width:100%;"><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;border-collapse:collapse;border:1px solid #e5dfd2;background:#fff;"><thead><tr style="background:#f2efe8;"><th style="padding:7px;text-align:left;font-size:10px;">Charge type</th><th style="padding:7px;text-align:left;font-size:10px;">${rateLabel}</th><th style="padding:7px;text-align:left;font-size:10px;">Estimated usage</th><th style="padding:7px;text-align:right;font-size:10px;">Estimated cost</th></tr></thead><tbody><tr><td style="padding:7px;font-size:11px;">Daily charge</td><td style="padding:7px;font-size:11px;">${dailyDisplay}</td><td style="padding:7px;font-size:11px;">${days} days</td><td style="padding:7px;text-align:right;font-size:11px;">$${(daily*days).toFixed(2)}</td></tr><tr><td style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;">Gas usage</td><td style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;">${usageDisplay}</td><td style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;">${kwh} kWh</td><td style="padding:7px;border-top:1px solid #e5dfd2;text-align:right;font-size:11px;">$${(rate*kwh).toFixed(2)}</td></tr>${gstMode==='exclusive'?`<tr><td colspan="3" style="padding:7px;border-top:1px solid #e5dfd2;font-size:11px;font-weight:700;">GST 15%</td><td style="padding:7px;border-top:1px solid #e5dfd2;text-align:right;font-size:11px;font-weight:700;">$${gst.toFixed(2)}</td></tr>`:''}</tbody></table></div>${naturalGasPromoDisplayHtml(card)}</div>`;
 }
 function lpgBreakdownHtml(card){
   const qty=numberValue(card,'.q-lpg-qty');
   const rates=quoteLpgRates(card),bottle=rates.bottle,rental=rates.rental;
   if(!(qty||rental)) return '';
-  return `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">LPG estimate: <span style="font-size:18px;color:#ff6537;">$${quoteLpgTotal(card).toFixed(2)}</span></div><div style="font-size:11.5px;color:#4b5a4e;margin-top:5px;line-height:1.55;">45kg LPG bottles: ${qty||0} × ${bottle!==rates.standardBottle?`<span style="color:#7a857b;text-decoration:line-through;">$${rates.standardBottle.toFixed(2)}</span> `:''}$${bottle.toFixed(2)}<br>Bottle rental: ${rental!==rates.standardRental?`<span style="color:#7a857b;text-decoration:line-through;">$${rates.standardRental.toFixed(2)}</span> `:''}$${rental.toFixed(2)}/month for two bottles</div>${lpgPromoDisplayHtml(card)}<div style="margin-top:9px;padding:9px 10px;border-radius:8px;background:#f7f4ed;border:1px solid #e5dfd2;font-size:11.5px;color:#4b5a4e;line-height:1.5;"><strong style="color:#35152f;">First delivery:</strong> includes two full LPG bottles. Future refills are normally ordered one bottle at a time, so ongoing LPG costs will differ from this initial estimate.</div></div>`;
+  const bottleDisplay=bottle!==rates.standardBottle?`<span style="color:#7a857b;">standard $${rates.standardBottle.toFixed(2)}</span> → <strong style="color:#35152f;">after discount $${bottle.toFixed(2)}</strong>`:`$${bottle.toFixed(2)}`;
+  const rentalDisplay=rental!==rates.standardRental?`<span style="color:#7a857b;">standard $${rates.standardRental.toFixed(2)}/month</span> → <strong style="color:#35152f;">after discount $${rental.toFixed(2)}/month</strong>`:`$${rental.toFixed(2)}/month`;
+  return `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">Initial LPG estimate: <span style="font-size:18px;color:#ff6537;">$${quoteLpgTotal(card).toFixed(2)}</span></div><div style="font-size:11.5px;color:#4b5a4e;margin-top:5px;line-height:1.55;">45kg LPG bottles: ${qty||0} × ${bottleDisplay}<br>Bottle rental: ${rentalDisplay} for two bottles</div>${lpgPromoDisplayHtml(card)}<div style="margin-top:9px;padding:9px 10px;border-radius:8px;background:#f7f4ed;border:1px solid #e5dfd2;font-size:11.5px;color:#4b5a4e;line-height:1.5;"><strong style="color:#35152f;">First delivery:</strong> includes two full LPG bottles. Future refills are normally ordered one bottle at a time, so ongoing LPG costs will differ from this initial estimate.</div></div>`;
 }
 
 function providerKeyInfo(provider, planLabel=''){
@@ -3308,6 +3312,7 @@ function addAgentQuote(providerId='powershop'){
         <div class="package-add-copy"><strong>Compare this as a full home package?</strong><span>Add broadband to this power option, then compare the combined cost against another package.</span></div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;"><button type="button" class="package-add-btn q-add-broadband">+ Add broadband</button><button type="button" class="package-add-btn q-add-natural-gas">+ Add natural gas</button><button type="button" class="package-add-btn q-add-lpg">+ Add LPG</button></div>
       </div>
+      <div class="q-dual-fuel-warning" style="display:none;margin:0 0 12px;padding:10px 12px;border:1px solid #efbd74;border-radius:9px;background:#fff7e7;color:#6b431f;font-size:11.5px;line-height:1.5;"><strong>Please check:</strong> Natural Gas and LPG are both selected. Some properties use both, but it is uncommon, so please confirm this is correct before sending.</div>
       <div class="bb-package q-bb-package">
         <div class="bb-package-head"><strong>Broadband in this package</strong><button type="button" class="q-remove-broadband" title="Remove broadband">×</button></div>
         <div class="agent-form-grid three">
@@ -3460,9 +3465,10 @@ function quotePackageTotal(card){
   const hasPower=service==='power';
   const power=hasPower?quotePowerTotal(card):0;
   const providerId=card.querySelector('.q-provider')?.value||'';
-  const lpg=(card.dataset.hasLpg==='true'||service==='lpg')?quoteLpgTotal(card):0;
+  const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);
+  const lpgRental=(card.dataset.hasLpg==='true'||service==='lpg')?quoteLpgRates(card).rental*(days/30):0;
   const gas=card.dataset.hasNaturalGas==='true'?quoteNaturalGasTotal(card):0;
-  return power+quoteBroadbandPeriod(card)+lpg+gas;
+  return power+quoteBroadbandPeriod(card)+lpgRental+gas;
 }
 
 // Reads the selected promotion type and its fields into one plain object.
@@ -3742,17 +3748,17 @@ function recalcQuote(card){
   const providerId=card.querySelector('.q-provider')?.value||'';
   const lpgActive=card.dataset.hasLpg==='true'||service==='lpg';
   const gasActive=card.dataset.hasNaturalGas==='true';
-  const lpgResult=card.querySelector('.q-lpg-result'); if(lpgResult){const rates=quoteLpgRates(card);lpgResult.querySelector('strong').textContent=`$${quoteLpgTotal(card).toFixed(2)}`;lpgResult.querySelector('.calc-breakdown').textContent=rates.bottle!==rates.standardBottle?`Effective bottle price $${rates.bottle.toFixed(2)} after promotion + rental`:(rates.rental!==rates.standardRental?`Bottle price + discounted rental $${rates.rental.toFixed(2)}/month`:'Bottle quantity + prorated monthly rental');}
+  const lpgResult=card.querySelector('.q-lpg-result'); if(lpgResult){const rates=quoteLpgRates(card);const label=lpgResult.querySelector('span');if(label)label.textContent='Initial LPG estimate';lpgResult.querySelector('strong').textContent=`$${quoteLpgTotal(card).toFixed(2)}`;lpgResult.querySelector('.calc-breakdown').textContent=rates.bottle!==rates.standardBottle?`Effective bottle price $${rates.bottle.toFixed(2)} after promotion + rental`:(rates.rental!==rates.standardRental?`Bottle price + discounted rental $${rates.rental.toFixed(2)}/month`:'Bottle quantity + prorated monthly rental');}
   const gasResult=card.querySelector('.q-gas-result');if(gasResult){const rates=quoteNaturalGasRates(card);gasResult.querySelector('strong').textContent=`$${quoteNaturalGasTotal(card).toFixed(2)}`;gasResult.querySelector('.calc-breakdown').textContent=(rates.daily!==rates.standardDaily||rates.usage!==rates.standardUsage)?`Promotional rates: $${rates.daily.toFixed(4)}/day + $${rates.usage.toFixed(4)}/kWh`:'Daily charge + entered kWh usage';}
   const packageActive=card.dataset.hasBroadbandPackage==='true' && hasPower;
   packageTotal.classList.toggle('show',!productEmailOnly&&(packageActive||lpgActive||gasActive));
   if(packageActive||lpgActive||gasActive){
     const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30);
-    const power=hasPower?quotePowerAfterPromo(card).after:0, bb=packageActive?quoteBroadbandPeriod(card):0, lpg=lpgActive?quoteLpgTotal(card):0, gas=gasActive?quoteNaturalGasTotal(card):0;
-    const standardTotal=power+bb+lpg+gas,spread=quoteSpreadCreditInfo(card),total=Math.max(0,standardTotal-spread.monthly*(days/30));
-    packageTotal.querySelector('span').textContent='Estimated package total';
+    const power=hasPower?quotePowerAfterPromo(card).after:0, bb=packageActive?quoteBroadbandPeriod(card):0, lpgRental=lpgActive?quoteLpgRates(card).rental*(days/30):0, gas=gasActive?quoteNaturalGasTotal(card):0;
+    const standardTotal=power+bb+lpgRental+gas,spread=quoteSpreadCreditInfo(card),total=Math.max(0,standardTotal-spread.monthly*(days/30));
+    packageTotal.querySelector('span').textContent='Estimated ongoing 30-day cost';
     packageTotal.querySelector('strong').textContent=`$${total.toFixed(2)}`;
-    packageTotal.querySelector('.package-breakdown').innerHTML=`${power?`Power $${power.toFixed(2)}`:''}${bb?`${power?' + ':''}broadband $${bb.toFixed(2)}`:''}${gas?`${(power||bb)?' + ':''}natural gas $${gas.toFixed(2)}`:''}${lpg?`${(power||bb||gas)?' + ':''}LPG $${lpg.toFixed(2)}`:''}<br>${days}-day estimate${spread.monthly?` · includes $${spread.monthly.toFixed(2)}/month spread credit`:''}${bb?' (broadband prorated from monthly price)':''}`;
+    packageTotal.querySelector('.package-breakdown').innerHTML=`${power?`Power $${power.toFixed(2)}`:''}${bb?`${power?' + ':''}broadband $${bb.toFixed(2)}`:''}${gas?`${(power||bb)?' + ':''}natural gas $${gas.toFixed(2)}`:''}${lpgRental?`${(power||bb||gas)?' + ':''}LPG rental $${lpgRental.toFixed(2)}`:''}<br>${days}-day estimate${lpgActive?' · LPG bottles shown separately':''}${spread.monthly?` · includes $${spread.monthly.toFixed(2)}/month spread credit`:''}${bb?' (broadband prorated from monthly price)':''}`;
   }
 }
 function wireQuoteCard(card){
@@ -3788,10 +3794,11 @@ function wireQuoteCard(card){
   const removeLpg=card.querySelector('.q-remove-lpg');
   const lpgBox=card.querySelector('.q-lpg-package');
   const addGas=card.querySelector('.q-add-natural-gas'),removeGas=card.querySelector('.q-remove-natural-gas'),gasBox=card.querySelector('.q-natural-gas-package');
+  const updateDualFuelWarning=()=>{const warning=card.querySelector('.q-dual-fuel-warning');if(warning)warning.style.display=card.dataset.hasNaturalGas==='true'&&card.dataset.hasLpg==='true'?'block':'none';};
   card.querySelector('.q-power-user-class').addEventListener('click',e=>{const b=e.target.closest('button[data-user-class]');if(!b)return;card.dataset.powerUserClass=b.dataset.userClass;card.querySelectorAll('.q-power-user-class button').forEach(x=>x.classList.toggle('on',x===b));refreshAgentPreview();});
   card.querySelector('.q-gas-user-class').addEventListener('click',e=>{const b=e.target.closest('button[data-user-class]');if(!b)return;card.dataset.gasUserClass=b.dataset.userClass;card.querySelectorAll('.q-gas-user-class button').forEach(x=>x.classList.toggle('on',x===b));refreshAgentPreview();});
-  addGas.addEventListener('click',()=>{if(card.dataset.hasNaturalGas==='true'){removeGas.click();return;}card.dataset.hasNaturalGas='true';gasBox.classList.add('show');addGas.classList.add('active');addGas.textContent='✓ Natural gas added';addGas.title='Click to remove natural gas';recalcQuote(card);markRecommendationAuto();refreshAgentPreview();});
-  removeGas.addEventListener('click',()=>{card.dataset.hasNaturalGas='false';gasBox.classList.remove('show');addGas.classList.remove('active');addGas.textContent='+ Add natural gas';addGas.title='Add natural gas';recalcQuote(card);markRecommendationAuto();refreshAgentPreview();});
+  addGas.addEventListener('click',()=>{if(card.dataset.hasNaturalGas==='true'){removeGas.click();return;}card.dataset.hasNaturalGas='true';gasBox.classList.add('show');addGas.classList.add('active');addGas.textContent='✓ Natural gas added';addGas.title='Click to remove natural gas';updateDualFuelWarning();recalcQuote(card);markRecommendationAuto();refreshAgentPreview();});
+  removeGas.addEventListener('click',()=>{card.dataset.hasNaturalGas='false';gasBox.classList.remove('show');addGas.classList.remove('active');addGas.textContent='+ Add natural gas';addGas.title='Add natural gas';updateDualFuelWarning();recalcQuote(card);markRecommendationAuto();refreshAgentPreview();});
   card.querySelectorAll('.q-natural-gas-package input').forEach(el=>el.addEventListener('input',()=>{recalcQuote(card);markRecommendationAuto();refreshAgentPreview();}));
   [['.q-term','q'],['.q-bb-term','q-bb'],['.q-gas-term','q-gas'],['.q-lpg-term','q-lpg']].forEach(([selector,prefix])=>card.querySelector(selector).addEventListener('change',()=>{updateTermControls(card,prefix);markRecommendationAuto();refreshAgentPreview();}));
   const bbProvider=card.querySelector('.q-bb-provider');
@@ -3896,8 +3903,8 @@ function wireQuoteCard(card){
     if(['contact','2degrees','pulse','electrickiwi'].includes(mainId)){ bbProvider.value=mainId; fillBBProvider(); }
     card.dataset.hasBroadbandPackage='true'; bbPackage.classList.add('show'); addBB.classList.add('active'); const required=AGENT_SERVICE_RULES[mainId]?.forceBroadbandWithPower;addBB.classList.toggle('required',!!required);addBB.textContent=required?'Broadband required':'✓ Broadband added';addBB.title=required?'Broadband is required for this plan':'Click to remove broadband';recalcQuote(card); markRecommendationAuto(); refreshAgentPreview();
   });
-  addLpg.addEventListener('click',()=>{if(card.dataset.hasLpg==='true'){removeLpg.click();return;}card.dataset.hasLpg='true';lpgBox.classList.add('show');addLpg.classList.add('active');addLpg.textContent='✓ LPG added';addLpg.title='Click to remove LPG';const mid=card.querySelector('.q-provider').value,svc=card.querySelector('.q-service').value;setDefaultLpgOffer(mid,svc);recalcQuote(card);markRecommendationAuto();refreshAgentPreview();});
-  removeLpg.addEventListener('click',()=>{ if(card.querySelector('.q-service').value==='lpg') return; card.dataset.hasLpg='false'; lpgBox.classList.remove('show'); addLpg.classList.remove('active'); addLpg.textContent='+ Add LPG';addLpg.title='Add LPG';recalcQuote(card); markRecommendationAuto(); refreshAgentPreview(); });
+  addLpg.addEventListener('click',()=>{if(card.dataset.hasLpg==='true'){removeLpg.click();return;}card.dataset.hasLpg='true';lpgBox.classList.add('show');addLpg.classList.add('active');addLpg.textContent='✓ LPG added';addLpg.title='Click to remove LPG';const mid=card.querySelector('.q-provider').value,svc=card.querySelector('.q-service').value;setDefaultLpgOffer(mid,svc);updateDualFuelWarning();recalcQuote(card);markRecommendationAuto();refreshAgentPreview();});
+  removeLpg.addEventListener('click',()=>{ if(card.querySelector('.q-service').value==='lpg') return; card.dataset.hasLpg='false'; lpgBox.classList.remove('show'); addLpg.classList.remove('active'); addLpg.textContent='+ Add LPG';addLpg.title='Add LPG';updateDualFuelWarning();recalcQuote(card); markRecommendationAuto(); refreshAgentPreview(); });
   removeBB.addEventListener('click',()=>{ const mid=card.querySelector('.q-provider').value; if(AGENT_SERVICE_RULES[mid]?.forceBroadbandWithPower && card.querySelector('.q-service').value==='power') return; card.dataset.hasBroadbandPackage='false'; bbPackage.classList.remove('show'); addBB.classList.remove('active','required'); addBB.textContent='+ Add broadband';addBB.title='Add broadband';recalcQuote(card); markRecommendationAuto(); refreshAgentPreview(); });
   bbProvider.addEventListener('change',()=>{ fillBBProvider(); markRecommendationAuto(); refreshAgentPreview(); });
   bbPlan.addEventListener('change',()=>{ const p=PROVIDERS.find(x=>x.id===bbProvider.value); if(p){ card.querySelector('.q-bb-keyinfo').value=providerKeyInfo(p,bbPlan.value); const plans=broadbandAgentPlans(bbProvider.value); const chosen=plans.find(x=>x.label===bbPlan.value); let price=chosen?.price; if(chosen?.prices){ const mainPlanId=agentProviderPlanId(card); price=(bbProvider.value==='contact' && mainPlanId==='') ? null : (chosen.prices[mainPlanId] ?? Object.values(chosen.prices)[0]); } if(price!=null) card.querySelector('.q-bbprice').value=Number(price).toFixed(2); setDefaultBroadbandModem(card,bbProvider.value,bbPlan.value); updateModemFieldVisibility(true); } markRecommendationAuto(); recalcQuote(card); refreshAgentPreview(); });
@@ -3950,6 +3957,7 @@ function quoteHeading(card,index,totalOptions,titleName){
   const service=card.querySelector('.q-service').value;
   const hasBB=card.dataset.hasBroadbandPackage==='true' && service==='power';
   const hasLpg=card.dataset.hasLpg==='true'||service==='lpg';
+  const hasGas=card.dataset.hasNaturalGas==='true'&&service==='power';
   const mainId=card.querySelector('.q-provider').value;
   const mainName=mainId==='custom'?(card.querySelector('.q-custom-provider').value.trim()||'Other provider'):(PROVIDERS.find(x=>x.id===mainId)?.name||'');
   const bbSame=hasBB && broadbandProviderName(card)===mainName;
@@ -3958,10 +3966,10 @@ function quoteHeading(card,index,totalOptions,titleName){
   else if(service==='mobile') descriptor='mobile option';
   else if(service==='broadband') descriptor='broadband option';
   else if(service==='product') descriptor='product option';
-  else if(service==='power' && hasBB && hasLpg) descriptor='home services combo';
-  else if(service==='power' && hasLpg) descriptor='power + LPG combo';
-  else if(service==='power' && hasBB) descriptor=bbSame?'power + broadband bundle':'power + broadband combo';
-  else if(service==='power') descriptor='power option';
+  else if(service==='power'){
+    const services=['power'];if(hasBB)services.push('broadband');if(hasGas)services.push('natural gas');if(hasLpg)services.push('LPG');
+    descriptor=services.length===1?'power option':`${services.join(' + ')} ${hasBB&&bbSame&&services.length===2?'bundle':'option'}`;
+  }
   const prefix=totalOptions===1?`Your ${descriptor}`:`Option ${index+1} — ${descriptor.charAt(0).toUpperCase()+descriptor.slice(1)}`;
   return `${prefix}: ${titleName}`;
 }
@@ -4013,7 +4021,7 @@ function quotePreviewHtml(card,index,emailType,totalOptions=1){
     body += `<div style="margin-top:12px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#10141B;">Power — ${spreadCredit?'promotional ':''}estimated cost: <span style="font-size:18px;color:#10141B;">$${displayedPower.toFixed(2)}</span>${spreadCredit?` <span style="font-size:10.5px;color:#5c675e;">for ${mainPromo.months} months; then $${powerInfo.after.toFixed(2)}</span>`:''}</div>${termSummaryHtml('Power',termDetails(card))}${percentLine}${powerBreakdownHtml(card)}</div>`;
   }
   if(emailType==='full' && card.dataset.hasNaturalGas==='true') body += termSummaryHtml('Natural gas',termDetails(card,'q-gas'))+naturalGasBreakdownHtml(card);
-  if(card.dataset.hasLpg==='true'||service==='lpg'){ body += termSummaryHtml('LPG',service==='lpg'?termDetails(card):termDetails(card,'q-lpg'))+lpgBreakdownHtml(card); const combined=(hasPower?quotePowerTotal(card):0)+quoteLpgTotal(card); body += `<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:#fff1e7;border:1px solid #ffd6c7;"><div style="font-size:12px;font-weight:700;color:#ff6537;">${hasPower?'Estimated power + LPG total':'Estimated LPG total'}</div><div style="font-size:24px;line-height:1.2;font-weight:800;color:#ff6537;margin-top:2px;">$${combined.toFixed(2)}</div></div>`; }
+  if(card.dataset.hasLpg==='true'||service==='lpg') body += termSummaryHtml('LPG',service==='lpg'?termDetails(card):termDetails(card,'q-lpg'))+lpgBreakdownHtml(card);
   if(service==='mobile'){
     const mp=numberValue(card,'.q-mobile-price'); const mb=card.querySelector('.q-mobile-benefit')?.value.trim()||''; const mi=card.querySelector('.q-mobile-info')?.value.trim()||keyInfo;
     body += `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">Mobile — <span style="color:#35152f;">$${mp.toFixed(2)}/month</span></div>${termSummaryHtml('Mobile',termDetails(card))}${mb?`<div style="margin-top:9px;padding:8px 10px;border-radius:8px;background:#f2edff;color:#3c2a8a;font-size:11.5px;font-weight:700;">Benefit: ${mb}</div>`:''}${keyInfoHtml(mi)}</div>`;
@@ -4027,10 +4035,11 @@ function quotePreviewHtml(card,index,emailType,totalOptions=1){
     const bbPercent=bbPromo&&bbPromo.type==='percent'?bbMonthly*(bbPromo.percent/100):0,bbShown=Math.max(0,bbMonthly-bbPercent-bbSpread);
     body += `<div style="margin-top:10px;padding:12px;background:#ffffff;border:1px solid #e5dfd2;border-radius:10px;"><div style="font-size:13px;font-weight:700;color:#35152f;">Broadband — <span style="color:#35152f;">$${bbShown.toFixed(2)}/month</span>${bbSpread?` <span style="font-size:10.5px;color:#5c675e;">for ${bbPromo.months} months; then $${(bbMonthly-bbPercent).toFixed(2)}</span>`:''}</div><div style="font-size:11.5px;color:#4b5a4e;margin-top:3px;">${displayName} · ${displayPlan}</div>${termSummaryHtml('Broadband',packageActive?termDetails(card,'q-bb'):termDetails(card))}${modemText?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:5px;"><strong>Modem:</strong> ${modemText}</div>`:''}${oneOffModem?`<div style="font-size:11.5px;color:#4b5a4e;margin-top:3px;"><strong>One-off modem cost:</strong> $${oneOffModem.toFixed(2)} <span style="color:#7a857b;">(not included in the monthly/package total)</span></div>`:''}${broadbandPromoDisplayHtml(card)}${keyInfoHtml(bbInfo)}</div>`;
   }
-  if(emailType==='full' && (packageActive||card.dataset.hasNaturalGas==='true')){
-    const included=['Power'];if(packageActive)included.push('broadband');if(card.dataset.hasNaturalGas==='true')included.push('natural gas');
+  if(emailType==='full' && hasPower && (packageActive||card.dataset.hasNaturalGas==='true'||card.dataset.hasLpg==='true')){
+    const included=['Power'];if(packageActive)included.push('broadband');if(card.dataset.hasNaturalGas==='true')included.push('natural gas');if(card.dataset.hasLpg==='true')included.push('LPG bottle rental');
     const spread=quoteSpreadCreditInfo(card),standard=quoteOngoingMonthly(card),shown=quotePromotionalMonthly(card);
-    body += `<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:#fff1e7;border:1px solid #ffd6c7;"><div style="font-size:12px;font-weight:700;color:#ff6537;">${spread.monthly?'Estimated promotional package total':'Estimated package total'}</div><div style="font-size:24px;line-height:1.2;font-weight:800;color:#ff6537;margin-top:2px;">$${shown.toFixed(2)}/month</div><div style="font-size:10.5px;color:#5c675e;margin-top:4px;">${included.join(' + ')}.${spread.monthly?` Includes $${spread.monthly.toFixed(2)}/month in spread credits for the promotional period; then $${standard.toFixed(2)}/month.`:''}</div></div>`;
+    const lpgNote=card.dataset.hasLpg==='true'?' LPG bottle purchases and future refills are shown separately and are not included here.':'';
+    body += `<div style="margin-top:10px;padding:12px 14px;border-radius:10px;background:#fff1e7;border:1px solid #ffd6c7;"><div style="font-size:12px;font-weight:700;color:#ff6537;">${spread.monthly?'Estimated promotional ongoing cost':'Estimated ongoing 30-day cost'}</div><div style="font-size:24px;line-height:1.2;font-weight:800;color:#ff6537;margin-top:2px;">$${shown.toFixed(2)}</div><div style="font-size:10.5px;color:#5c675e;margin-top:4px;">Includes ${included.join(', ')}.${lpgNote}${spread.monthly?` Includes $${spread.monthly.toFixed(2)}/month in spread credits for the promotional period; then $${standard.toFixed(2)} for a typical 30-day period.`:''}</div></div>`;
   }
   const mainBenefit=promoDisplayHtml(card);
   const mainInfo=keyInfoHtml(keyInfo);
@@ -4054,6 +4063,10 @@ function quoteMetrics(card){
   const hasBB=service==='broadband'||packageActive;
   const hasMobile=service==='mobile';
   const hasLpg=card.dataset.hasLpg==='true'||service==='lpg';
+  const hasNaturalGas=card.dataset.hasNaturalGas==='true';
+  const powerName=hasPower?mainName:'';
+  const broadbandName=hasBB?(packageActive?bbName:mainName):'';
+  const services=[hasPower?'power':'',hasBB?'broadband':'',hasNaturalGas?'natural gas':'',hasLpg?'LPG':'',hasMobile?'mobile':''].filter(Boolean);
   const lpgRates=hasLpg?quoteLpgRates(card):null;
   const lpgBottle=lpgRates?.bottle??null;
   const lpgStandardBottle=lpgRates?.standardBottle??null;
@@ -4066,11 +4079,54 @@ function quoteMetrics(card){
   if(card.dataset.hasNaturalGas==='true')terms.push({service:'Natural gas',...termDetails(card,'q-gas')});
   if(service!=='lpg'&&card.dataset.hasLpg==='true')terms.push({service:'LPG',...termDetails(card,'q-lpg')});
   const fixedTerms=terms.filter(t=>t.months>0);
-  return {card,name,providerId,keyInfo,terms,hasOpenTerm:terms.some(t=>t.value==='open'),hasFixedTerm:fixedTerms.length>0,hasPower,hasBB,hasMobile,hasLpg,power:hasPower?quotePowerTotal(card):null,broadband:hasBB?quoteBroadbandMonthly(card):null,packageTotal:packageActive?quotePackageTotal(card):null,lpgBottle,lpgStandardBottle,lpgRental,promo,ongoingMonthly:firstYearInfo.ongoing,promotionalMonthly:quotePromotionalMonthly(card),firstYearCost:quotePeriodCost(card,12),twentyFourMonthCost:quotePeriodCost(card,24),creditValue:quoteCreditValueForPeriod(card,12),creditNote:firstYearInfo.creditNote,contractTerm:fixedTerms[0]?.months||(promo&&promo.type==='appliance'?promo.term:null)};
+  return {card,name,providerId,powerName,broadbandName,services,keyInfo,terms,hasOpenTerm:terms.some(t=>t.value==='open'),hasFixedTerm:fixedTerms.length>0,hasPower,hasBB,hasMobile,hasLpg,hasNaturalGas,power:hasPower?quotePowerTotal(card):null,broadband:hasBB?quoteBroadbandMonthly(card):null,packageTotal:packageActive?quotePackageTotal(card):null,lpgBottle,lpgStandardBottle,lpgRental,promo,ongoingMonthly:firstYearInfo.ongoing,promotionalMonthly:quotePromotionalMonthly(card),firstYearCost:quotePeriodCost(card,12),twentyFourMonthCost:quotePeriodCost(card,24),creditValue:quoteCreditValueForPeriod(card,12),creditNote:firstYearInfo.creditNote,contractTerm:fixedTerms[0]?.months||(promo&&promo.type==='appliance'?promo.term:null)};
+}
+function uniqueValues(values){return [...new Set(values.filter(Boolean))];}
+function comparisonShape(metrics){
+  if(metrics.length<2)return {type:'single'};
+  const power=metrics.filter(m=>m.hasPower),broadband=metrics.filter(m=>m.hasBB);
+  const simpleHomeChoices=metrics.every(m=>m.services.every(service=>service==='power'||service==='broadband'));
+  const powerNames=uniqueValues(power.map(m=>m.powerName)),broadbandNames=uniqueValues(broadband.map(m=>m.broadbandName));
+  if(simpleHomeChoices&&power.length>=1&&broadband.length>=2&&powerNames.length===1&&broadbandNames.length>=2)return {type:'fixedPower',powerName:powerNames[0],power,broadband};
+  if(simpleHomeChoices&&broadband.length>=1&&power.length>=2&&broadbandNames.length===1&&powerNames.length>=2)return {type:'fixedBroadband',broadbandName:broadbandNames[0],power,broadband};
+  const signatures=uniqueValues(metrics.map(m=>[...m.services].sort().join('|')));
+  return {type:signatures.length===1?'likeForLike':'mixed'};
+}
+function broadbandPromotionalMonthly(metric){
+  const card=metric.card,service=card.querySelector('.q-service').value,base=quoteBroadbandMonthly(card);
+  const promo=service==='broadband'?quotePromo(card):quoteBroadbandPromo(card);
+  const percent=promo?.type==='percent'?base*(promo.percent/100):0;
+  const spread=promo?.type==='credit'&&promo.shape==='spread'?promo.amount/Math.max(1,promo.months):0;
+  return Math.max(0,base-percent-spread);
+}
+function powerPromotionalMonthly(metric){
+  const days=Math.max(1,parseFloat(document.getElementById('agDays').value||30)||30),power=quotePowerAfterPromo(metric.card).after*(30/days),promo=quotePromo(metric.card);
+  const spread=promo?.type==='credit'&&promo.shape==='spread'?promo.amount/Math.max(1,promo.months):0;
+  return Math.max(0,power-spread);
+}
+function smartChoiceComparisonHtml(metrics,shape){
+  const fixedPower=shape.type==='fixedPower',choices=fixedPower?shape.broadband:shape.power;
+  const fixedMetric=(fixedPower?shape.power:shape.broadband)[0];
+  const fixedName=fixedPower?shape.powerName:shape.broadbandName;
+  const fixedCost=fixedPower?powerPromotionalMonthly(fixedMetric):broadbandPromotionalMonthly(fixedMetric);
+  const rows=choices.map(metric=>({metric,cost:fixedPower?broadbandPromotionalMonthly(metric):powerPromotionalMonthly(metric),name:fixedPower?metric.broadbandName:metric.powerName})).sort((a,b)=>a.cost-b.cost);
+  const low=rows[0],high=rows[rows.length-1],difference=high.cost-low.cost;
+  const rowHtml=rows.map(row=>`<tr><td style="padding:9px 4px;border-bottom:1px solid #eee8dc;color:#35443a;">${row.name}</td><td style="padding:9px 4px;border-bottom:1px solid #eee8dc;text-align:right;"><strong style="color:#35152f;white-space:nowrap;">$${row.cost.toFixed(2)}/month</strong></td></tr>`).join('');
+  const fixedLabel=fixedPower?'Power estimate':'Broadband option',choiceLabel=fixedPower?'Broadband choices':'Power choices';
+  const guidance=fixedPower?`We’ve kept the ${fixedName} power estimate separate so you can compare the broadband plans more easily.`:`We’ve kept the ${fixedName} broadband price separate so you can compare the power options more easily.`;
+  const saving=difference>0.005?`<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#fff1e7;border:1px solid #f3c8b5;color:#35443a;"><strong>${low.name}</strong> has the lowest ${fixedPower?'broadband price':'power estimate'}, approximately <strong style="color:#f94e1a;">$${difference.toFixed(2)} per month lower</strong> than ${high.name}. The other plan features and terms are shown below.</div>`:'';
+  return `<div style="margin:16px 0;padding:16px;border:1px solid #efc7b7;border-left:4px solid #ff6537;border-radius:14px;background:#fff4ec;box-shadow:0 6px 18px rgba(53,21,47,.06);"><div style="font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#a05a45;margin-bottom:3px;">At a glance</div><strong style="display:block;color:#35152f;font-size:17px;margin-bottom:10px;">Your ${fixedPower?'power and broadband':'broadband and power'} options</strong><div style="padding:10px 12px;border-radius:8px;background:#fff;color:#35443a;border:1px solid #eee8dc;"><span style="font-size:10px;color:#68746b;text-transform:uppercase;font-weight:800;">${fixedLabel}</span><div style="margin-top:3px;"><strong style="color:#35152f;">${fixedName}</strong> — $${fixedCost.toFixed(2)}/month</div></div><div style="font-size:11.5px;color:#5c675e;line-height:1.5;margin:10px 0;">${guidance}</div><div style="font-size:12px;font-weight:800;color:#35152f;margin-bottom:5px;">${choiceLabel}</div><table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;table-layout:fixed;"><tbody>${rowHtml}</tbody></table>${saving}<div style="margin-top:10px;padding-top:9px;border-top:1px solid #efd8ca;font-size:10.5px;color:#7a857b;line-height:1.45;">Estimates use the figures entered for this comparison. Promotions and plan details are shown in the breakdown below.</div></div>`;
+}
+function mixedComparisonHtml(metrics){
+  const rows=metrics.map(m=>`<div style="display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid #eee8dc;"><strong style="color:#35152f;">${m.name}</strong><span style="color:#5c675e;text-align:right;">${m.services.join(' + ')}</span></div>`).join('');
+  return `<div style="margin:16px 0;padding:16px;border:1px solid #efc7b7;border-left:4px solid #ff6537;border-radius:14px;background:#fff4ec;"><div style="font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#a05a45;margin-bottom:3px;">At a glance</div><strong style="display:block;color:#35152f;font-size:17px;margin-bottom:8px;">What each option includes</strong><div style="font-size:11.5px;color:#5c675e;line-height:1.55;margin-bottom:8px;">These options cover different services, so we’ve kept their costs separate rather than treating them as a straight price comparison.</div>${rows}<div style="margin-top:9px;font-size:10.5px;color:#7a857b;line-height:1.45;">The full rates, promotions and plan terms are shown below so you can review the parts that matter for your home.</div></div>`;
 }
 function priceComparisonHtml(){
   const metrics=[...quoteStack.children].map(quoteMetrics);
   if(metrics.length<2) return '';
+  const shape=comparisonShape(metrics);
+  if(shape.type==='fixedPower'||shape.type==='fixedBroadband')return smartChoiceComparisonHtml(metrics,shape);
+  if(shape.type==='mixed')return mixedComparisonHtml(metrics);
   const recurring=metrics.filter(m=>(m.hasPower||m.hasBB||m.hasMobile||(m.hasLpg&&m.lpgRental)) && m.ongoingMonthly>0);
   let recurringHtml='';
   if(recurring.length>=2){
@@ -4116,7 +4172,7 @@ function contractTermCommentary(){
   let guidance='';
   if(open.length&&fixed.length) guidance=`The open-term option gives you more flexibility; the fixed term may still suit you if its promotion is worth the commitment.`;
   else if(fixed.length) guidance=`Please make sure you’re comfortable with the fixed term and any exit costs.`;
-  else guidance=`Both options are open term, giving you flexibility if your needs change.`;
+  else guidance=metrics.length===1?`This option is open term, giving you flexibility if your needs change.`:`These options are open term, giving you flexibility if your needs change.`;
   return `Plan terms: ${summaries.join('; ')}. ${guidance}`;
 }
 function generateRecommendationDetail(){
@@ -4207,6 +4263,10 @@ function generateRecommendationDetail(){
 function recommendedOptionText(emailType='full'){
   const metrics=[...quoteStack.children].map(quoteMetrics);
   if(!metrics.length)return 'the recommended option';
+  const shape=comparisonShape(metrics);
+  if(shape.type==='fixedPower')return `${shape.powerName} for power and your preferred broadband option`;
+  if(shape.type==='fixedBroadband')return `${shape.broadbandName} for broadband and your preferred power option`;
+  if(shape.type==='mixed')return 'your preferred option from this comparison';
   const priority=document.getElementById('agPriority').value;
   let chosen=null;
   if(priority!=='overall'&&priority!=='cost') chosen=metrics.find(m=>providerStrength(m,priority));
@@ -4216,8 +4276,10 @@ function recommendedOptionText(emailType='full'){
   const hasPackage=service==='power'&&card.dataset.hasBroadbandPackage==='true';
   const bbName=hasPackage?broadbandProviderName(card):(service==='broadband'?chosen.name:'');
   const hasGas=service==='power'&&card.dataset.hasNaturalGas==='true';
-  if(powerName&&bbName)return `${powerName} for power${hasGas?' and natural gas':''} and ${bbName} for broadband`;
-  if(powerName)return `${powerName} for power${hasGas?' and natural gas':''}`;
+  const hasLpg=service==='power'&&card.dataset.hasLpg==='true';
+  const powerServices=['power'];if(hasGas)powerServices.push('Natural Gas');if(hasLpg)powerServices.push('LPG');
+  if(powerName&&bbName)return `${powerName} for ${friendlyList(powerServices)} and ${bbName} for broadband`;
+  if(powerName)return `${powerName} for ${friendlyList(powerServices)}`;
   if(bbName)return `${bbName} for broadband`;
   return chosen.name;
 }
@@ -4231,9 +4293,30 @@ function generateProductRecommendationDetail(){
   if(strength)return `${chosen.name} best reflects your preference for ${strength}. This recommendation is based on the product information and plan terms shown above, without using estimated power rates or household usage.`;
   return `${chosen.name} appears to be the strongest product match based on the plan information, promotion and terms shown above. No estimated power rates or household usage have been used in this recommendation.`;
 }
+function friendlyList(items){const values=uniqueValues(items);if(values.length<2)return values[0]||'';return `${values.slice(0,-1).join(', ')} and ${values.at(-1)}`;}
+function structuredRecommendation(emailType,metrics,shape){
+  if(shape.type!=='fixedPower'&&shape.type!=='fixedBroadband'&&shape.type!=='mixed')return '';
+  const ratesIncluded=emailType==='full';
+  if(shape.type==='fixedPower'){
+    const names=friendlyList(shape.broadband.map(m=>m.broadbandName));
+    const rows=shape.broadband.map(m=>({name:m.broadbandName,cost:broadbandPromotionalMonthly(m)})).sort((a,b)=>a.cost-b.cost),low=rows[0],high=rows[rows.length-1],diff=high.cost-low.cost;
+    const price=ratesIncluded&&diff>0.005?`On price alone, ${low.name} has the lowest broadband cost at approximately $${low.cost.toFixed(2)} per month. The speed, contract terms and included benefits are also worth considering before you decide.`:`We’ve shown the broadband price, speed, contract terms and benefits separately so you can compare them more easily.`;
+    return `We’ve included ${shape.powerName} for power, along with ${names} for broadband. We’ve kept the power estimate separate so you can focus on choosing the broadband plan that works best for your home.\n\n${price}`;
+  }
+  if(shape.type==='fixedBroadband'){
+    const names=friendlyList(shape.power.map(m=>m.powerName));
+    const rows=shape.power.map(m=>({name:m.powerName,cost:powerPromotionalMonthly(m)})).sort((a,b)=>a.cost-b.cost),low=rows[0],high=rows[rows.length-1],diff=high.cost-low.cost;
+    const price=ratesIncluded&&diff>0.005?`Based on the entered usage, ${low.name} has the lowest power estimate at approximately $${low.cost.toFixed(2)} for a typical 30-day period. The promotions and plan terms may also help you decide.`:`We’ve shown the power rates, promotions and plan terms separately so you can compare them more easily.`;
+    return `We’ve included ${shape.broadbandName} for broadband, along with ${names} for power. We’ve kept the broadband price separate so you can focus on choosing the power option that works best for your home.\n\n${price}`;
+  }
+  return `We’ve included the options discussed, but they cover different combinations of services. We’ve kept the costs separate so it is clear what is included with each option and you can compare the parts that matter for your home.\n\nThe rates, promotions and plan terms are all shown above. If you would like, we can also talk you through the differences before you decide.`;
+}
 function generateRecommendation(emailType='full'){
-  if(emailType==='products')return `Based on the product details we’ve reviewed, ${recommendedOptionText('products')} appears to be the strongest match for what matters most to you.\n\n${generateProductRecommendationDetail()}\n\n${contractTermCommentary()}\n\nWhichever option feels right for your home, we’re here to help make the next step easy. If you have any questions or would like us to compare the estimated rates as well, simply reply to this email or give us a call.`;
-  return `Based on what we’ve compared, ${recommendedOptionText('full')} appears to be the strongest match for what matters most to you.\n\n${generateRecommendationDetail()}\n\n${contractTermCommentary()}\n\nWhichever option feels right for your home, we’re here to help make the next step easy. If you have any questions or would like another comparison, simply reply to this email or give us a call.`;
+  const metrics=[...quoteStack.children].map(quoteMetrics),shape=comparisonShape(metrics),structured=structuredRecommendation(emailType,metrics,shape);
+  const dualFuel=metrics.some(m=>m.hasNaturalGas&&m.hasLpg)?`\n\nOne of the options includes both Natural Gas and LPG. Some properties do use both, but it is uncommon, so it is worth confirming both services are needed before going ahead.`:'';
+  if(structured)return `${structured}${dualFuel}\n\n${contractTermCommentary()}\n\nWe’re here to help make the next step easy. If you have any questions or would like us to talk through the options, simply reply to this email or give us a call.`;
+  if(emailType==='products')return `Based on the product details we’ve reviewed, ${recommendedOptionText('products')} appears to be the strongest match for what matters most to you.\n\n${generateProductRecommendationDetail()}${dualFuel}\n\n${contractTermCommentary()}\n\nWhichever option feels right for your home, we’re here to help make the next step easy. If you have any questions or would like us to compare the estimated rates as well, simply reply to this email or give us a call.`;
+  return `Based on what we’ve compared, ${recommendedOptionText('full')} appears to be the strongest match for what matters most to you.\n\n${generateRecommendationDetail()}${dualFuel}\n\n${contractTermCommentary()}\n\nWhichever option feels right for your home, we’re here to help make the next step easy. If you have any questions or would like another comparison, simply reply to this email or give us a call.`;
 }
 
 function recommendationHtml(text){
