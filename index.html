@@ -4417,6 +4417,17 @@ function validateProviderAdminCatalog(){
   for(const promo of providerAdminCatalog.promotions||[]){if(!promo.name?.trim())return 'Every promotion needs a name.';if(!promo.startDate||!promo.endDate)return `${promo.name} needs a start and end date.`;if(promo.endDate<promo.startDate)return `${promo.name} ends before it starts.`;}
   return '';
 }
+function ensurePrimaryProviderAdminReady(){
+  if(!isPrimaryAdmin())return false;
+  providerAdminCanEdit=true;
+  providerAdminIsPrimary=true;
+  document.getElementById('agentProviderUpdatesTab').style.display='';
+  if(!validEditableCatalog(providerAdminCatalog))providerAdminCatalog=structuredClone(validEditableCatalog(providerCatalogPublished)?providerCatalogPublished:defaultEditableCatalog());
+  if(!Array.isArray(providerAdminCatalog.promotions))providerAdminCatalog.promotions=[];
+  providerAdminSelected=providerAdminCatalog.providers.find(p=>p.id===providerAdminSelected)?.id||providerAdminCatalog.providers.find(p=>!p.archived)?.id||providerAdminCatalog.providers[0]?.id||'';
+  renderProviderAdmin();
+  return true;
+}
 async function saveProviderAdmin(action){
   const problem=validateProviderAdminCatalog();if(problem){providerAdminSetStatus(problem,true);return;}
   const button=document.getElementById(action==='publish'?'providerPublish':'providerSaveDraft');const old=button.textContent;button.disabled=true;button.textContent=action==='publish'?'Publishing…':'Saving…';
@@ -4436,12 +4447,7 @@ async function saveProviderPermissions(){
 async function loadProviderAdminAccess(){
   const primary=isPrimaryAdmin();
   if(primary){
-    providerAdminCanEdit=true;
-    providerAdminIsPrimary=true;
-    document.getElementById('agentProviderUpdatesTab').style.display='';
-    providerAdminCatalog=validEditableCatalog(providerAdminCatalog)?providerAdminCatalog:structuredClone(validEditableCatalog(providerCatalogPublished)?providerCatalogPublished:defaultEditableCatalog());
-    providerAdminSelected=providerAdminSelected||providerAdminCatalog.providers.find(p=>!p.archived)?.id||providerAdminCatalog.providers[0]?.id||'';
-    renderProviderAdmin();
+    ensurePrimaryProviderAdminReady();
     providerAdminSetStatus('Existing providers loaded. Checking the shared catalogue…');
   }
   const initialSnapshot=primary?JSON.stringify(providerAdminCatalog):'';
@@ -4502,6 +4508,7 @@ function showAgentTab(tab){
   const providerAdmin=document.getElementById('providerAdminContent');
   const isAdmin=isCurrentAdmin();
   const isPrimary=isPrimaryAdmin();
+  if(tab==='provider-updates'&&isPrimary)ensurePrimaryProviderAdminReady();
   document.body.classList.toggle('agent-products-open',tab==='products');
   agentShell.classList.toggle('products-mode',tab==='products');
   comparisonHero.style.display=tab==='comparison'?'':'none';
@@ -4538,7 +4545,7 @@ function showAgentTab(tab){
 
 document.getElementById('agentComparisonTab').addEventListener('click',()=>showAgentTab('comparison'));
 document.getElementById('agentProductsTab').addEventListener('click',()=>showAgentTab('products'));
-document.getElementById('agentProviderUpdatesTab').addEventListener('click',async()=>{showAgentTab('provider-updates');if(!providerAdminCatalog)await loadProviderAdminAccess();});
+document.getElementById('agentProviderUpdatesTab').addEventListener('click',()=>{showAgentTab('provider-updates');loadProviderAdminAccess();});
 document.getElementById('agentSuggestionsTab').addEventListener('click',()=>showAgentTab('suggestions'));
 document.getElementById('agentMeTab').addEventListener('click',()=>showAgentTab('me'));
 
