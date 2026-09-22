@@ -907,7 +907,7 @@
         </div>
         <div class="agent-field" style="margin-bottom:12px;"><label>Subject line <span class="required-mark">*</span></label><input id="agSubject" value="Your Renti utility comparison"></div>
         <div class="agent-field" style="margin-bottom:12px;"><label>What matters most to this customer?</label><select id="agPriority"><option value="overall">Best overall value</option><option value="cost">Lowest estimated cost</option><option value="service">Customer service</option><option value="flexibility">Flexibility / no fixed term</option><option value="speed">Speed / performance</option><option value="sustainability">Sustainability</option></select><div class="prototype-note">This guides the suggested commentary. The agent can edit it before sending.</div></div>
-        <div class="agent-field" style="margin-bottom:12px;"><label>Comparison summary / recommendation</label><textarea id="agRecommendation" style="min-height:110px;" placeholder="The portal will suggest a balanced summary based on the options entered."></textarea><div class="preview-tools"><button type="button" class="agent-btn" id="regenerateRecommendation">Regenerate suggestion</button><span class="preview-edit-note">You can rewrite this completely if your conversation with the customer points to a different priority.</span></div></div>
+        <div class="agent-field" id="ourTakeEditor" style="margin-bottom:12px;"><label>Our take <span style="font-weight:500;text-transform:none;letter-spacing:0;">(editable)</span></label><textarea id="agRecommendation" style="min-height:110px;" placeholder="The portal will suggest a balanced summary based on the options entered."></textarea><div class="preview-tools"><button type="button" class="agent-btn" id="regenerateRecommendation">Restore generated “Our take”</button><span class="preview-edit-note">The suggested wording is generated automatically, but you can rewrite any part of it before sending.</span></div></div>
         <div class="thread-box" id="threadBox"><strong>Gmail thread:</strong> Enter a customer email and property address. In the live version, we'll check for an existing thread and let the agent reply in that conversation.</div>
         <div class="agent-form-grid" style="grid-template-columns:1fr 1fr;margin-top:12px;">
           <button type="button" class="agent-btn" id="refreshPreview">Refresh preview</button>
@@ -923,7 +923,7 @@
           <div class="email-preview-head" id="previewHeader">To: — &nbsp; · &nbsp; Subject: Your Renti utility comparison</div>
           <div class="email-preview-body" id="previewBody">Add customer details and provider options to build the email preview.</div>
         </div>
-        <div class="preview-tools"><button type="button" class="agent-btn" id="editPreviewBtn">Edit email wording</button><button type="button" class="agent-btn" id="resetPreviewBtn" style="display:none;">Reset to generated</button><span class="preview-edit-note" id="previewEditNote">Calculated figures stay driven by the calculator until you deliberately edit the email preview.</span></div>
+        <div class="preview-tools"><button type="button" class="agent-btn" id="editOurTakeBtn">Edit “Our take”</button><button type="button" class="agent-btn" id="editPreviewBtn">Edit full email wording</button><button type="button" class="agent-btn" id="resetPreviewBtn" style="display:none;">Reset full email</button><span class="preview-edit-note" id="previewEditNote">Use “Edit Our take” for the recommendation only, or edit the full email when needed.</span></div>
       </section>
     </div>
   </div>
@@ -4504,7 +4504,7 @@ document.getElementById('clearProvidersConfirm').addEventListener('click',()=>{
   recommendationAuto=true;
   previewManualEdit=false;
   document.getElementById('previewBody').removeAttribute('contenteditable');
-  document.getElementById('editPreviewBtn').textContent='Edit email wording';
+  document.getElementById('editPreviewBtn').textContent='Edit full email wording';
   document.getElementById('resetPreviewBtn').style.display='none';
   clearProvidersOverlay.classList.remove('show');
   refreshAgentPreview();
@@ -4739,9 +4739,9 @@ function restoreGeneratedPreview(){
   previewManualEdit=false;
   const preview=document.getElementById('previewBody');
   preview.removeAttribute('contenteditable');
-  document.getElementById('editPreviewBtn').textContent='Edit email wording';
+  document.getElementById('editPreviewBtn').textContent='Edit full email wording';
   document.getElementById('resetPreviewBtn').style.display='none';
-  document.getElementById('previewEditNote').textContent='Calculated figures stay driven by the calculator until you deliberately edit the email preview.';
+  document.getElementById('previewEditNote').textContent='Use “Edit Our take” for the recommendation only, or edit the full email when needed.';
 }
 function confirmButtonAction(button,message,originalLabel){
   button.textContent=message;
@@ -4778,23 +4778,29 @@ document.getElementById('regenerateRecommendation').addEventListener('click',()=
   document.getElementById('agRecommendation').value=generateRecommendation(document.getElementById('agEmailType').value);
   restoreGeneratedPreview();
   refreshAgentPreview();
-  confirmButtonAction(button,'Suggestion regenerated','Regenerate suggestion');
+  confirmButtonAction(button,'Generated wording restored','Restore generated “Our take”');
 });
 const previewBodyEl=document.getElementById('previewBody');
+document.getElementById('editOurTakeBtn').addEventListener('click',()=>{
+  const editor=document.getElementById('ourTakeEditor');
+  const field=document.getElementById('agRecommendation');
+  editor.scrollIntoView({behavior:'smooth',block:'center'});
+  window.setTimeout(()=>{field.focus();field.setSelectionRange(field.value.length,field.value.length);},350);
+});
 document.getElementById('editPreviewBtn').addEventListener('click',()=>{
   previewManualEdit=true;
   previewBodyEl.setAttribute('contenteditable','true');
   previewBodyEl.focus();
-  document.getElementById('editPreviewBtn').textContent='Editing email';
+  document.getElementById('editPreviewBtn').textContent='Editing full email';
   document.getElementById('resetPreviewBtn').style.display='';
   document.getElementById('previewEditNote').textContent='You are editing the actual email wording. Calculator changes will not overwrite this preview until you reset it.';
 });
 document.getElementById('resetPreviewBtn').addEventListener('click',()=>{
   previewManualEdit=false;
   previewBodyEl.removeAttribute('contenteditable');
-  document.getElementById('editPreviewBtn').textContent='Edit email wording';
+  document.getElementById('editPreviewBtn').textContent='Edit full email wording';
   document.getElementById('resetPreviewBtn').style.display='none';
-  document.getElementById('previewEditNote').textContent='Calculated figures stay driven by the calculator until you deliberately edit the email preview.';
+  document.getElementById('previewEditNote').textContent='Use “Edit Our take” for the recommendation only, or edit the full email when needed.';
   refreshAgentPreview();
 });
 

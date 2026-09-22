@@ -22,9 +22,9 @@ function cleanHtml(value) {
 function slug(value) {
   return cleanText(value, 80).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
-function cleanOption(option, index) {
+function cleanOption(option, index, keepDraftFlags = false) {
   const monthlyPrice = option?.monthlyPrice === '' || option?.monthlyPrice == null ? null : Number(option.monthlyPrice);
-  return {
+  const result = {
     id: slug(option?.id || option?.label || `option-${index + 1}`),
     label: cleanText(option?.label, 300),
     category: CATEGORIES.includes(option?.category) ? option.category : undefined,
@@ -33,16 +33,18 @@ function cleanOption(option, index) {
     benefit: cleanText(option?.benefit, 500),
     archived: option?.archived === true,
   };
+  if (keepDraftFlags && option?._draftNew === true) result._draftNew = true;
+  return result;
 }
-function cleanAxis(axis, fallbackKey, fallbackLabel) {
+function cleanAxis(axis, fallbackKey, fallbackLabel, keepDraftFlags = false) {
   if (!axis || !Array.isArray(axis.options)) return null;
   return {
     key: slug(axis.key || fallbackKey),
     label: cleanText(axis.label || fallbackLabel, 120),
-    options: axis.options.map(cleanOption).filter(x => x.id && x.label).slice(0, 100),
+    options: axis.options.map((option, index) => cleanOption(option, index, keepDraftFlags)).filter(x => x.id && x.label).slice(0, 100),
   };
 }
-function cleanProvider(provider, index) {
+function cleanProvider(provider, index, keepDraftFlags = false) {
   const id = slug(provider?.id || provider?.name || `provider-${index + 1}`);
   const categories = Array.isArray(provider?.categories) ? provider.categories.filter(x => CATEGORIES.includes(x)) : [];
   const result = {
@@ -60,21 +62,22 @@ function cleanProvider(provider, index) {
     details: cleanHtml(provider?.details),
     archived: provider?.archived === true,
   };
-  if (Array.isArray(provider?.plans)) result.plans = provider.plans.map(cleanOption).filter(x => x.id && x.label).slice(0, 150);
-  const planA = cleanAxis(provider?.planA, 'primary', 'Primary plan');
-  const planB = cleanAxis(provider?.planB, 'secondary', 'Secondary plan');
+  if (keepDraftFlags && provider?._draftNew === true) result._draftNew = true;
+  if (Array.isArray(provider?.plans)) result.plans = provider.plans.map((option, optionIndex) => cleanOption(option, optionIndex, keepDraftFlags)).filter(x => x.id && x.label).slice(0, 150);
+  const planA = cleanAxis(provider?.planA, 'primary', 'Primary plan', keepDraftFlags);
+  const planB = cleanAxis(provider?.planB, 'secondary', 'Secondary plan', keepDraftFlags);
   if (planA) result.planA = planA;
   if (planB) result.planB = planB;
   if (provider?.modemAxis && Array.isArray(provider.modemAxis.options)) {
     result.modemAxis = {
       label: cleanText(provider.modemAxis.label || 'Modem', 120),
       infoOnly: provider.modemAxis.infoOnly === true,
-      options: provider.modemAxis.options.map(cleanOption).filter(x => x.id && x.label).slice(0, 50),
+      options: provider.modemAxis.options.map((option, optionIndex) => cleanOption(option, optionIndex, keepDraftFlags)).filter(x => x.id && x.label).slice(0, 50),
     };
   }
   return result;
 }
-function cleanPromotion(promotion, index, providerIds) {
+function cleanPromotion(promotion, index, providerIds, keepDraftFlags = false) {
   const providerId = slug(promotion?.providerId);
   if (!providerIds.has(providerId)) return null;
   const date = value => /^\d{4}-\d{2}-\d{2}$/.test(value || '') ? value : '';
@@ -82,7 +85,7 @@ function cleanPromotion(promotion, index, providerIds) {
   const endDate = date(promotion?.endDate);
   if (!startDate || !endDate || endDate < startDate) return null;
   const promotionalMonthlyPrice = promotion?.promotionalMonthlyPrice === '' || promotion?.promotionalMonthlyPrice == null ? null : Number(promotion.promotionalMonthlyPrice);
-  return {
+  const result = {
     id: slug(promotion?.id || `${providerId}-promotion-${index + 1}`),
     providerId,
     planId: slug(promotion?.planId),
@@ -96,17 +99,30 @@ function cleanPromotion(promotion, index, providerIds) {
     endDate,
     archived: promotion?.archived === true,
   };
+  if (keepDraftFlags && promotion?._draftNew === true) result._draftNew = true;
+  return result;
 }
-function cleanCatalog(input) {
-  const providers = Array.isArray(input?.providers) ? input.providers.map(cleanProvider).filter(x => x.id && x.name && x.categories.length).slice(0, 100) : [];
+function cleanCatalog(input, keepDraftFlags = false) {
+  const providers = Array.isArray(input?.providers) ? input.providers.map((provider, index) => cleanProvider(provider, index, keepDraftFlags)).filter(x => x.id && x.name && x.categories.length).slice(0, 100) : [];
   const ids = new Set();
   for (const p of providers) {
     if (ids.has(p.id)) throw new Error(`Provider id “${p.id}” is used more than once.`);
     ids.add(p.id);
   }
   if (!providers.length) throw new Error('The catalogue must contain at least one provider.');
-  const promotions = Array.isArray(input?.promotions) ? input.promotions.map((p, i) => cleanPromotion(p, i, ids)).filter(Boolean).slice(0, 300) : [];
+  const promotions = Array.isArray(input?.promotions) ? input.promotions.map((p, i) => cleanPromotion(p, i, ids, keepDraftFlags)).filter(Boolean).slice(0, 300) : [];
   return { schemaVersion: 1, providers, promotions };
+}
+function unfinishedNewItem(input) {
+  const providers = Array.isArray(input?.providers) ? input.providers : [];
+  for (const provider of providers) {
+    if (provider?._draftNew === true && cleanText(provider?.name, 120) === 'New provider') return 'new provider';
+    const optionGroups = [provider?.plans, provider?.planA?.options, provider?.planB?.options, provider?.modemAxis?.options];
+    if (optionGroups.some(options => Array.isArray(options) && options.some(option => option?._draftNew === true && cleanText(option?.label, 300) === 'New option'))) return 'new option';
+  }
+  const promotions = Array.isArray(input?.promotions) ? input.promotions : [];
+  if (promotions.some(promotion => promotion?._draftNew === true && cleanText(promotion?.name, 160) === 'New promotion')) return 'new promotion';
+  return '';
 }
 
 async function accessRecord(store) {
@@ -160,8 +176,10 @@ export default async (req) => {
   }
 
   if (!(await canEdit(user, store))) return json({ error: 'You do not have permission to edit provider updates.' }, 403);
+  const unfinished = unfinishedNewItem(body?.catalog);
+  if (unfinished) return json({ error: `Complete or cancel the unfinished ${unfinished} before saving.` }, 400);
   let catalog;
-  try { catalog = cleanCatalog(body?.catalog); } catch (error) { return json({ error: error.message || 'Invalid catalogue.' }, 400); }
+  try { catalog = cleanCatalog(body?.catalog, action === 'draft'); } catch (error) { return json({ error: error.message || 'Invalid catalogue.' }, 400); }
   const published = await store.get('published', { type: 'json' });
   const currentRevision = Number(published?.revision || 0);
   const expectedRevision = Number(body?.expectedRevision || 0);
