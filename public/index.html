@@ -720,39 +720,6 @@
   .agent-suggestions-content{display:none;max-width:1180px;margin:0 auto;}
   .agent-suggestions-content.show{display:grid;grid-template-columns:minmax(280px,.8fr) minmax(420px,1.2fr);gap:18px;align-items:start;}
   .agent-suggestions-content.show.single{grid-template-columns:minmax(0,720px);}
-  .provider-admin-content{display:none;max-width:1220px;margin:0 auto;}
-  .provider-admin-content.show{display:block;}
-  .provider-admin-toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
-  .provider-admin-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0 0 14px;}
-  .provider-admin-metric{border:1px solid var(--line);border-radius:10px;background:var(--paper);padding:10px 11px;}
-  .provider-admin-metric strong{display:block;color:var(--plum);font-size:18px;}
-  .provider-admin-metric span{font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);font-weight:700;}
-  .provider-admin-status{font-size:11.5px;color:var(--ink-soft);}
-  .provider-admin-layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:16px;align-items:start;}
-  .provider-admin-list{display:flex;flex-direction:column;gap:7px;max-height:720px;overflow:auto;}
-  .provider-admin-item{width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 11px;text-align:left;color:var(--forest-dark);font-weight:700;cursor:pointer;display:flex;justify-content:space-between;gap:8px;align-items:center;}
-  .provider-admin-item.on{border-color:var(--renti-orange);background:#fff4ec;box-shadow:0 0 0 2px rgba(255,101,55,.10);}
-  .provider-admin-item small{display:block;color:var(--ink-soft);font-size:9px;font-weight:600;margin-top:2px;}
-  .provider-admin-badge{font-size:9px;padding:3px 6px;border-radius:999px;background:#eee8df;color:#655f55;white-space:nowrap;}
-  .provider-admin-editor{min-width:0;}
-  .provider-admin-section{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fff;margin-top:12px;}
-  .provider-admin-section h3{font-size:14px;color:var(--plum);margin:0 0 10px;}
-  .provider-admin-checks{display:flex;gap:8px 14px;flex-wrap:wrap;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:var(--paper);}
-  .provider-admin-checks label{font-size:11px;font-weight:700;color:var(--forest-dark);display:flex;align-items:center;gap:5px;}
-  .provider-admin-checks input{width:auto;}
-  .provider-plan-row,.provider-promo-row{border:1px solid var(--line);border-radius:10px;padding:11px;margin-top:9px;background:var(--paper);}
-  .provider-row-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:9px;}
-  .provider-row-head strong{font-size:12px;color:var(--plum);}
-  .provider-mini-button{border:1px solid #d9b7aa;background:#fff;color:#9d3f25;border-radius:7px;padding:6px 8px;font-size:10px;font-weight:700;cursor:pointer;}
-  .provider-preview-card{border:1px solid #efc7b7;border-left:4px solid var(--renti-orange);border-radius:12px;padding:14px;background:#fffaf5;}
-  .provider-preview-card h3{font-size:17px;margin:0 0 5px;color:var(--plum);}
-  .provider-preview-headline{font-size:14px;font-weight:800;color:var(--forest-dark);margin-top:8px;}
-  .provider-promo-active{display:inline-flex;padding:4px 7px;border-radius:999px;background:#e4f3df;color:#2f6f30;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;}
-  .provider-admin-empty{padding:30px;text-align:center;color:var(--ink-soft);border:1px dashed var(--line);border-radius:12px;}
-  .provider-permission-row{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:11.5px;}
-  .provider-permission-row input{width:auto;}
-  .provider-admin-content input[type="date"]{color-scheme:light;}
-  @media(max-width:850px){.provider-admin-layout{grid-template-columns:1fr}.provider-admin-list{max-height:260px}.provider-admin-content{padding:0 8px}.provider-admin-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
   .suggestion-filters{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px;}
   .suggestion-filter{border:1px solid var(--line);background:var(--white);color:var(--ink-soft);border-radius:999px;padding:6px 10px;font:600 10.5px 'Geologica',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;cursor:pointer;}
   .suggestion-filter.on{background:var(--info-bg);border-color:transparent;color:var(--forest-dark);}
@@ -959,27 +926,6 @@
         <div class="preview-tools"><button type="button" class="agent-btn" id="editPreviewBtn">Edit email wording</button><button type="button" class="agent-btn" id="resetPreviewBtn" style="display:none;">Reset to generated</button><span class="preview-edit-note" id="previewEditNote">Calculated figures stay driven by the calculator until you deliberately edit the email preview.</span></div>
       </section>
     </div>
-  </div>
-  <div class="provider-admin-content" id="providerAdminContent">
-    <section class="agent-panel">
-      <div class="provider-admin-toolbar">
-        <div><h2 style="margin-bottom:4px;">Provider Updates</h2><p class="panel-sub" style="margin:0;">Update providers and plans, prepare promotions, then preview and publish when they are ready.</p></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;"><span class="provider-admin-status" id="providerAdminStatus">Loading catalogue…</span><button type="button" class="agent-btn" id="providerSaveDraft">Save draft</button><button type="button" class="agent-btn primary" id="providerPublish">Publish update</button></div>
-      </div>
-      <div class="provider-admin-metrics" id="providerAdminMetrics"></div>
-      <div class="provider-admin-layout">
-        <aside>
-          <button type="button" class="add-quote" id="providerAdd" style="width:100%;margin:0 0 10px;">+ Add provider</button>
-          <div class="provider-admin-list" id="providerAdminList"></div>
-          <div class="provider-admin-section" id="providerPermissions" style="display:none;">
-            <h3>Editing permissions</h3>
-            <p class="prototype-note">Only admins you select can open and publish Provider Updates. Your Primary Admin access is permanent.</p>
-            <div id="providerPermissionList"></div>
-          </div>
-        </aside>
-        <main class="provider-admin-editor" id="providerAdminEditor"><div class="provider-admin-empty">Select a provider to start editing.</div></main>
-      </div>
-    </section>
   </div>
 </div>
 
@@ -1623,10 +1569,7 @@ let PROVIDERS = [
       </ul>`
   }
 ];
-
 const DEFAULT_PROVIDERS = PROVIDERS;
-let providerCatalogRevision = 0;
-let providerCatalogPublished = null;
 
 function nzDateKey(date=new Date()){
   const parts=new Intl.DateTimeFormat('en-NZ',{timeZone:'Pacific/Auckland',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(date);
@@ -1636,64 +1579,41 @@ function nzDateKey(date=new Date()){
 function calendarDayNumber(key){const [y,m,d]=String(key).split('-').map(Number);return Date.UTC(y,m-1,d)/86400000;}
 function promotionDaysLeft(endDate){return Math.max(0,calendarDayNumber(endDate)-calendarDayNumber(nzDateKey()));}
 function promotionIsActive(promo,dateKey=nzDateKey()){return !promo.archived&&promo.startDate<=dateKey&&dateKey<=promo.endDate;}
-function plainProvider(provider){
-  const copy={
-    id:provider.id,name:provider.name,color:provider.color,initials:provider.initials,categories:[...(provider.categories||[])],
-    recommended:!!provider.recommended,exclusive:!!provider.exclusive,term:provider.term||'',termType:provider.termType||'mixed',
-    validity:provider.validity||'',headline:provider.headline||'',details:provider.details||'',archived:!!provider.archived
-  };
-  const editableOption=p=>{const match=String(p.label||'').match(/\$(\d+(?:\.\d+)?)/);return {...p,bullets:[...(p.bullets||[])],monthlyPrice:p.monthlyPrice??(match?Number(match[1]):null),benefit:p.benefit||''};};
-  if(provider.plans) copy.plans=provider.plans.map(editableOption);
-  if(provider.planA) copy.planA={...provider.planA,options:provider.planA.options.map(editableOption)};
-  if(provider.planB) copy.planB={...provider.planB,options:provider.planB.options.map(editableOption)};
-  if(provider.modemAxis) copy.modemAxis={label:provider.modemAxis.label||'Modem',infoOnly:!!provider.modemAxis.infoOnly,options:(provider.modemAxis.options||[]).map(p=>({...p,bullets:[...(p.bullets||[])]}))};
-  return copy;
-}
-function defaultEditableCatalog(){return {schemaVersion:1,providers:DEFAULT_PROVIDERS.map(plainProvider),promotions:[]};}
 function validEditableCatalog(catalog){return Array.isArray(catalog?.providers)&&catalog.providers.length>0;}
 function materializeProvider(record){
   const base=DEFAULT_PROVIDERS.find(p=>p.id===record.id)||{};
   const result={...base,...record,categories:[...(record.categories||[])],archived:!!record.archived};
-  if(record.plans) result.plans=record.plans.filter(p=>!p.archived).map(p=>({...p,bullets:[...(p.bullets||[])]}));
-  if(record.planA) result.planA={...record.planA,options:(record.planA.options||[]).filter(p=>!p.archived).map(p=>({...p,bullets:[...(p.bullets||[])]}))};
-  if(record.planB) result.planB={...record.planB,options:(record.planB.options||[]).filter(p=>!p.archived).map(p=>({...p,bullets:[...(p.bullets||[])]}))};
-  if(record.modemAxis){
-    result.modemAxis={...base.modemAxis,...record.modemAxis,options:(record.modemAxis.options||[]).filter(p=>!p.archived).map(p=>({...p,bullets:[...(p.bullets||[])]})),appliesTo:base.modemAxis?.appliesTo||(()=>true)};
-  }
+  if(record.plans)result.plans=record.plans.filter(p=>!p.archived).map(p=>({...p,bullets:[...(p.bullets||[])]}));
+  if(record.planA)result.planA={...base.planA,...record.planA,options:(record.planA.options||[]).filter(p=>!p.archived).map(p=>({...p,bullets:[...(p.bullets||[])]}))};
+  if(record.planB)result.planB={...base.planB,...record.planB,options:(record.planB.options||[]).filter(p=>!p.archived).map(p=>({...p,bullets:[...(p.bullets||[])]}))};
+  if(record.modemAxis)result.modemAxis={...base.modemAxis,...record.modemAxis,options:(record.modemAxis.options||[]).filter(p=>!p.archived).map(p=>({...p,bullets:[...(p.bullets||[])]})),appliesTo:base.modemAxis?.appliesTo||(()=>true)};
   return result;
 }
-function applyCatalog(catalog){
-  if(!catalog?.providers?.length)return;
+function applyPublishedCatalog(catalog){
+  if(!validEditableCatalog(catalog))return;
   const promotions=Array.isArray(catalog.promotions)?catalog.promotions:[];
   PROVIDERS=catalog.providers.filter(p=>!p.archived).map(materializeProvider).map(provider=>{
-    const activePromotions=promotions.filter(p=>p.providerId===provider.id&&promotionIsActive(p)).sort((a,b)=>b.startDate.localeCompare(a.startDate));
-    if(!activePromotions.length)return provider;
-    const active=activePromotions[0];
+    const active=promotions.filter(p=>p.providerId===provider.id&&promotionIsActive(p)).sort((a,b)=>b.startDate.localeCompare(a.startDate));
+    if(!active.length)return provider;
     const next={...provider};
-    if(active.headline)next.headline=active.headline;
-    const days=promotionDaysLeft(active.endDate);
-    next.validity=`<span data-catalog-promotion="true">${active.name||'Promotion'} · Ends ${active.endDate.split('-').reverse().join('/')} <span class="countdown-badge pulse">${days===0?'Ends today':`Ends in ${days} day${days===1?'':'s'}`}</span></span>`;
-    const summaries=activePromotions.filter(p=>p.customerSummary).map(p=>`<div class="consent-block"><strong>${escapeHtml(p.name||'Current promotion')}</strong><br>${escapeHtml(p.customerSummary).replace(/\n/g,'<br>')}</div>`).join('');
+    if(active[0].headline)next.headline=active[0].headline;
+    const days=promotionDaysLeft(active[0].endDate);
+    next.validity=`<span>${active[0].name||'Promotion'} · Ends ${active[0].endDate.split('-').reverse().join('/')} · ${days===0?'Ends today':`Ends in ${days} day${days===1?'':'s'}`}</span>`;
+    const summaries=active.filter(p=>p.customerSummary).map(p=>`<div class="consent-block"><strong>${escapeHtml(p.name||'Current promotion')}</strong><br>${escapeHtml(p.customerSummary).replace(/\n/g,'<br>')}</div>`).join('');
     if(summaries)next.details=`${summaries}${next.details||''}`;
-    for(const promotion of [...activePromotions].reverse()){
-      if(!promotion.planId||!(promotion.replacementPlanLabel||promotion.promotionalMonthlyPrice!=null||promotion.customerSummary))continue;
-      const promote=plan=>plan.id===promotion.planId?{...plan,label:promotion.replacementPlanLabel||plan.label,monthlyPrice:promotion.promotionalMonthlyPrice??plan.monthlyPrice,benefit:promotion.customerSummary||plan.benefit}:plan;
-      if(next.plans)next.plans=next.plans.map(promote);
-      if(next.planA)next.planA={...next.planA,options:next.planA.options.map(promote)};
-      if(next.planB)next.planB={...next.planB,options:next.planB.options.map(promote)};
+    for(const promo of [...active].reverse()){
+      if(!promo.planId)continue;
+      const update=plan=>plan.id===promo.planId?{...plan,label:promo.replacementPlanLabel||plan.label,monthlyPrice:promo.promotionalMonthlyPrice??plan.monthlyPrice,benefit:promo.customerSummary||plan.benefit}:plan;
+      if(next.plans)next.plans=next.plans.map(update);
+      if(next.planA)next.planA={...next.planA,options:next.planA.options.map(update)};
+      if(next.planB)next.planB={...next.planB,options:next.planB.options.map(update)};
     }
     return next;
   });
 }
 async function loadPublishedProviderCatalog(){
-  try{
-    const response=await fetch('/.netlify/functions/provider-catalog',{headers:{accept:'application/json'}});
-    if(!response.ok)return;
-    const data=await response.json();
-    providerCatalogRevision=Number(data.revision||0);
-    providerCatalogPublished=validEditableCatalog(data.catalog)?data.catalog:null;
-    if(providerCatalogPublished)applyCatalog(providerCatalogPublished);
-  }catch(error){console.warn('Using the built-in provider catalogue.',error);}
+  try{const response=await fetch('/.netlify/functions/provider-catalog',{headers:{accept:'application/json'}});if(!response.ok)return;const data=await response.json();if(validEditableCatalog(data.catalog)){applyPublishedCatalog(data.catalog);render();}}
+  catch(error){console.warn('Using the built-in provider catalogue.',error);}
 }
 
 const grid = document.getElementById('grid');
@@ -1740,7 +1660,6 @@ function hideSelectPlanHint(providerId){
 function render(){
   grid.innerHTML = '';
   const visible = PROVIDERS.filter(p=>{
-    if(p.archived)return false;
     const catOk = activeCat==='all' || p.categories.includes(activeCat);
     const termOk = !openTermOnly || p.termType==='open';
     return catOk && termOk;
@@ -1794,7 +1713,7 @@ function render(){
       const [existFlat, existC] = existingPlanId ? existingPlanId.split('+') : [null, null];
       planSelectHtml = `
         <select class="plan-select" data-provider-id="${p.id}">
-          ${p.plans.filter(pl=>!pl.archived).map(pl => `<option value="${pl.id}" ${existFlat===pl.id ? 'selected' : ''}>${pl.label}</option>`).join('')}
+          ${p.plans.map(pl => `<option value="${pl.id}" ${existFlat===pl.id ? 'selected' : ''}>${pl.label}</option>`).join('')}
         </select>`;
       if(p.modemAxis){
         const curFlat = existFlat || p.plans[0].id;
@@ -1940,7 +1859,8 @@ function render(){
 // "Ends in X days" but can be overridden per-element with data-countdown-label,
 // e.g. data-countdown-label="Price rises" → "Price rises in 3 days".
 function applyExpiries(){
-  const today = nzDateKey();
+  const now = new Date();
+  const today = now.toISOString().slice(0,10);
 
   document.querySelectorAll('[data-expires]').forEach(el=>{
     const exp = el.dataset.expires;
@@ -1948,7 +1868,8 @@ function applyExpiries(){
       el.style.display = 'none';
       return;
     }
-    const daysLeft = Math.max(0,calendarDayNumber(exp)-calendarDayNumber(today));
+    const expDate = new Date(exp+'T23:59:59');
+    const daysLeft = Math.ceil((expDate - now) / 86400000);
     if(daysLeft <= 7){
       const label = el.dataset.countdownLabel || 'Ends';
       const badge = document.createElement('span');
@@ -2977,7 +2898,7 @@ function enterAgentViewFromUser(user){
   document.getElementById('agentNameLabel').textContent=currentAgent;
   document.getElementById('agentAvatar').textContent=agentInitials(currentAgent);
   document.getElementById('agentRoleLabel').textContent=currentAgentEmail;
-  if(isPrimaryAdmin()) document.getElementById('agentProviderUpdatesTab').style.display='';
+  document.getElementById('agentProviderUpdatesTab').style.display=isCurrentAdmin()?'':'none';
   document.getElementById('adminPanel').style.display='none';
   customerShell.classList.add('agent-hidden');
   agentShell.classList.add('show');
@@ -2987,8 +2908,8 @@ function enterAgentViewFromUser(user){
   updateDailySalesMessage();
   try{localStorage.setItem(LAST_ACTIVITY_KEY,String(Date.now()));}catch(e){}
   scheduleInactivityLogout();
-  showAgentTab('comparison');
-  loadProviderAdminAccess();
+  const requestedView=new URLSearchParams(window.location.search).get('view');
+  showAgentTab(['products','suggestions','me'].includes(requestedView)?requestedView:'comparison');
   if(isPrimaryAdmin()) renderSuggestionList();
   checkGmailStatus();
   refreshAgentPreview();
@@ -3075,16 +2996,11 @@ function agentProviderPlanId(card){
   return '';
 }
 function broadbandAgentPlans(providerId){
+  if(AGENT_BROADBAND_PLANS[providerId]) return AGENT_BROADBAND_PLANS[providerId];
   const p=PROVIDERS.find(x=>x.id===providerId);
   if(!p) return [];
-  const toAgentPlan=x=>({label:x.label.replace(/\s+[—-]\s+\$.*$/,''),price:x.monthlyPrice??(()=>{const m=x.label.match(/\$(\d+(?:\.\d+)?)/);return m?Number(m[1]):null;})(),benefit:x.benefit||''});
-  if(p.plans?.some(x=>x.monthlyPrice!=null)) return p.plans.filter(x=>x.category==='broadband'||p.categories?.includes('broadband')).map(toAgentPlan);
-  if(p.planA?.key==='internet'&&p.planA.options.some(x=>x.monthlyPrice!=null)) return p.planA.options.map(toAgentPlan);
-  if(p.planB?.key==='internet'&&p.planB.options.some(x=>x.monthlyPrice!=null)) return p.planB.options.map(toAgentPlan);
-  if(AGENT_BROADBAND_PLANS[providerId]) return AGENT_BROADBAND_PLANS[providerId];
-  if(p.plans) return p.plans.filter(x=>x.category==='broadband'||p.categories?.includes('broadband')).map(toAgentPlan);
-  if(p.planA && p.planA.key==='internet') return p.planA.options.map(toAgentPlan);
-  if(p.planB && p.planB.key==='internet') return p.planB.options.map(toAgentPlan);
+  if(p.plans) return p.plans.filter(x=>x.category==='broadband'||p.categories?.includes('broadband')).map(x=>({label:x.label.replace(/\s+[—-]\s+\$.*$/,''),price:(()=>{const m=x.label.match(/\$(\d+(?:\.\d+)?)/);return m?Number(m[1]):null;})()}));
+  if(p.planA && p.planA.key==='internet') return p.planA.options.map(x=>({label:x.label.replace(/\s+[—-]\s+\$.*$/,''),price:(()=>{const m=x.label.match(/\$(\d+(?:\.\d+)?)/);return m?Number(m[1]):null;})()}));
   return [];
 }
 function serviceOptionsHtml(providerId,current='power'){
@@ -3217,9 +3133,7 @@ function providerKeyInfo(provider, planLabel=''){
       'Endless calls and texts to standard NZ and Australia numbers on eligible plans'
     ]
   };
-  const allPlans=[...(provider.plans||[]),...(provider.planA?.options||[]),...(provider.planB?.options||[])];
-  const selected=planLabel?allPlans.find(plan=>plan.label===planLabel||planLabel.includes(plan.label)||plan.label.includes(planLabel)):null;
-  let items=[...(selected?.bullets||[]),...(selected?.benefit?[selected.benefit]:[]),...(common[provider.id]||[])];
+  let items=[...(common[provider.id]||[])];
   if(provider.id==='meridian' && /Night Saver/i.test(planLabel)) items.unshift('Lower night rates seven days a week — day 7am–9pm, night 9pm–7am');
   if(provider.id==='meridian' && /Freedom/i.test(planLabel)) items.unshift('Flat, low rate all day long');
   return items.join('\n');
@@ -4338,158 +4252,6 @@ agentShell.appendChild(agentSuggestionsContent);
   if(panel) agentSuggestionsContent.appendChild(panel);
 });
 
-let providerAdminCanEdit=false;
-let providerAdminIsPrimary=false;
-let providerAdminCatalog=null;
-let providerAdminSelected='';
-let providerAdminEditors=[];
-
-function providerSlug(value){return String(value||'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');}
-function providerField(value=''){return escapeHtml(String(value??''));}
-function providerOptionSections(provider){
-  const sections=[];
-  if(provider.plans)sections.push({key:'plans',label:'Plans',options:provider.plans});
-  if(provider.planA)sections.push({key:'planA',label:provider.planA.label||'Primary options',options:provider.planA.options||[]});
-  if(provider.planB)sections.push({key:'planB',label:provider.planB.label||'Secondary options',options:provider.planB.options||[]});
-  if(provider.modemAxis)sections.push({key:'modemAxis',label:provider.modemAxis.label||'Modem options',options:provider.modemAxis.options||[]});
-  return sections;
-}
-function providerSectionOptions(provider,key){return key==='plans'?provider.plans:(provider[key]?.options||[]);}
-function activePromotionFor(providerId){return (providerAdminCatalog?.promotions||[]).filter(p=>p.providerId===providerId&&promotionIsActive(p)).sort((a,b)=>b.startDate.localeCompare(a.startDate))[0]||null;}
-function providerAdminSetStatus(message,error=false){const el=document.getElementById('providerAdminStatus');if(el){el.textContent=message;el.style.color=error?'#b8431f':'var(--ink-soft)';}}
-function renderProviderAdminList(){
-  const list=document.getElementById('providerAdminList');if(!list||!providerAdminCatalog)return;
-  const today=nzDateKey(),promotions=providerAdminCatalog.promotions||[];
-  const active=promotions.filter(p=>promotionIsActive(p)).length;
-  const upcoming=promotions.filter(p=>!p.archived&&p.startDate>today).length;
-  const endingSoon=promotions.filter(p=>promotionIsActive(p)&&promotionDaysLeft(p.endDate)<=7).length;
-  const archived=providerAdminCatalog.providers.filter(p=>p.archived).length;
-  const metrics=document.getElementById('providerAdminMetrics');if(metrics)metrics.innerHTML=[[active,'Active promotions'],[upcoming,'Upcoming'],[endingSoon,'Ending in 7 days'],[archived,'Archived providers']].map(([value,label])=>`<div class="provider-admin-metric"><strong>${value}</strong><span>${label}</span></div>`).join('');
-  list.innerHTML=providerAdminCatalog.providers.map(provider=>{
-    const active=activePromotionFor(provider.id);
-    return `<button type="button" class="provider-admin-item ${provider.id===providerAdminSelected?'on':''}" data-provider-select="${providerField(provider.id)}"><span>${providerField(provider.name)}<small>${providerField((provider.categories||[]).join(' · '))}</small></span><span class="provider-admin-badge">${provider.archived?'Archived':active?'Promo live':'Standard'}</span></button>`;
-  }).join('');
-}
-function providerOptionRow(option,section,index){
-  return `<div class="provider-plan-row" data-option-row="${section}:${index}"><div class="provider-row-head"><strong>${providerField(option.label||`Option ${index+1}`)}</strong><button type="button" class="provider-mini-button" data-option-archive="${section}:${index}">${option.archived?'Restore':'Archive'}</button></div><div class="agent-form-grid"><div class="agent-field"><label>Option ID</label><input data-option-field="${section}:${index}:id" value="${providerField(option.id)}"></div><div class="agent-field"><label>Plan name / display label <span class="required-mark">*</span></label><input data-option-field="${section}:${index}:label" value="${providerField(option.label)}"></div><div class="agent-field"><label>Monthly price ($)</label><input type="number" min="0" step="0.01" data-option-field="${section}:${index}:monthlyPrice" value="${option.monthlyPrice??''}"></div><div class="agent-field"><label>Standard benefit / offer</label><input data-option-field="${section}:${index}:benefit" value="${providerField(option.benefit)}"></div><div class="agent-field full"><label>Plan points — one per line</label><textarea data-option-field="${section}:${index}:bullets" style="min-height:82px;">${providerField((option.bullets||[]).join('\n'))}</textarea></div></div></div>`;
-}
-function providerPromotionRow(promo,index,provider){
-  const planOptions=providerOptionSections(provider).flatMap(section=>section.options.map(p=>({...p,section:section.label}))).map(p=>`<option value="${providerField(p.id)}" ${p.id===promo.planId?'selected':''}>${providerField(p.section)} — ${providerField(p.label)}</option>`).join('');
-  const live=promotionIsActive(promo);
-  return `<div class="provider-promo-row"><div class="provider-row-head"><strong>${providerField(promo.name||`Promotion ${index+1}`)} ${live?'<span class="provider-promo-active">Live now</span>':''}</strong><button type="button" class="provider-mini-button" data-promo-archive="${index}">${promo.archived?'Restore':'Archive'}</button></div><div class="agent-form-grid"><div class="agent-field"><label>Promotion name <span class="required-mark">*</span></label><input data-promo-field="${index}:name" value="${providerField(promo.name)}"></div><div class="agent-field"><label>Plan (optional)</label><select data-promo-field="${index}:planId"><option value="">Whole provider</option>${planOptions}</select></div><div class="agent-field"><label>Starts — NZ date <span class="required-mark">*</span></label><input type="date" data-promo-field="${index}:startDate" value="${providerField(promo.startDate)}"></div><div class="agent-field"><label>Ends — NZ date <span class="required-mark">*</span></label><input type="date" data-promo-field="${index}:endDate" value="${providerField(promo.endDate)}"></div><div class="agent-field"><label>Promotional monthly price ($)</label><input type="number" min="0" step="0.01" data-promo-field="${index}:promotionalMonthlyPrice" value="${promo.promotionalMonthlyPrice??''}"></div><div class="agent-field"><label>Replacement plan label (optional)</label><input data-promo-field="${index}:replacementPlanLabel" value="${providerField(promo.replacementPlanLabel)}"></div><div class="agent-field full"><label>Promotional headline</label><input data-promo-field="${index}:headline" value="${providerField(promo.headline)}" placeholder="e.g. $15 off each month for 12 months"></div><div class="agent-field full"><label>Customer-facing promotion details</label><textarea data-promo-field="${index}:customerSummary" style="min-height:80px;">${providerField(promo.customerSummary)}</textarea></div><div class="agent-field full"><label>Internal agent notes</label><textarea data-promo-field="${index}:agentNotes" style="min-height:65px;">${providerField(promo.agentNotes)}</textarea></div></div></div>`;
-}
-function renderProviderAdminEditor(){
-  const editor=document.getElementById('providerAdminEditor');if(!editor||!providerAdminCatalog)return;
-  const provider=providerAdminCatalog.providers.find(p=>p.id===providerAdminSelected);
-  if(!provider){editor.innerHTML='<div class="provider-admin-empty">Select a provider to start editing.</div>';return;}
-  const categories=['power','gas','broadband','mobile','bundle'];
-  const sections=providerOptionSections(provider).map(section=>`<div class="provider-admin-section"><div class="provider-row-head"><h3 style="margin:0;">${providerField(section.label)}</h3><button type="button" class="provider-mini-button" data-add-option="${section.key}">+ Add option</button></div>${section.options.map((option,index)=>providerOptionRow(option,section.key,index)).join('')||'<div class="prototype-note">No options added yet.</div>'}</div>`).join('');
-  const promotions=(providerAdminCatalog.promotions||[]).map((p,index)=>({p,index})).filter(x=>x.p.providerId===provider.id);
-  const active=activePromotionFor(provider.id);
-  editor.innerHTML=`<div class="provider-preview-card"><span class="provider-admin-badge">Live preview</span><h3>${providerField(provider.name||'New provider')}</h3><div class="provider-preview-headline">${providerField(active?.headline||provider.headline||'Add a headline')}</div><div class="prototype-note" style="margin-top:5px;">${providerField(active?`${active.name} · ${active.startDate} to ${active.endDate}`:(provider.validity||'Add validity wording'))}</div></div><div class="provider-admin-section"><div class="provider-row-head"><h3 style="margin:0;">Provider details</h3><button type="button" class="provider-mini-button" id="providerArchive">${provider.archived?'Restore provider':'Archive provider'}</button></div><div class="agent-form-grid"><div class="agent-field"><label>Provider name <span class="required-mark">*</span></label><input data-provider-field="name" value="${providerField(provider.name)}"></div><div class="agent-field"><label>Provider ID <span class="required-mark">*</span></label><input data-provider-field="id" value="${providerField(provider.id)}"></div><div class="agent-field"><label>Badge initials</label><input data-provider-field="initials" value="${providerField(provider.initials)}"></div><div class="agent-field"><label>Brand colour</label><input type="color" data-provider-field="color" value="${providerField(provider.color||'#4A1942')}"></div><div class="agent-field"><label>Contract term</label><input data-provider-field="term" value="${providerField(provider.term)}"></div><div class="agent-field"><label>Term type</label><select data-provider-field="termType"><option value="open" ${provider.termType==='open'?'selected':''}>Open term</option><option value="fixed" ${provider.termType==='fixed'?'selected':''}>Fixed term</option><option value="mixed" ${provider.termType==='mixed'?'selected':''}>Mixed terms</option></select></div><div class="agent-field full"><label>Services <span class="required-mark">*</span></label><div class="provider-admin-checks">${categories.map(cat=>`<label><input type="checkbox" data-provider-category="${cat}" ${(provider.categories||[]).includes(cat)?'checked':''}> ${cat}</label>`).join('')}</div></div><div class="agent-field full"><div class="provider-admin-checks"><label><input type="checkbox" data-provider-bool="recommended" ${provider.recommended?'checked':''}> Recommended</label><label><input type="checkbox" data-provider-bool="exclusive" ${provider.exclusive?'checked':''}> Renti exclusive</label></div></div><div class="agent-field full"><label>Standard headline</label><input data-provider-field="headline" value="${providerField(provider.headline)}"></div><div class="agent-field full"><label>Standard validity wording</label><input data-provider-field="validity" value="${providerField(provider.validity)}"></div><div class="agent-field full"><label>Full product details (simple HTML allowed)</label><textarea data-provider-field="details" style="min-height:180px;">${providerField(provider.details)}</textarea></div></div></div>${sections}<div class="provider-admin-section"><div class="provider-row-head"><h3 style="margin:0;">Scheduled promotions</h3><button type="button" class="provider-mini-button" id="providerAddPromotion">+ Add promotion</button></div><p class="prototype-note">Dates use Pacific/Auckland time, including New Zealand daylight saving. The standard plan automatically returns after the end date.</p>${promotions.map(x=>providerPromotionRow(x.p,x.index,provider)).join('')||'<div class="prototype-note">No promotions scheduled for this provider.</div>'}</div>`;
-}
-function renderProviderAdmin(){renderProviderAdminList();renderProviderAdminEditor();}
-function selectedProviderRecord(){return providerAdminCatalog?.providers?.find(p=>p.id===providerAdminSelected)||null;}
-function updateProviderPreviewSoon(){window.clearTimeout(updateProviderPreviewSoon.timer);updateProviderPreviewSoon.timer=window.setTimeout(()=>{renderProviderAdminList();providerAdminSetStatus('Unsaved changes');},180);}
-function providerAdminInput(event){
-  const provider=selectedProviderRecord();if(!provider)return;
-  const target=event.target;
-  if(target.dataset.providerField){const oldId=provider.id;provider[target.dataset.providerField]=target.value;if(target.dataset.providerField==='id'){provider.id=providerSlug(target.value);(providerAdminCatalog.promotions||[]).filter(p=>p.providerId===oldId).forEach(p=>p.providerId=provider.id);providerAdminSelected=provider.id;}updateProviderPreviewSoon();return;}
-  if(target.dataset.providerBool){provider[target.dataset.providerBool]=target.checked;updateProviderPreviewSoon();return;}
-  if(target.dataset.providerCategory){provider.categories=provider.categories||[];provider.categories=target.checked?[...new Set([...provider.categories,target.dataset.providerCategory])]:provider.categories.filter(x=>x!==target.dataset.providerCategory);updateProviderPreviewSoon();return;}
-  if(target.dataset.optionField){const [section,index,field]=target.dataset.optionField.split(':');const option=providerSectionOptions(provider,section)?.[Number(index)];if(!option)return;option[field]=field==='bullets'?target.value.split('\n').map(x=>x.trim()).filter(Boolean):(field==='monthlyPrice'?(target.value===''?null:Number(target.value)):target.value);if(field==='id')option.id=providerSlug(option.id);providerAdminSetStatus('Unsaved changes');return;}
-  if(target.dataset.promoField){const [index,field]=target.dataset.promoField.split(':');const promo=providerAdminCatalog.promotions[Number(index)];if(!promo)return;promo[field]=field==='promotionalMonthlyPrice'?(target.value===''?null:Number(target.value)):target.value;providerAdminSetStatus('Unsaved changes');}
-}
-function providerAdminClick(event){
-  const button=event.target.closest('button');if(!button)return;
-  if(button.dataset.providerSelect){providerAdminSelected=button.dataset.providerSelect;renderProviderAdmin();return;}
-  const provider=selectedProviderRecord();
-  if(button.id==='providerArchive'&&provider){provider.archived=!provider.archived;renderProviderAdmin();providerAdminSetStatus('Unsaved changes');return;}
-  if(button.dataset.addOption&&provider){const section=button.dataset.addOption;const options=providerSectionOptions(provider,section);if(options){options.push({id:`new-option-${options.length+1}`,label:'New plan',bullets:[],archived:false});renderProviderAdmin();providerAdminSetStatus('Unsaved changes');}return;}
-  if(button.dataset.optionArchive&&provider){const [section,index]=button.dataset.optionArchive.split(':');const option=providerSectionOptions(provider,section)?.[Number(index)];if(option){option.archived=!option.archived;renderProviderAdmin();providerAdminSetStatus('Unsaved changes');}return;}
-  if(button.id==='providerAddPromotion'&&provider){providerAdminCatalog.promotions.push({id:`${provider.id}-promo-${Date.now()}`,providerId:provider.id,planId:'',name:'New promotion',headline:'',customerSummary:'',agentNotes:'',replacementPlanLabel:'',promotionalMonthlyPrice:null,startDate:nzDateKey(),endDate:nzDateKey(),archived:false});renderProviderAdmin();providerAdminSetStatus('Unsaved changes');return;}
-  if(button.dataset.promoArchive!==undefined){const promo=providerAdminCatalog.promotions[Number(button.dataset.promoArchive)];if(promo){promo.archived=!promo.archived;renderProviderAdmin();providerAdminSetStatus('Unsaved changes');}}
-}
-function validateProviderAdminCatalog(){
-  if(!providerAdminCatalog?.providers?.length)return 'Add at least one provider.';
-  const ids=new Set();
-  for(const provider of providerAdminCatalog.providers){if(!provider.name?.trim())return 'Every provider needs a name.';if(!provider.id?.trim())return `${provider.name} needs a provider ID.`;if(ids.has(provider.id))return `Provider ID “${provider.id}” is used more than once.`;ids.add(provider.id);if(!provider.categories?.length)return `${provider.name} needs at least one service.`;}
-  for(const promo of providerAdminCatalog.promotions||[]){if(!promo.name?.trim())return 'Every promotion needs a name.';if(!promo.startDate||!promo.endDate)return `${promo.name} needs a start and end date.`;if(promo.endDate<promo.startDate)return `${promo.name} ends before it starts.`;}
-  return '';
-}
-function ensurePrimaryProviderAdminReady(){
-  if(!isPrimaryAdmin())return false;
-  providerAdminCanEdit=true;
-  providerAdminIsPrimary=true;
-  document.getElementById('agentProviderUpdatesTab').style.display='';
-  if(!validEditableCatalog(providerAdminCatalog))providerAdminCatalog=structuredClone(validEditableCatalog(providerCatalogPublished)?providerCatalogPublished:defaultEditableCatalog());
-  if(!Array.isArray(providerAdminCatalog.promotions))providerAdminCatalog.promotions=[];
-  providerAdminSelected=providerAdminCatalog.providers.find(p=>p.id===providerAdminSelected)?.id||providerAdminCatalog.providers.find(p=>!p.archived)?.id||providerAdminCatalog.providers[0]?.id||'';
-  renderProviderAdmin();
-  return true;
-}
-async function saveProviderAdmin(action){
-  const problem=validateProviderAdminCatalog();if(problem){providerAdminSetStatus(problem,true);return;}
-  const button=document.getElementById(action==='publish'?'providerPublish':'providerSaveDraft');const old=button.textContent;button.disabled=true;button.textContent=action==='publish'?'Publishing…':'Saving…';
-  try{const response=await fetch('/.netlify/functions/manage-provider-catalog',{method:'POST',credentials:'include',headers:{'content-type':'application/json'},body:JSON.stringify({action,catalog:providerAdminCatalog,expectedRevision:providerCatalogRevision})});const data=await readFunctionJson(response,'Provider update service');if(!response.ok)throw new Error(data.error||'Could not save provider updates.');if(action==='publish'){providerCatalogRevision=data.published.revision;providerCatalogPublished=data.published.catalog;applyCatalog(providerCatalogPublished);render();providerAdminSetStatus(`Published in New Zealand time by ${currentAgent}.`);}else providerAdminSetStatus('Draft saved. Only authorised editors can see it.');}
-  catch(error){providerAdminSetStatus(error.message,true);}finally{button.disabled=false;button.textContent=old;}
-}
-async function loadProviderPermissions(){
-  if(!providerAdminIsPrimary)return;
-  const wrap=document.getElementById('providerPermissions');wrap.style.display='block';
-  try{const response=await fetch('/.netlify/functions/list-agents',{credentials:'include'});const data=await readFunctionJson(response,'Agent service');if(!response.ok)throw new Error(data.error||'Could not load admins.');const admins=(data.users||[]).filter(user=>user.roles?.includes('admin')&&user.email.toLowerCase()!==SONTARY_ADMIN_EMAIL);document.getElementById('providerPermissionList').innerHTML=admins.map(user=>`<label class="provider-permission-row"><span>${providerField(user.name||user.email)}<small style="display:block;color:var(--ink-soft);">${providerField(user.email)}</small></span><input type="checkbox" data-provider-editor="${providerField(user.email.toLowerCase())}" ${providerAdminEditors.includes(user.email.toLowerCase())?'checked':''}></label>`).join('')||'<div class="prototype-note">No other admins are currently available.</div>';}
-  catch(error){document.getElementById('providerPermissionList').innerHTML=`<div class="prototype-note">${providerField(error.message)}</div>`;}
-}
-async function saveProviderPermissions(){
-  const editors=[...document.querySelectorAll('[data-provider-editor]:checked')].map(x=>x.dataset.providerEditor);
-  try{const response=await fetch('/.netlify/functions/manage-provider-catalog',{method:'POST',credentials:'include',headers:{'content-type':'application/json'},body:JSON.stringify({action:'access',editors})});const data=await readFunctionJson(response,'Provider permission service');if(!response.ok)throw new Error(data.error||'Could not update permissions.');providerAdminEditors=data.editors||[];providerAdminSetStatus('Editing permissions updated.');}catch(error){providerAdminSetStatus(error.message,true);}
-}
-async function loadProviderAdminAccess(){
-  const primary=isPrimaryAdmin();
-  if(primary){
-    ensurePrimaryProviderAdminReady();
-    providerAdminSetStatus('Existing providers loaded. Checking the shared catalogue…');
-  }
-  const initialSnapshot=primary?JSON.stringify(providerAdminCatalog):'';
-  const controller=new AbortController();
-  const timer=window.setTimeout(()=>controller.abort(),8000);
-  try{
-    const response=await fetch('/.netlify/functions/manage-provider-catalog',{credentials:'include',signal:controller.signal});
-    const data=await readFunctionJson(response,'Provider update service');
-    if(!response.ok)throw new Error(data.error||'Could not check provider update access.');
-    providerAdminCanEdit=!!data.canEdit;
-    providerAdminIsPrimary=!!data.isPrimary;
-    document.getElementById('agentProviderUpdatesTab').style.display=providerAdminCanEdit?'':'none';
-    if(!providerAdminCanEdit)return;
-    providerAdminEditors=data.editors||[];
-    providerCatalogRevision=Number(data.revision??data.published?.revision??providerCatalogRevision??0);
-    const storedCatalog=[data.draft?.catalog,data.published?.catalog,providerCatalogPublished].find(validEditableCatalog);
-    const unchanged=!primary||JSON.stringify(providerAdminCatalog)===initialSnapshot;
-    if(unchanged){
-      providerAdminCatalog=structuredClone(storedCatalog||defaultEditableCatalog());
-      providerAdminSelected=providerAdminCatalog.providers.find(p=>p.id===providerAdminSelected)?.id||providerAdminCatalog.providers.find(p=>!p.archived)?.id||providerAdminCatalog.providers[0]?.id||'';
-      renderProviderAdmin();
-    }
-    if(!storedCatalog)providerAdminSetStatus('Existing providers restored. Review them, then publish once to repair the shared catalogue.',true);
-    else providerAdminSetStatus(data.draft&&data.draft.updatedAt!==data.published?.updatedAt?'Draft loaded':'Catalogue ready');
-    loadProviderPermissions();
-  }catch(error){
-    if(primary){
-      providerAdminSetStatus(error.name==='AbortError'?'Existing providers are ready. The shared catalogue service timed out; you can still review and add providers.':`Existing providers are ready. The shared catalogue service needs attention: ${error.message}`,true);
-    }else{
-      document.getElementById('agentProviderUpdatesTab').style.display='none';
-      console.warn(error);
-    }
-  }finally{window.clearTimeout(timer);}
-}
-
-document.getElementById('providerAdminContent').addEventListener('input',providerAdminInput);
-document.getElementById('providerAdminContent').addEventListener('change',event=>{providerAdminInput(event);if(event.target.matches('[data-provider-editor]'))saveProviderPermissions();});
-document.getElementById('providerAdminContent').addEventListener('click',providerAdminClick);
-document.getElementById('providerAdd').addEventListener('click',()=>{if(!validEditableCatalog(providerAdminCatalog))providerAdminCatalog=structuredClone(defaultEditableCatalog());if(!Array.isArray(providerAdminCatalog.promotions))providerAdminCatalog.promotions=[];const id=`new-provider-${Date.now()}`;providerAdminCatalog.providers.push({id,name:'New provider',color:'#4A1942',initials:'NEW',categories:['power'],recommended:false,exclusive:false,term:'Open term',termType:'open',validity:'Valid until further notice',headline:'Add the plan headline',details:'<h4>Plan details</h4><ul><li>Add product information</li></ul>',archived:false,plans:[]});providerAdminSelected=id;renderProviderAdmin();providerAdminSetStatus('New provider added — complete the details, then save a draft or publish.');});
-document.getElementById('providerSaveDraft').addEventListener('click',()=>saveProviderAdmin('draft'));
-document.getElementById('providerPublish').addEventListener('click',()=>saveProviderAdmin('publish'));
-
 // The public Products shell sits before the agent shell in the original document.
 // Move the agent shell above it once so the signed-in navigation always stays at the top.
 if(customerShell && agentShell && customerShell.parentNode){
@@ -4505,17 +4267,14 @@ function showAgentTab(tab){
   const admin=document.getElementById('adminPanel');
   const suggestionSubmit=document.getElementById('suggestionSubmitPanel');
   const suggestionAdmin=document.getElementById('suggestionAdminPanel');
-  const providerAdmin=document.getElementById('providerAdminContent');
   const isAdmin=isCurrentAdmin();
   const isPrimary=isPrimaryAdmin();
-  if(tab==='provider-updates'&&isPrimary)ensurePrimaryProviderAdminReady();
   document.body.classList.toggle('agent-products-open',tab==='products');
   agentShell.classList.toggle('products-mode',tab==='products');
   comparisonHero.style.display=tab==='comparison'?'':'none';
   comparisonGrid.style.display=tab==='comparison'?'grid':'none';
   agentMeContent.classList.toggle('show',tab==='me');
   agentSuggestionsContent.classList.toggle('show',tab==='suggestions');
-  providerAdmin.classList.toggle('show',tab==='provider-updates');
   agentSuggestionsContent.classList.toggle('single',!isPrimary);
   profile.style.display=tab==='me'?'block':'none';
   gmail.style.display=tab==='me'?'block':'none';
@@ -4537,7 +4296,7 @@ function showAgentTab(tab){
     configureSuggestionComposer();
     if(isPrimary) renderSuggestionList();
   }
-  [['agentComparisonTab','comparison'],['agentProductsTab','products'],['agentProviderUpdatesTab','provider-updates'],['agentSuggestionsTab','suggestions'],['agentMeTab','me']].forEach(([id,key])=>{
+  [['agentComparisonTab','comparison'],['agentProductsTab','products'],['agentSuggestionsTab','suggestions'],['agentMeTab','me']].forEach(([id,key])=>{
     const b=document.getElementById(id); b.classList.toggle('primary',tab===key);
   });
   window.scrollTo({top:0,behavior:'smooth'});
@@ -4545,7 +4304,10 @@ function showAgentTab(tab){
 
 document.getElementById('agentComparisonTab').addEventListener('click',()=>showAgentTab('comparison'));
 document.getElementById('agentProductsTab').addEventListener('click',()=>showAgentTab('products'));
-document.getElementById('agentProviderUpdatesTab').addEventListener('click',()=>{showAgentTab('provider-updates');loadProviderAdminAccess();});
+document.getElementById('agentProviderUpdatesTab').addEventListener('click',()=>{
+  try{sessionStorage.setItem('rentiProviderDefaults',JSON.stringify(PROVIDERS));}catch(error){console.warn('Could not prepare provider defaults',error);}
+  window.location.href='/provider-updates.html';
+});
 document.getElementById('agentSuggestionsTab').addEventListener('click',()=>showAgentTab('suggestions'));
 document.getElementById('agentMeTab').addEventListener('click',()=>showAgentTab('me'));
 
@@ -4856,7 +4618,8 @@ document.getElementById('resetPreviewBtn').addEventListener('click',()=>{
 
 
 
-loadPublishedProviderCatalog().finally(render);
+render();
+loadPublishedProviderCatalog();
 </script>
 <script type="module">
 import { getUser, oauthLogin, handleAuthCallback, logout, onAuthChange } from 'https://esm.sh/@netlify/identity@2.0.0';
