@@ -912,7 +912,7 @@
         <p class="panel-sub">Choose what the customer should receive. Gmail sending and thread lookup are shown here as the next integration step.</p>
         <div id="comparisonValidation" class="validation-box" style="display:none;"></div>
         <div class="agent-field" style="margin-bottom:12px;"><label>Email type</label>
-          <select id="agEmailType"><option value="full">Full comparison — rates + product details</option><option value="products">Product details only — no rate calculation</option><option value="setup">Free utility setup — provider offers (no rates)</option></select>
+          <select id="agEmailType" required><option value="" selected>Select an email type</option><option value="full">Full comparison — rates + product details</option><option value="products">Product details only — no rate calculation</option><option value="setup">General Proposal</option></select>
         </div>
         <div class="agent-field" style="margin-bottom:12px;"><label>Subject line <span class="required-mark">*</span></label><input id="agSubject" value="Your Renti utility comparison"></div>
         <div class="agent-field" id="priorityEditor" style="margin-bottom:12px;"><label>What matters most to this customer?</label><select id="agPriority"><option value="overall">Best overall value</option><option value="cost">Lowest estimated cost</option><option value="service">Customer service</option><option value="flexibility">Flexibility / no fixed term</option><option value="speed">Speed / performance</option><option value="sustainability">Sustainability</option></select><div class="prototype-note">This guides the suggested commentary. The agent can edit it before sending.</div></div>
@@ -1609,6 +1609,27 @@ function materializeProvider(record){
   }
   return result;
 }
+const EXACT_PRICE_INFO={
+  'price-contact-100-goodnight':{old:64,heading:'Good Night Plan',marker:'Lite Fibre 100/20Mbps'},'price-contact-100-goodweekend':{old:64,heading:'Good Weekend Plan',marker:'Lite Fibre 100/20Mbps'},'price-contact-100-bbbundle':{old:59,heading:'Broadband Bundle Plan',marker:'Lite Fibre 100/20Mbps'},
+  'price-contact-500-goodnight':{old:90,heading:'Good Night Plan',marker:'Fibre 500/100Mbps'},'price-contact-500-goodweekend':{old:90,heading:'Good Weekend Plan',marker:'Fibre 500/100Mbps'},'price-contact-500-bbbundle':{old:85,heading:'Broadband Bundle Plan',marker:'Fibre 500/100Mbps'},
+  'price-contact-900-goodnight':{old:110,heading:'Good Night Plan',marker:'Fibre 900Mbps'},'price-contact-900-goodweekend':{old:110,heading:'Good Weekend Plan',marker:'Fibre 900Mbps'},'price-contact-900-bbbundle':{old:105,heading:'Broadband Bundle Plan',marker:'Fibre 900Mbps'},
+  'price-sky-bb-100':{old:60,heading:'Broadband only',marker:'100/20Mbps'},'price-sky-bb-500':{old:90,heading:'Broadband only',marker:'500/100Mbps'},'price-sky-bb-900':{old:105,heading:'Broadband only',marker:'900/500Mbps'},
+  'price-sky-tv-100':{old:135,heading:'Broadband + Sky TV bundle',marker:'100/20'},'price-sky-tv-500':{old:160,heading:'Broadband + Sky TV bundle',marker:'500/100'},'price-sky-tv-900':{old:165,heading:'Broadband + Sky TV bundle',marker:'900/500'},
+  'price-sky-existing-100':{old:55,heading:'Existing Sky TV customers',marker:'100/20Mbps'},'price-sky-existing-500':{old:80,heading:'Existing Sky TV customers',marker:'500/100Mbps'},'price-sky-existing-900':{old:85,heading:'Existing Sky TV customers',marker:'900/500Mbps'}
+  ,'price-pulse-fibre-lite-standard':{old:75,heading:'Broadband (bundled with power pricing shown)',marker:'Fibre Lite 50/10',planId:'fibre-lite'},'price-pulse-fibre-lite-byo':{old:70,heading:'Broadband (bundled with power pricing shown)',marker:'Fibre Lite 50/10'},
+  'price-pulse-fibre-everyday-standard':{old:99,heading:'Broadband (bundled with power pricing shown)',marker:'Everyday Fibre 500/100',planId:'fibre-everyday'},'price-pulse-fibre-everyday-byo':{old:94,heading:'Broadband (bundled with power pricing shown)',marker:'Everyday Fibre 500/100'},
+  'price-pulse-fibre-pro-standard':{old:116,heading:'Broadband (bundled with power pricing shown)',marker:'Fibre Pro 900/500',planId:'fibre-pro'},'price-pulse-fibre-pro-byo':{old:111,heading:'Broadband (bundled with power pricing shown)',marker:'Fibre Pro 900/500'}
+};
+function regexEscape(value){return String(value).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function replacePriceInDetail(html,heading,marker,oldPrice,newPrice){
+  const section=new RegExp(`(<h4[^>]*>\\s*${regexEscape(heading)}\\s*</h4>)([\\s\\S]*?)(?=<h4|$)`,'i');
+  return String(html||'').replace(section,(whole,title,body)=>title+body.replace(new RegExp(`(<li[^>]*>[\\s\\S]*?${regexEscape(marker)}[\\s\\S]*?)\\$${Number(oldPrice).toFixed(2).replace(/\.00$/,'')}(?![\\d.])([\\s\\S]*?</li>)`,'i'),(match,lineStart,lineEnd)=>`${lineStart}$${Number(newPrice).toFixed(2).replace(/\.00$/,'')}${lineEnd}`));
+}
+function replacePlanPriceInDetails(html,label,oldPrice,newPrice){
+  const plain=String(label||'').replace(/<[^>]*>/g,'').split(/\s+[—-]\s+\$/)[0],speed=plain.match(/\d+\/\d+(?:Mbps)?/i)?.[0],wireless=plain.match(/\b[45]G\b/i)?.[0],marker=speed||wireless||plain.split(/\s+/).filter(Boolean).pop();
+  if(!marker)return html;
+  return String(html||'').replace(new RegExp(`(<li[^>]*>[\\s\\S]*?${regexEscape(marker)}[\\s\\S]*?)\\$${Number(oldPrice).toFixed(2).replace(/\.00$/,'')}(?![\\d.])([\\s\\S]*?</li>)`,'i'),(match,lineStart,lineEnd)=>`${lineStart}$${Number(newPrice).toFixed(2).replace(/\.00$/,'')}${lineEnd}`);
+}
 function applyScheduledStandardChanges(record,changes){
   const result=structuredClone(record);
   const replaceEverywhere=(fromValue,toValue)=>{
@@ -1625,10 +1646,30 @@ function applyScheduledStandardChanges(record,changes){
   const updatePlan=(plan,change)=>{
     if(plan.id!==change.planId)return plan;
     const fields=change.planFields||{},next={...plan};
-    if(fields.monthlyPrice!==null&&fields.monthlyPrice!==undefined)next.monthlyPrice=fields.monthlyPrice;
+    if(fields.monthlyPrice!==null&&fields.monthlyPrice!==undefined){
+      const oldPrice=plan.monthlyPrice??Number(String(plan.label||'').match(/\$(\d+(?:\.\d+)?)/)?.[1]);
+      next.monthlyPrice=fields.monthlyPrice;
+      if(Number.isFinite(oldPrice)){
+        const replacement=`$${Number(fields.monthlyPrice).toFixed(2).replace(/\.00$/,'')}`;
+        const replacePrice=value=>String(value||'').replace(new RegExp(`\\$${Number(oldPrice).toFixed(2).replace(/\.00$/,'')}(?![\\d.])`),replacement);
+        next.label=replacePrice(plan.label);
+        next.bullets=(plan.bullets||[]).map(replacePrice);
+      }
+    }
     return next;
   };
   active.forEach(change=>{
+    const monthly=change.planFields?.monthlyPrice;
+    if(monthly!==null&&monthly!==undefined){
+      const exact=EXACT_PRICE_INFO[change.planId];
+      if(exact)result.details=replacePriceInDetail(result.details,exact.heading,exact.marker,result.priceOverrides?.[change.planId]??exact.old,monthly);
+      else{
+        const options=[...(result.plans||[]),...(result.planA?.options||[]),...(result.planB?.options||[]),...(result.modemAxis?.options||[])],target=options.find(plan=>plan.id===change.planId),old=target?.monthlyPrice??Number(String(target?.label||'').match(/\$(\d+(?:\.\d+)?)/)?.[1]);
+        if(target&&Number.isFinite(old))result.details=replacePlanPriceInDetails(result.details,target.label,old,monthly);
+      }
+      result.priceOverrides={...(result.priceOverrides||{}),[change.planId]:monthly};
+      if(exact?.planId){const exactChange={...change,planId:exact.planId};if(result.plans)result.plans=result.plans.map(plan=>updatePlan(plan,exactChange));if(result.planA)result.planA={...result.planA,options:(result.planA.options||[]).map(plan=>updatePlan(plan,exactChange))};if(result.planB)result.planB={...result.planB,options:(result.planB.options||[]).map(plan=>updatePlan(plan,exactChange))};}
+    }
     if(change.planId){
       if(result.plans)result.plans=result.plans.map(plan=>updatePlan(plan,change));
       if(result.planA)result.planA={...result.planA,options:(result.planA.options||[]).map(plan=>updatePlan(plan,change))};
@@ -1636,7 +1677,19 @@ function applyScheduledStandardChanges(record,changes){
       if(result.modemAxis)result.modemAxis={...result.modemAxis,options:(result.modemAxis.options||[]).map(plan=>updatePlan(plan,change))};
     }
     const pricing=change.standardPricing||{};result.standardPricing={...(result.standardPricing||{})};
-    if(pricing.lpgBottlePrice!==null&&pricing.lpgBottlePrice!==undefined){const oldBottle=result.standardPricing.lpgBottlePrice??(result.id==='genesis'?170:null);replaceEverywhere(oldBottle,pricing.lpgBottlePrice);if(result.id==='genesis'&&oldBottle!==null)replaceEverywhere(Math.max(0,Number(oldBottle)-15),Math.max(0,Number(pricing.lpgBottlePrice)-15));result.standardPricing.lpgBottlePrice=pricing.lpgBottlePrice;}
+    if(pricing.lpgBottlePrice!==null&&pricing.lpgBottlePrice!==undefined){
+      const planPrices={...(result.standardPricing.lpgBottlePrices||{})};
+      if(change.planId&&change.planId!=='lpg-pricing'){
+        const target=(result.plans||[]).find(plan=>plan.id===change.planId),match=String(target?.label||'').match(/\$(\d+(?:\.\d+)?)\s*\/\s*bottle/i),oldBottle=planPrices[change.planId]??(match?Number(match[1]):null);
+        if(oldBottle!==null)replaceEverywhere(oldBottle,pricing.lpgBottlePrice);
+        planPrices[change.planId]=pricing.lpgBottlePrice;
+        result.standardPricing.lpgBottlePrices=planPrices;
+      }else{
+        const oldBottle=result.standardPricing.lpgBottlePrice??(result.id==='genesis'?170:null);
+        replaceEverywhere(oldBottle,pricing.lpgBottlePrice);
+        result.standardPricing.lpgBottlePrice=pricing.lpgBottlePrice;
+      }
+    }
     if(pricing.lpgRentalMonthly!==null&&pricing.lpgRentalMonthly!==undefined){const oldRental=result.standardPricing.lpgRentalMonthly??(result.id==='genesis'?11.50:null);replaceEverywhere(oldRental,pricing.lpgRentalMonthly);result.standardPricing.lpgRentalMonthly=pricing.lpgRentalMonthly;}
   });
   return result;
@@ -3049,9 +3102,30 @@ function agentProviderPlanId(card){
   return '';
 }
 function broadbandAgentPlans(providerId){
-  if(AGENT_BROADBAND_PLANS[providerId]) return AGENT_BROADBAND_PLANS[providerId];
   const p=PROVIDERS.find(x=>x.id===providerId);
   if(!p) return [];
+  if(providerId==='electrickiwi')return (p.planB?.options||[]).filter(option=>option.id!=='none').map(option=>({label:String(option.label||'').replace(/\s+[—-]\s+\$.*$/,''),price:(option.monthlyPrice??Number(String(option.label||'').match(/\$(\d+(?:\.\d+)?)/)?.[1]))||null}));
+  if(AGENT_BROADBAND_PLANS[providerId]){
+    const options=[...(p.plans||[]),...(p.planA?.options||[]),...(p.planB?.options||[])];
+    const baseLabel=value=>String(value||'').replace(/\s+[—-]\s+\$.*$/,'').trim().toLowerCase();
+    return AGENT_BROADBAND_PLANS[providerId].map(item=>{
+      const current=options.find(option=>baseLabel(option.label)===baseLabel(item.label));
+      if(providerId==='contact'){
+        const speed=baseLabel(item.label).includes('100/20')?'100':baseLabel(item.label).includes('500/100')?'500':'900',prices={...item.prices};
+        Object.keys(prices).forEach(plan=>{const override=p.priceOverrides?.[`price-contact-${speed}-${plan}`];if(override!==null&&override!==undefined)prices[plan]=Number(override);});
+        return {...item,prices};
+      }
+      if(providerId==='sky'){
+        const speed=baseLabel(item.label).startsWith('100/')?'100':baseLabel(item.label).startsWith('500/')?'500':'900',override=p.priceOverrides?.[`price-sky-bb-${speed}`];
+        return override!==null&&override!==undefined?{...item,price:Number(override)}:{...item};
+      }
+      if(providerId==='pulse'){
+        const speed=baseLabel(item.label).includes('50/10')?'fibre-lite':baseLabel(item.label).includes('500/100')?'fibre-everyday':'fibre-pro',standard=p.priceOverrides?.[`price-pulse-${speed}-standard`],byo=p.priceOverrides?.[`price-pulse-${speed}-byo`];
+        return {...item,price:standard!==null&&standard!==undefined?Number(standard):item.price,byoPrice:byo!==null&&byo!==undefined?Number(byo):item.byoPrice};
+      }
+      return current?.monthlyPrice!==null&&current?.monthlyPrice!==undefined?{...item,price:Number(current.monthlyPrice)}:{...item};
+    });
+  }
   if(p.plans) return p.plans.filter(x=>x.category==='broadband'||p.categories?.includes('broadband')).map(x=>({label:x.label.replace(/\s+[—-]\s+\$.*$/,''),price:(()=>{const m=x.label.match(/\$(\d+(?:\.\d+)?)/);return m?Number(m[1]):null;})()}));
   if(p.planA && p.planA.key==='internet') return p.planA.options.map(x=>({label:x.label.replace(/\s+[—-]\s+\$.*$/,''),price:(()=>{const m=x.label.match(/\$(\d+(?:\.\d+)?)/);return m?Number(m[1]):null;})()}));
   return [];
@@ -3888,9 +3962,10 @@ function wireQuoteCard(card){
     const genesis=PROVIDERS.find(item=>item.id==='genesis');
     const pricingProvider=ownLpg?provider:genesis;
     const scheduledBottle=pricingProvider?.standardPricing?.lpgBottlePrice;
+    const scheduledPlanBottles=pricingProvider?.standardPricing?.lpgBottlePrices||{};
     const scheduledRental=pricingProvider?.standardPricing?.lpgRentalMonthly;
     card.querySelector('.q-lpg-heading').textContent=`${ownLpg?(provider?.name||'Provider'):'Genesis'} LPG`;
-    const bottlePrice=scheduledBottle??(mainId==='pulse'?null:170),rentalPrice=scheduledRental??(mainId==='pulse'?null:11.50);
+    const bottlePrice=scheduledPlanBottles['lpg-only']??scheduledBottle??(mainId==='pulse'?null:170),bundleBottlePrice=scheduledPlanBottles['power-lpg']??(bottlePrice===null?null:Math.max(0,Number(bottlePrice)-15)),rentalPrice=scheduledRental??(mainId==='pulse'?null:11.50);
     card.querySelector('.q-lpg-guidance').textContent=bottlePrice===null?'Enter the current LPG bottle price, rental and any applicable promotion for this customer.':`${pricingProvider?.name||'Genesis'} LPG is $${Number(bottlePrice).toFixed(2)} per 45kg bottle. Enter any applicable bundle discount below. Rental is $${Number(rentalPrice||0).toFixed(2)}/month for two bottles.`;
     const bottle=card.querySelector('.q-lpg-bottle'),rental=card.querySelector('.q-lpg-rental');
     const promoType=card.querySelector('.q-lpg-promo-type'),condition=card.querySelector('.q-lpg-promo-condition');
@@ -3900,7 +3975,7 @@ function wireQuoteCard(card){
       bottle.value=Number(bottlePrice).toFixed(2);rental.value=Number(rentalPrice||0).toFixed(2);
       if(mainId==='genesis'&&service==='power'){
         promoType.value='bottle_discount';
-        card.querySelector('.q-lpg-promo-bottle-discount').value='15.00';
+        card.querySelector('.q-lpg-promo-bottle-discount').value=Math.max(0,Number(bottlePrice)-Number(bundleBottlePrice??bottlePrice)).toFixed(2);
         condition.value='bundle';
       }else{promoType.value='none';condition.value='';}
     }
@@ -4137,6 +4212,7 @@ function applySetupProviderPreset(preset){
 }
 function suggestedSubject(){
   const type=document.getElementById('agEmailType').value,address=document.getElementById('agAddress').value.trim();
+  if(!type)return '';
   const title=type==='products'?'Renti | Your Utility Options':type==='setup'?'Renti | Free Utility Setup for Your New Home':'Renti | Your Utility Comparison';
   return `${title}${address?` | ${address}`:''}`;
 }
@@ -4145,14 +4221,14 @@ function updateSuggestedSubject(force=false){
   document.getElementById('agSubject').value=suggestedSubject();
 }
 function updateEmailTypeControls(){
-  const setup=document.getElementById('agEmailType').value==='setup';
-  document.getElementById('comparisonBuilderPanel').style.display=setup?'none':'';
-  document.getElementById('priorityEditor').style.display=setup?'none':'';
-  document.getElementById('ourTakeEditor').style.display=setup?'none':'';
+  const type=document.getElementById('agEmailType').value,setup=type==='setup',selected=!!type;
+  document.getElementById('comparisonBuilderPanel').style.display=!selected||setup?'none':'';
+  document.getElementById('priorityEditor').style.display=!selected||setup?'none':'';
+  document.getElementById('ourTakeEditor').style.display=!selected||setup?'none':'';
   document.getElementById('setupOfferSelector').style.display=setup?'':'none';
-  document.getElementById('editOurTakeBtn').style.display=setup?'none':'';
+  document.getElementById('editOurTakeBtn').style.display=!selected||setup?'none':'';
   const hero=document.getElementById('agentComparisonHero');
-  if(hero){hero.querySelector('h1').textContent=setup?'Send a helpful utility setup email.':'Build a clear utility comparison.';hero.querySelector('p').textContent=setup?'Add the customer details, choose which current provider offers to include, then preview and send from your Gmail account.':'Use the same Renti provider panel, add the customer\'s address and rates, calculate an estimated power cost, then preview the comparison before it is sent from your Gmail account.';}
+  if(hero){hero.querySelector('h1').textContent=!selected?'Choose the email you want to prepare.':setup?'Send a helpful utility proposal.':'Build a clear utility comparison.';hero.querySelector('p').textContent=!selected?'Select an email type below to begin.':setup?'Add the customer details, choose which current provider offers to include, then preview and send from your Gmail account.':'Use the same Renti provider panel, add the customer\'s address and rates, calculate an estimated power cost, then preview the comparison before it is sent from your Gmail account.';}
   if(setup)renderSetupProviderChoices();
 }
 function setupProviderEmailHtml(){
@@ -4493,13 +4569,14 @@ function saveSignature(){
 function setFieldInvalid(el,bad){ const f=el&&el.closest('.agent-field'); if(f) f.classList.toggle('field-invalid',!!bad); }
 function comparisonRequirements(){
   const issues=[];
-  const name=document.getElementById('agCustomerName'), email=document.getElementById('agCustomerEmail'), address=document.getElementById('agAddress'), subject=document.getElementById('agSubject'), days=document.getElementById('agDays');
-  [name,email,address,subject,days].forEach(x=>setFieldInvalid(x,false));
+  const name=document.getElementById('agCustomerName'), email=document.getElementById('agCustomerEmail'), address=document.getElementById('agAddress'), subject=document.getElementById('agSubject'), days=document.getElementById('agDays'), emailTypeField=document.getElementById('agEmailType');
+  [name,email,address,subject,days,emailTypeField].forEach(x=>setFieldInvalid(x,false));
   if(!name.value.trim()){issues.push('Add the customer name.');setFieldInvalid(name,true)}
   if(!email.value.trim() || !email.checkValidity()){issues.push('Add a valid customer email.');setFieldInvalid(email,true)}
   if(!address.value.trim()){issues.push('Add the property address.');setFieldInvalid(address,true)}
-  if(!subject.value.trim()){issues.push('Add an email subject.');setFieldInvalid(subject,true)}
   const emailType=document.getElementById('agEmailType').value;
+  if(!emailType){issues.unshift('Please select an email type.');setFieldInvalid(emailTypeField,true);return issues;}
+  if(!subject.value.trim()){issues.push('Add an email subject.');setFieldInvalid(subject,true)}
   if(emailType==='setup'){
     [...quoteStack.children].forEach(card=>card.querySelectorAll('.agent-field').forEach(field=>field.classList.remove('field-invalid')));
     if(!selectedSetupProviders||selectedSetupProviders.size===0)issues.push('Select at least one provider offer to include.');
@@ -4598,6 +4675,7 @@ function refreshAgentPreview(){
   const emailType=document.getElementById('agEmailType').value;
   updateEmailTypeControls();
   document.getElementById('previewHeader').textContent=`To: ${email||'—'}  ·  Subject: ${subject}`;
+  if(!emailType){if(!previewManualEdit)document.getElementById('previewBody').innerHTML='<div style="padding:20px;color:#6b756d;text-align:center;">Select an email type to build the preview.</div>';return;}
   if(emailType==='setup'){
     if(!previewManualEdit){
       const safeName=escapeHtml(name||'there'),safeAddress=escapeHtml(address||'your new home');

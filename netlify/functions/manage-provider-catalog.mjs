@@ -145,14 +145,14 @@ function cleanCatalog(input, keepDraftFlags = false) {
 function unfinishedNewItem(input) {
   const providers = Array.isArray(input?.providers) ? input.providers : [];
   for (const provider of providers) {
-    if (provider?._draftNew === true && cleanText(provider?.name, 120) === 'New provider') return 'new provider';
+    if (provider?.archived !== true && provider?._draftNew === true && cleanText(provider?.name, 120) === 'New provider') return 'new provider';
     const optionGroups = [provider?.plans, provider?.planA?.options, provider?.planB?.options, provider?.modemAxis?.options];
-    if (optionGroups.some(options => Array.isArray(options) && options.some(option => option?._draftNew === true && cleanText(option?.label, 300) === 'New option'))) return 'new option';
+    if (optionGroups.some(options => Array.isArray(options) && options.some(option => option?.archived !== true && option?._draftNew === true && cleanText(option?.label, 300) === 'New option'))) return 'new option';
   }
   const promotions = Array.isArray(input?.promotions) ? input.promotions : [];
-  if (promotions.some(promotion => promotion?._draftNew === true && cleanText(promotion?.name, 160) === 'New promotion')) return 'new promotion';
+  if (promotions.some(promotion => promotion?.archived !== true && promotion?._draftNew === true && cleanText(promotion?.name, 160) === 'New promotion')) return 'new promotion';
   const standardChanges = Array.isArray(input?.standardChanges) ? input.standardChanges : [];
-  if (standardChanges.some(change => change?._draftNew === true && cleanText(change?.name, 160) === 'New standard change')) return 'new standard change';
+  if (standardChanges.some(change => change?.archived !== true && change?._draftNew === true && cleanText(change?.name, 160) === 'New standard change')) return 'new standard change';
   return '';
 }
 
