@@ -102,6 +102,44 @@ function cleanPromotion(promotion, index, providerIds, keepDraftFlags = false) {
   if (keepDraftFlags && promotion?._draftNew === true) result._draftNew = true;
   return result;
 }
+function cleanStandardChange(change, index, providerIds, keepDraftFlags = false) {
+  const providerId = slug(change?.providerId);
+  if (!providerIds.has(providerId)) return null;
+  const effectiveDate = /^\d{4}-\d{2}-\d{2}$/.test(change?.effectiveDate || '') ? change.effectiveDate : '';
+  if (!effectiveDate) return null;
+  const nullableNumber = value => {
+    if (value === '' || value == null) return null;
+    const number = Number(value);
+    return Number.isFinite(number) && number >= 0 ? number : null;
+  };
+  const result = {
+    id: slug(change?.id || `${providerId}-standard-change-${index + 1}`),
+    providerId,
+    planId: slug(change?.planId),
+    name: cleanText(change?.name, 160),
+    effectiveDate,
+    providerFields: {
+      headline: cleanHtml(change?.providerFields?.headline),
+      validity: cleanHtml(change?.providerFields?.validity),
+      detailHeading: cleanText(change?.providerFields?.detailHeading, 160),
+      detailPoints: Array.isArray(change?.providerFields?.detailPoints) ? change.providerFields.detailPoints.map(x => cleanText(x, 500)).filter(Boolean).slice(0, 50) : [],
+    },
+    planFields: {
+      label: cleanText(change?.planFields?.label, 300),
+      monthlyPrice: nullableNumber(change?.planFields?.monthlyPrice),
+      benefit: cleanText(change?.planFields?.benefit, 500),
+      bullets: Array.isArray(change?.planFields?.bullets) ? change.planFields.bullets.map(x => cleanText(x, 500)).filter(Boolean).slice(0, 30) : [],
+    },
+    standardPricing: {
+      lpgBottlePrice: nullableNumber(change?.standardPricing?.lpgBottlePrice),
+      lpgRentalMonthly: nullableNumber(change?.standardPricing?.lpgRentalMonthly),
+    },
+    agentNotes: cleanText(change?.agentNotes, 2000),
+    archived: change?.archived === true,
+  };
+  if (keepDraftFlags && change?._draftNew === true) result._draftNew = true;
+  return result;
+}
 function cleanCatalog(input, keepDraftFlags = false) {
   const providers = Array.isArray(input?.providers) ? input.providers.map((provider, index) => cleanProvider(provider, index, keepDraftFlags)).filter(x => x.id && x.name && x.categories.length).slice(0, 100) : [];
   const ids = new Set();
@@ -111,7 +149,8 @@ function cleanCatalog(input, keepDraftFlags = false) {
   }
   if (!providers.length) throw new Error('The catalogue must contain at least one provider.');
   const promotions = Array.isArray(input?.promotions) ? input.promotions.map((p, i) => cleanPromotion(p, i, ids, keepDraftFlags)).filter(Boolean).slice(0, 300) : [];
-  return { schemaVersion: 1, providers, promotions };
+  const standardChanges = Array.isArray(input?.standardChanges) ? input.standardChanges.map((change, index) => cleanStandardChange(change, index, ids, keepDraftFlags)).filter(Boolean).slice(0, 500) : [];
+  return { schemaVersion: 2, providers, promotions, standardChanges };
 }
 function unfinishedNewItem(input) {
   const providers = Array.isArray(input?.providers) ? input.providers : [];
@@ -122,6 +161,8 @@ function unfinishedNewItem(input) {
   }
   const promotions = Array.isArray(input?.promotions) ? input.promotions : [];
   if (promotions.some(promotion => promotion?._draftNew === true && cleanText(promotion?.name, 160) === 'New promotion')) return 'new promotion';
+  const standardChanges = Array.isArray(input?.standardChanges) ? input.standardChanges : [];
+  if (standardChanges.some(change => change?._draftNew === true && cleanText(change?.name, 160) === 'New standard change')) return 'new standard change';
   return '';
 }
 

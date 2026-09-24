@@ -1609,10 +1609,40 @@ function materializeProvider(record){
   }
   return result;
 }
+function applyScheduledStandardChanges(record,changes){
+  const result=structuredClone(record);
+  const active=(changes||[]).filter(change=>!change.archived&&change.providerId===record.id&&change.effectiveDate<=nzDateKey()).sort((a,b)=>a.effectiveDate.localeCompare(b.effectiveDate)||String(a.id).localeCompare(String(b.id)));
+  const updatePlan=(plan,change)=>{
+    if(plan.id!==change.planId)return plan;
+    const fields=change.planFields||{},next={...plan};
+    if(fields.label)next.label=fields.label;
+    if(fields.monthlyPrice!==null&&fields.monthlyPrice!==undefined)next.monthlyPrice=fields.monthlyPrice;
+    if(fields.benefit)next.benefit=fields.benefit;
+    if(Array.isArray(fields.bullets)&&fields.bullets.length)next.bullets=[...fields.bullets];
+    return next;
+  };
+  active.forEach(change=>{
+    const providerFields=change.providerFields||{};
+    if(providerFields.headline)result.headline=providerFields.headline;
+    if(providerFields.validity)result.validity=providerFields.validity;
+    if(Array.isArray(providerFields.detailPoints)&&providerFields.detailPoints.length){const heading=providerFields.detailHeading||'Product details';result.details=`<h4>${escapeHtml(heading)}</h4><ul>${providerFields.detailPoints.map(point=>`<li>${escapeHtml(point)}</li>`).join('')}</ul>`;}
+    if(change.planId){
+      if(result.plans)result.plans=result.plans.map(plan=>updatePlan(plan,change));
+      if(result.planA)result.planA={...result.planA,options:(result.planA.options||[]).map(plan=>updatePlan(plan,change))};
+      if(result.planB)result.planB={...result.planB,options:(result.planB.options||[]).map(plan=>updatePlan(plan,change))};
+      if(result.modemAxis)result.modemAxis={...result.modemAxis,options:(result.modemAxis.options||[]).map(plan=>updatePlan(plan,change))};
+    }
+    const pricing=change.standardPricing||{};result.standardPricing={...(result.standardPricing||{})};
+    if(pricing.lpgBottlePrice!==null&&pricing.lpgBottlePrice!==undefined)result.standardPricing.lpgBottlePrice=pricing.lpgBottlePrice;
+    if(pricing.lpgRentalMonthly!==null&&pricing.lpgRentalMonthly!==undefined)result.standardPricing.lpgRentalMonthly=pricing.lpgRentalMonthly;
+  });
+  return result;
+}
 function applyPublishedCatalog(catalog){
   if(!validEditableCatalog(catalog))return;
   const promotions=Array.isArray(catalog.promotions)?catalog.promotions:[];
-  PROVIDERS=catalog.providers.filter(p=>!p.archived).map(materializeProvider).map(provider=>{
+  const standardChanges=Array.isArray(catalog.standardChanges)?catalog.standardChanges:[];
+  PROVIDERS=catalog.providers.filter(p=>!p.archived).map(provider=>applyScheduledStandardChanges(provider,standardChanges)).map(materializeProvider).map(provider=>{
     const active=promotions.filter(p=>p.providerId===provider.id&&promotionIsActive(p)).sort((a,b)=>b.startDate.localeCompare(a.startDate));
     if(!active.length)return provider;
     const next={...provider};
@@ -3852,14 +3882,19 @@ function wireQuoteCard(card){
   function setDefaultLpgOffer(mainId,service){
     const provider=PROVIDERS.find(item=>item.id===mainId);
     const ownLpg=mainId==='genesis'||mainId==='pulse';
+    const genesis=PROVIDERS.find(item=>item.id==='genesis');
+    const pricingProvider=ownLpg?provider:genesis;
+    const scheduledBottle=pricingProvider?.standardPricing?.lpgBottlePrice;
+    const scheduledRental=pricingProvider?.standardPricing?.lpgRentalMonthly;
     card.querySelector('.q-lpg-heading').textContent=`${ownLpg?(provider?.name||'Provider'):'Genesis'} LPG`;
-    card.querySelector('.q-lpg-guidance').textContent=mainId==='pulse'?'Enter the current Pulse LPG bottle price, rental and any applicable promotion for this customer.':'Genesis LPG is $170 per 45kg bottle. When bundled with Genesis power, the $15 per-bottle discount makes it $155. Rental remains $11.50/month for two bottles.';
+    const bottlePrice=scheduledBottle??(mainId==='pulse'?null:170),rentalPrice=scheduledRental??(mainId==='pulse'?null:11.50);
+    card.querySelector('.q-lpg-guidance').textContent=bottlePrice===null?'Enter the current LPG bottle price, rental and any applicable promotion for this customer.':`${pricingProvider?.name||'Genesis'} LPG is $${Number(bottlePrice).toFixed(2)} per 45kg bottle. Enter any applicable bundle discount below. Rental is $${Number(rentalPrice||0).toFixed(2)}/month for two bottles.`;
     const bottle=card.querySelector('.q-lpg-bottle'),rental=card.querySelector('.q-lpg-rental');
     const promoType=card.querySelector('.q-lpg-promo-type'),condition=card.querySelector('.q-lpg-promo-condition');
-    if(mainId==='pulse'){
+    if(mainId==='pulse'&&bottlePrice===null){
       bottle.value='';rental.value='';promoType.value='none';condition.value='';
     }else{
-      bottle.value='170';rental.value='11.50';
+      bottle.value=Number(bottlePrice).toFixed(2);rental.value=Number(rentalPrice||0).toFixed(2);
       if(mainId==='genesis'&&service==='power'){
         promoType.value='bottle_discount';
         card.querySelector('.q-lpg-promo-bottle-discount').value='15.00';
