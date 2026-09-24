@@ -224,6 +224,12 @@
     vertical-align:middle;margin-right:8px;
   }
   .validity{font-size:12px;color:var(--ink-soft);margin-bottom:14px;}
+  .upcoming-price-notice{margin:2px 0 14px;padding:11px 12px;border:1px solid #edbd72;border-left:4px solid #f49a23;border-radius:10px;background:#fff6df;color:#5a4324;font-size:12px;line-height:1.45;}
+  .upcoming-price-notice strong{color:var(--forest-dark);}
+  .upcoming-price-title{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:5px;font-weight:700;color:var(--forest-dark);}
+  .upcoming-price-countdown{white-space:nowrap;font-size:10px;text-transform:uppercase;letter-spacing:.03em;color:#9a5b10;}
+  .upcoming-price-date{font-size:11px;margin-bottom:5px;color:#76572e;}
+  .upcoming-price-row+.upcoming-price-row{margin-top:3px;}
 
   .details{
     display:none;font-size:13.5px;line-height:1.55;color:var(--ink-soft);
@@ -1698,7 +1704,7 @@ function applyPublishedCatalog(catalog){
   if(!validEditableCatalog(catalog))return;
   const promotions=Array.isArray(catalog.promotions)?catalog.promotions:[];
   const standardChanges=Array.isArray(catalog.standardChanges)?catalog.standardChanges:[];
-  PROVIDERS=catalog.providers.filter(p=>!p.archived).map(provider=>applyScheduledStandardChanges(provider,standardChanges)).map(materializeProvider).map(provider=>{
+  PROVIDERS=catalog.providers.filter(p=>!p.archived).map(provider=>({...provider,upcomingPriceChanges:standardChanges.filter(change=>!change.archived&&change.providerId===provider.id&&change.effectiveDate>nzDateKey()).sort((a,b)=>a.effectiveDate.localeCompare(b.effectiveDate)||String(a.id).localeCompare(String(b.id)))})).map(provider=>applyScheduledStandardChanges(provider,standardChanges)).map(materializeProvider).map(provider=>{
     const active=promotions.filter(p=>p.providerId===provider.id&&promotionIsActive(p)).sort((a,b)=>b.startDate.localeCompare(a.startDate));
     if(!active.length)return provider;
     const next={...provider};
@@ -1761,6 +1767,36 @@ function hideSelectPlanHint(providerId){
   if(!hint) return;
   clearTimeout(hint._hideTimer);
   hint.classList.remove('show');
+}
+
+function allProviderPricePlans(provider){return [...(provider.plans||[]),...(provider.planA?.options||[]),...(provider.planB?.options||[])];}
+function exactUpcomingTargetLabel(targetId){
+  const contact=targetId.match(/^price-contact-(100|500|900)-(goodnight|goodweekend|bbbundle)$/);
+  if(contact){const speed={100:'Lite Fibre 100/20',500:'Fibre 500/100',900:'Fibre 900'}[contact[1]],plan={goodnight:'Good Night Plan',goodweekend:'Good Weekend Plan',bbbundle:'Broadband Bundle Plan'}[contact[2]];return `${speed} — ${plan}`;}
+  const sky=targetId.match(/^price-sky-(bb|tv|existing)-(100|500|900)$/);
+  if(sky){const speed={100:'100/20Mbps',500:'500/100Mbps',900:'900/500Mbps'}[sky[2]],type={bb:'Broadband only',tv:'Broadband + Sky TV',existing:'Existing Sky TV customer'}[sky[1]];return `${speed} — ${type}`;}
+  const pulse=targetId.match(/^price-pulse-(fibre-lite|fibre-everyday|fibre-pro)-(standard|byo)$/);
+  if(pulse){const plan={'fibre-lite':'Fibre Lite 50/10','fibre-everyday':'Everyday Fibre 500/100','fibre-pro':'Fibre Pro 900/500'}[pulse[1]],type=pulse[2]==='standard'?'With modem':'BYO modem';return `${plan} — ${type}`;}
+  return '';
+}
+function upcomingPriceRows(provider,change){
+  const rows=[],targetId=change.planId,exact=EXACT_PRICE_INFO[targetId],monthly=change.planFields?.monthlyPrice,plan=allProviderPricePlans(provider).find(item=>item.id===targetId),isLpg=targetId==='lpg-pricing'||/\b(lpg|bottle)\b/i.test(`${plan?.label||''} ${(plan?.bullets||[]).join(' ')}`);
+  if(isLpg){
+    const futureBottle=change.standardPricing?.lpgBottlePrice,currentBottle=provider.standardPricing?.lpgBottlePrices?.[targetId]??provider.standardPricing?.lpgBottlePrice??Number(String(plan?.label||'').match(/\$(\d+(?:\.\d+)?)/)?.[1]);
+    if(futureBottle!==null&&futureBottle!==undefined&&Number(futureBottle)!==Number(currentBottle))rows.push({label:String(plan?.label||'LPG bottle price').split(/\s+[—-]\s+\$/)[0],current:currentBottle,future:futureBottle,unit:'per bottle'});
+    const futureRental=change.standardPricing?.lpgRentalMonthly,currentRental=provider.standardPricing?.lpgRentalMonthly??(provider.id==='genesis'?11.5:null);
+    if(futureRental!==null&&futureRental!==undefined&&Number(futureRental)!==Number(currentRental))rows.push({label:'LPG rental',current:currentRental,future:futureRental,unit:'per month'});
+  }else if(monthly!==null&&monthly!==undefined){
+    const current=provider.priceOverrides?.[targetId]??exact?.old??plan?.monthlyPrice??Number(String(plan?.label||'').match(/\$(\d+(?:\.\d+)?)/)?.[1]),label=exactUpcomingTargetLabel(targetId)||String(plan?.label||'Plan price').split(/\s+[—-]\s+\$/)[0];
+    if(Number(monthly)!==Number(current))rows.push({label,current,future:monthly,unit:'per month'});
+  }
+  return rows;
+}
+function upcomingPriceNoticeHtml(provider){
+  const changes=provider.upcomingPriceChanges||[];if(!changes.length)return '';
+  const groups=new Map();changes.forEach(change=>{const rows=upcomingPriceRows(provider,change);if(!rows.length)return;if(!groups.has(change.effectiveDate))groups.set(change.effectiveDate,[]);groups.get(change.effectiveDate).push(...rows);});
+  if(!groups.size)return '';
+  return [...groups.entries()].map(([date,rows])=>{const unique=rows.filter((row,index,list)=>list.findIndex(item=>item.label===row.label&&Number(item.future)===Number(row.future))===index),days=promotionDaysLeft(date),displayDate=date.split('-').reverse().join('/');return `<div class="upcoming-price-notice"><div class="upcoming-price-title"><span>Upcoming price change</span><span class="upcoming-price-countdown">${days===1?'In 1 day':`In ${days} days`}</span></div><div class="upcoming-price-date">Takes effect ${displayDate}</div>${unique.map(row=>{const current=Number(row.current),future=Number(row.future),priceText=Number.isFinite(current)?`$${current.toFixed(2)} → $${future.toFixed(2)} ${row.unit}`:`New price: $${future.toFixed(2)} ${row.unit}`;return `<div class="upcoming-price-row">${escapeHtml(row.label)}: <strong>${priceText}</strong></div>`;}).join('')}</div>`;}).join('');
 }
 
 function render(){
@@ -1848,6 +1884,7 @@ function render(){
       <div class="card-body">
         <div class="headline-stat">${p.headline}</div>
         <div class="validity">${p.validity}</div>
+        ${upcomingPriceNoticeHtml(p)}
         <div class="details" id="details-${p.id}">${p.details}</div>
       </div>
       <div class="card-foot">
