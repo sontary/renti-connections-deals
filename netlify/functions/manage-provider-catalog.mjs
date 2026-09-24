@@ -118,23 +118,13 @@ function cleanStandardChange(change, index, providerIds, keepDraftFlags = false)
     planId: slug(change?.planId),
     name: cleanText(change?.name, 160),
     effectiveDate,
-    providerFields: {
-      headline: cleanHtml(change?.providerFields?.headline),
-      validity: cleanHtml(change?.providerFields?.validity),
-      detailHeading: cleanText(change?.providerFields?.detailHeading, 160),
-      detailPoints: Array.isArray(change?.providerFields?.detailPoints) ? change.providerFields.detailPoints.map(x => cleanText(x, 500)).filter(Boolean).slice(0, 50) : [],
-    },
     planFields: {
-      label: cleanText(change?.planFields?.label, 300),
       monthlyPrice: nullableNumber(change?.planFields?.monthlyPrice),
-      benefit: cleanText(change?.planFields?.benefit, 500),
-      bullets: Array.isArray(change?.planFields?.bullets) ? change.planFields.bullets.map(x => cleanText(x, 500)).filter(Boolean).slice(0, 30) : [],
     },
     standardPricing: {
       lpgBottlePrice: nullableNumber(change?.standardPricing?.lpgBottlePrice),
       lpgRentalMonthly: nullableNumber(change?.standardPricing?.lpgRentalMonthly),
     },
-    agentNotes: cleanText(change?.agentNotes, 2000),
     archived: change?.archived === true,
   };
   if (keepDraftFlags && change?._draftNew === true) result._draftNew = true;

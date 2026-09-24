@@ -1611,21 +1611,24 @@ function materializeProvider(record){
 }
 function applyScheduledStandardChanges(record,changes){
   const result=structuredClone(record);
+  const replaceEverywhere=(fromValue,toValue)=>{
+    if(fromValue===null||fromValue===undefined||toValue===null||toValue===undefined||Number(fromValue)===Number(toValue))return;
+    const from=Number(fromValue),replacement=`$${Number(toValue).toFixed(2)}`,patterns=[`$${from.toFixed(2)}`,`$${from.toFixed(0)}`];
+    const replaceText=value=>{let text=String(value||'');patterns.forEach(pattern=>{text=text.split(pattern).join(replacement);});return text;};
+    const update=plan=>({...plan,label:replaceText(plan.label),bullets:(plan.bullets||[]).map(replaceText)});
+    result.details=replaceText(result.details);result.headline=replaceText(result.headline);
+    if(result.plans)result.plans=result.plans.map(update);
+    if(result.planA)result.planA={...result.planA,options:(result.planA.options||[]).map(update)};
+    if(result.planB)result.planB={...result.planB,options:(result.planB.options||[]).map(update)};
+  };
   const active=(changes||[]).filter(change=>!change.archived&&change.providerId===record.id&&change.effectiveDate<=nzDateKey()).sort((a,b)=>a.effectiveDate.localeCompare(b.effectiveDate)||String(a.id).localeCompare(String(b.id)));
   const updatePlan=(plan,change)=>{
     if(plan.id!==change.planId)return plan;
     const fields=change.planFields||{},next={...plan};
-    if(fields.label)next.label=fields.label;
     if(fields.monthlyPrice!==null&&fields.monthlyPrice!==undefined)next.monthlyPrice=fields.monthlyPrice;
-    if(fields.benefit)next.benefit=fields.benefit;
-    if(Array.isArray(fields.bullets)&&fields.bullets.length)next.bullets=[...fields.bullets];
     return next;
   };
   active.forEach(change=>{
-    const providerFields=change.providerFields||{};
-    if(providerFields.headline)result.headline=providerFields.headline;
-    if(providerFields.validity)result.validity=providerFields.validity;
-    if(Array.isArray(providerFields.detailPoints)&&providerFields.detailPoints.length){const heading=providerFields.detailHeading||'Product details';result.details=`<h4>${escapeHtml(heading)}</h4><ul>${providerFields.detailPoints.map(point=>`<li>${escapeHtml(point)}</li>`).join('')}</ul>`;}
     if(change.planId){
       if(result.plans)result.plans=result.plans.map(plan=>updatePlan(plan,change));
       if(result.planA)result.planA={...result.planA,options:(result.planA.options||[]).map(plan=>updatePlan(plan,change))};
@@ -1633,8 +1636,8 @@ function applyScheduledStandardChanges(record,changes){
       if(result.modemAxis)result.modemAxis={...result.modemAxis,options:(result.modemAxis.options||[]).map(plan=>updatePlan(plan,change))};
     }
     const pricing=change.standardPricing||{};result.standardPricing={...(result.standardPricing||{})};
-    if(pricing.lpgBottlePrice!==null&&pricing.lpgBottlePrice!==undefined)result.standardPricing.lpgBottlePrice=pricing.lpgBottlePrice;
-    if(pricing.lpgRentalMonthly!==null&&pricing.lpgRentalMonthly!==undefined)result.standardPricing.lpgRentalMonthly=pricing.lpgRentalMonthly;
+    if(pricing.lpgBottlePrice!==null&&pricing.lpgBottlePrice!==undefined){const oldBottle=result.standardPricing.lpgBottlePrice??(result.id==='genesis'?170:null);replaceEverywhere(oldBottle,pricing.lpgBottlePrice);if(result.id==='genesis'&&oldBottle!==null)replaceEverywhere(Math.max(0,Number(oldBottle)-15),Math.max(0,Number(pricing.lpgBottlePrice)-15));result.standardPricing.lpgBottlePrice=pricing.lpgBottlePrice;}
+    if(pricing.lpgRentalMonthly!==null&&pricing.lpgRentalMonthly!==undefined){const oldRental=result.standardPricing.lpgRentalMonthly??(result.id==='genesis'?11.50:null);replaceEverywhere(oldRental,pricing.lpgRentalMonthly);result.standardPricing.lpgRentalMonthly=pricing.lpgRentalMonthly;}
   });
   return result;
 }
